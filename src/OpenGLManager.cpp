@@ -5,12 +5,14 @@
 //-----------------------------------------------------------------------------
 OpenGLManager::OpenGLManager()
 {
+#if 0
 	m_currentDC = NULL;              
 	m_rc        = NULL;   
 	m_forceDisableCulling = false;
 
 	//Save mode so we can switch back in destructor	
 	EnumDisplaySettings( NULL, ENUM_CURRENT_SETTINGS, &m_oldDevMode );
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -29,6 +31,7 @@ OpenGLManager::OpenGLManager()
 //-----------------------------------------------------------------------------
 bool OpenGLManager::initialize(HWND hWnd, HDC dc, bool fullscreen, int width, int height, int bitDepth, int refreshRate, bool vSync, bool hideCursor)
 {
+#if 0
 	this->_setPixelFormat(dc);
 
 	m_hWnd        = hWnd;
@@ -78,7 +81,7 @@ bool OpenGLManager::initialize(HWND hWnd, HDC dc, bool fullscreen, int width, in
 	setCullMode(false, true);
 	setTextureing2D(false);
 	setLighting(false);
-
+#endif
 	return true;
 }
 
@@ -119,6 +122,7 @@ void OpenGLManager::setScissor(int x, int y, int width, int height)
 //-----------------------------------------------------------------------------
 bool OpenGLManager::makeCurrent(HDC dc)
 {
+#if 0
     m_currentDC = dc;
     if ( !wglMakeCurrent(m_currentDC, m_rc) ) {
 
@@ -136,6 +140,7 @@ bool OpenGLManager::makeCurrent(HDC dc)
         LocalFree( lpMsgBuf );
 		return false;
     }
+#endif
 	return true;
 }
 
@@ -144,8 +149,10 @@ bool OpenGLManager::makeCurrent(HDC dc)
 //-----------------------------------------------------------------------------
 void OpenGLManager::resize(int width, int height, int bitDepth, int refreshRate)
 {
+#if 0
 	dispose();
 	initialize(m_hWnd, GetWindowDC(m_hWnd), m_fullscreen, width, height, bitDepth, refreshRate, true, false);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -153,8 +160,10 @@ void OpenGLManager::resize(int width, int height, int bitDepth, int refreshRate)
 //-----------------------------------------------------------------------------
 bool OpenGLManager::toggleFullscreen()
 {
+#if 0
 	dispose();
 	return initialize(m_hWnd, GetWindowDC(m_hWnd), !m_fullscreen, m_width, m_height, m_bitDepth, m_refreshRate,  true, !m_fullscreen);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -163,7 +172,7 @@ bool OpenGLManager::toggleFullscreen()
 //-----------------------------------------------------------------------------
 void OpenGLManager::beginRendering()
 {
-	glDepthMask( TRUE );
+	glDepthMask( true );
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
@@ -173,6 +182,7 @@ void OpenGLManager::beginRendering()
 //-----------------------------------------------------------------------------
 void OpenGLManager::endRendering()
 {
+#if 0
     //glFlush();
     if ( !SwapBuffers(m_currentDC) ) {
 
@@ -188,7 +198,8 @@ void OpenGLManager::endRendering()
         //MessageBox(0, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
 
         LocalFree( lpMsgBuf );
-    }		
+    }
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -364,6 +375,7 @@ void OpenGLManager::setCullMode(bool cullFront, bool cullBack)
 //-----------------------------------------------------------------------------
 void OpenGLManager::dispose()
 {
+#if 0
 	//Restore older settings
 	ChangeDisplaySettings( &m_oldDevMode, 0 );
 
@@ -383,6 +395,7 @@ void OpenGLManager::dispose()
 		ReleaseDC(m_hWnd, m_currentDC);
 		m_currentDC = 0;
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -400,6 +413,7 @@ OpenGLManager::~OpenGLManager()
 //-----------------------------------------------------------------------------
 bool OpenGLManager::_setPixelFormat(HDC dc)
 {
+#if 0
 	//
 	BYTE   colorBits      = 32;
 	BYTE   depthBits      = 24;
@@ -444,7 +458,7 @@ bool OpenGLManager::_setPixelFormat(HDC dc)
 
 	//! @todo Study this function
     DescribePixelFormat(dc, format, sizeof(pfd), &pfd);
-
+#endif
 	return true;
 }
 

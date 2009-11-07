@@ -14,6 +14,7 @@
 #include "Logger.h"              //Debug logger
 #include "ROMDetector.h"
 
+#include <ctime>
 
 //FrameBuffer framebuffer01;
 //FrameBuffer framebuffer02;
@@ -47,12 +48,15 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 	//Save pointer to graphics info
 	m_graphicsInfo = graphicsInfo;
 
-
 	m_numDListProcessed = 0;
 
     //Detect what rom it is
     m_romDetector = &ROMDetector::getSingleton();        
     m_romDetector->initialize( m_graphicsInfo->HEADER );
+
+	//Start up the video
+	CoreVideo_Init();
+	CoreVideo_SetVideoMode(320, 240, 32, M64VIDEO_WINDOWED);
 
 	//Initialize Video Interface
 	m_vi = new VI();
@@ -68,6 +72,8 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 	m_displayListParser->initialize(&m_rsp, &m_rdp, &m_gbi, m_memory);
 
 	//Get Device Context
+	/*
+	//TODO: replace with m64p window stuff
     HDC dc = GetWindowDC(m_graphicsInfo->hWnd);
 
     int width = m_config->windowWidth;
@@ -79,9 +85,10 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 
     //Init OpenGL
     if ( !m_openGLMgr.initialize(m_graphicsInfo->hWnd, dc, false, width, height, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate, true, false) ) {
-		Logger::getSingleton().printMsg("ERROR: Unable, to initialize OpenGL", LML_VERY_CRITICAL);
+		Logger::getSingleton().printMsg("ERROR: Unable, to initialize OpenGL", M64MSG_ERROR);
 		return false;
     }
+	*/
 	m_openGLMgr.calcViewScale(m_vi->getWidth(), m_vi->getHeight());
 
 	//Initialize Fog Manager
@@ -97,7 +104,7 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 
 	//Initialize OpenGL Renderer
 	if ( !OpenGLRenderer::getSingleton().initialize(&m_rsp, &m_rdp, &m_textureCache, m_vi, m_fogManager) ) {
-		Logger::getSingleton().printMsg("ERROR: Unable to initialize OpenGL Renderer", LML_VERY_CRITICAL);
+		Logger::getSingleton().printMsg("ERROR: Unable to initialize OpenGL Renderer", M64MSG_ERROR);
 		return false;
 	}
 
@@ -146,6 +153,8 @@ void GraphicsPlugin::dispose()
    // framebuffer02.dispose();
 	m_openGLMgr.dispose();
 
+	CoreVideo_Quit();
+
 	m_initialized = false;
 }
 
@@ -169,6 +178,18 @@ void renderMotionBlur()
 
 bool animate(int frameRate)
 {
+	static clock_t lastTime;
+	clock_t currentTime = clock() * 1000 / CLOCKS_PER_SEC;
+	clock_t elapsedTime = currentTime - lastTime;
+	if (elapsedTime > ((clock_t)1000 / frameRate))
+	{
+		lastTime = currentTime;
+		return true;
+	}
+	return false;
+	
+#if 0
+	//Todo: test against new version
 	static float lastTime = 0.0f;
 	float elapsedTime = 0.0;
     float currentTime = GetTickCount() * 0.001f; 
@@ -181,6 +202,8 @@ bool animate(int frameRate)
     }
 
 	return false;
+#endif
+
 }
 
 void renderQuad()
@@ -513,8 +536,9 @@ void GraphicsPlugin::updateConfig()
     m_updateConfig = true;
 
     //For project 64, Give config dialog time to close before continueing
+#ifdef WIN32
     Sleep(300); 
-
+#endif
     //Resize Window
     _setWindowMode(m_config->windowWidth, m_config->windowHeight);  
 

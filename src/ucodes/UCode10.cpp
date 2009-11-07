@@ -7,7 +7,7 @@
 #include "RDP.h"
 #include "Memory.h"
 #include "DisplayListParser.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 

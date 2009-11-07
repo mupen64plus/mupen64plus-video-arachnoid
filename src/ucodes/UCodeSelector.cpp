@@ -2,8 +2,14 @@
 #include "Memory.h"
 #include "CRCCalculator.h"
 #include "UCodeIdentificationData.h"
-#include <string.h>
+#include <cstdio>
+#include <cstring>
+#include <string>
 #include "Logger.h"
+
+#ifndef WIN32
+#define strnicmp strncasecmp
+#endif
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -67,15 +73,16 @@ unsigned long UCodeSelector::checkUCode( unsigned long ucStart,
 			ucode = 5; //We where unable to find ucode, so just select one and hope for the best.
 		}
 	}
-
+	char logMsg[530];
 	if ( foundString )
 	{
-		Logger::getSingleton() << "Selected UCode " << ucode << " String=" << ucodeString << "\n";
-
+		sprintf(logMsg, "Selected UCode %d String=%s", ucode, ucodeString);
+		Logger::getSingleton().printMsg(logMsg);
 	}
 	else
 	{
-		Logger::getSingleton() << "Selected UCode " << ucode << " Could not find UCode String " << "\n";
+		sprintf(logMsg, "Selected UCode %d Could not find UCode String ", ucode);
+		Logger::getSingleton().printMsg(logMsg);
 	}
 
 	return ucode;

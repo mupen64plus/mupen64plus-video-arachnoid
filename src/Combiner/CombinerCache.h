@@ -10,7 +10,7 @@
 //*****************************************************************************
 struct CachedCombiner
 {
-    unsigned __int64 mux;               //Decoded value defining how to combine colors
+    unsigned long long mux;               //Decoded value defining how to combine colors
     TexEnvCombiner* compiled;
 };
 
@@ -23,10 +23,10 @@ class CombinerCache
 public:
 
     //Add/Store decoded mux value and the result
-    void newCompiledCombiner(unsigned __int64 mux, TexEnvCombiner* compiled);
+    void newCompiledCombiner(unsigned long long mux, TexEnvCombiner* compiled);
 
     //Try to find decoded mux value, (return 0 if not found)
-    CachedCombiner* findCachedCombiner(unsigned __int64 mux);
+    CachedCombiner* findCachedCombiner(unsigned long long mux);
 
     //Destroy
     void dispose();

@@ -1,6 +1,7 @@
+//TODO: remove this file
+#if 0
 #include "PluginInfo.h"
 #include <cstdio>               //sprintf
-#include "ZilmarsPluginSpec.h"  //PLUGIN_INFO
 
 //-----------------------------------------------------------------------------
 //* Get Plugin Info
@@ -28,3 +29,4 @@ void getPluginInfo(PLUGIN_INFO* pluginInfoOut)
 	pluginInfoOut->normalMemory = false;
 	pluginInfoOut->memoryBswaped = true;
 }
+#endif

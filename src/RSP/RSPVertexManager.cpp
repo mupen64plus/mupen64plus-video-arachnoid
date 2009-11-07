@@ -275,7 +275,7 @@ void RSPVertexManager::DMAOffsets( unsigned long mtxoffset, unsigned long vtxoff
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("VertexManager - DMAOffsets - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("VertexManager - DMAOffsets - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -322,7 +322,7 @@ void RSPVertexManager::add2Triangles( long v00, long v01, long v02, long flag0,
 
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("VertexManager - add2Triangles - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("VertexManager - add2Triangles - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -337,7 +337,7 @@ void RSPVertexManager::add4Triangles( long v00, long v01, long v02,
 
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("VertexManager - add4Triangles - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("VertexManager - add4Triangles - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -394,7 +394,7 @@ void RSPVertexManager::add1Quadrangle( long v0, long v1, long v2, long v4 )
 
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("VertexManager - add1Quadrangle - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("VertexManager - add1Quadrangle - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -403,6 +403,7 @@ void RSPVertexManager::add1Quadrangle( long v0, long v1, long v2, long v4 )
 inline float DotProduct( float* v0, float* v1 )
 {
 	float	dot;
+#ifdef WIN32
 	__asm {
 		mov		esi, dword ptr [v0]
 		mov		edi, dword ptr [v1]
@@ -418,6 +419,9 @@ inline float DotProduct( float* v0, float* v1 )
 		fadd
 		fstp	dword ptr [ebx]
 	}
+#else
+	dot = v0[0] * v1[0] + v0[1] * v1[1] + v0[2] * v1[2];
+#endif
 	return dot;
 }
 

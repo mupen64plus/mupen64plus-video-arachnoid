@@ -6,7 +6,7 @@
 #include "UCodeIdentificationData.h"
 #include "OpenGLManager.h"
 #include "Logger.h"
-#include <windows.h>
+#include "platform.h"
 
 //-----------------------------------------------------------------------------
 //! Static Variables
@@ -219,7 +219,7 @@ void GBI::unknownInstruction(MicrocodeArgument* arg)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("GBI - Unknown Function", LML_CRITICAL);
+		Logger::getSingleton().printMsg("GBI - Unknown Function", M64MSG_WARNING);
 		warned = true;
 	}
 }

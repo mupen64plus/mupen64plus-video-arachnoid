@@ -68,11 +68,13 @@ void Config::loadFromFile(const char* filename)
 //-----------------------------------------------------------------------------
 bool Config::openConfigDialog(HINSTANCE instance, DLGPROC a_configDlgProc, HWND parent)
 {
+#ifdef WIN32
 	if ( !m_configDlg ) 
 	{
 		//Config dialog was not open so open it
 		DialogBox(instance, MAKEINTRESOURCE(IDD_CONFIG), parent, (DLGPROC)a_configDlgProc);
 	}
+#endif
 	return true;
 }
 
@@ -85,7 +87,9 @@ bool Config::openConfigDialog(HINSTANCE instance, DLGPROC a_configDlgProc, HWND 
 //-----------------------------------------------------------------------------
 void Config::closeConfigDialog(WPARAM wParam)
 {
+#ifdef WIN32
     EndDialog(m_configDlg, wParam);
+#endif
 	m_configDlg = 0;
 }
 
@@ -96,6 +100,7 @@ void Config::closeConfigDialog(WPARAM wParam)
 //-----------------------------------------------------------------------------
 void Config::updateGUI()
 {
+	/*
 	m_configGUI.initialize(m_configDlg);
 
 	//Set GUI Values
@@ -104,6 +109,7 @@ void Config::updateGUI()
 	m_configGUI.setTextureCacheSize(m_cfg.textureCacheSize);
     m_configGUI.setWireframe(m_cfg.wireframe);
     m_configGUI.setFog(m_cfg.fog);
+	*/
 }
 
 //-----------------------------------------------------------------------------
@@ -133,6 +139,7 @@ void Config::saveConfig()
 //-----------------------------------------------------------------------------
 void Config::updateConfig()
 {
+	/*
 	//Get Configuration from Config Dialog
     m_cfg.fullscreenWidth       = m_configGUI.getFullscreenWidth();
     m_cfg.fullscreenHeight      = m_configGUI.getFullscreenHeight();
@@ -143,7 +150,7 @@ void Config::updateConfig()
     m_cfg.textureCacheSize      = m_configGUI.getTextureCacheSize();
     m_cfg.wireframe             = m_configGUI.getWireframe();
     m_cfg.fog                   = m_configGUI.getFog();
-
+	*/
     //Set and save settings
     saveConfig();
 }
@@ -169,6 +176,7 @@ void Config::updateGraphics()
 //-----------------------------------------------------------------------------
 bool Config::handleWindowMsg(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+#ifdef WIN32
 	switch (message) 
     { 
 		//On Initialize
@@ -192,6 +200,7 @@ bool Config::handleWindowMsg(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM l
                     return true;
 			} 
     } 
+#endif
 	return true;
 }
 

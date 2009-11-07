@@ -4,7 +4,7 @@
 #define MATH_LIBRARY_H_
 
 #include <cmath>     //sqrtf
-#include <windows.h>  
+#include "platform.h"  
 
 // Formula: a.b = a0*b0 + a1*b1 + a2*b2
 #define Vec3Dot(a,b)         ((a)[0]*(b)[0]+(a)[1]*(b)[1]+(a)[2]*(b)[2])

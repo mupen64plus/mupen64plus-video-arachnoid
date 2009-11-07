@@ -2,7 +2,7 @@
 #ifndef COMBINER_STRUCTS_H_
 #define COMBINER_STRUCTS_H_
 
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 // Internal combiner commands
@@ -69,7 +69,7 @@ struct CombineData
 			unsigned long	muxs1, muxs0;
 		};
 
-		unsigned __int64	mux;
+		unsigned long long	mux;
 	};
 };
 

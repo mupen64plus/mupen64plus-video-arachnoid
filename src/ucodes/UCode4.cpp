@@ -2,7 +2,7 @@
 #include "UCode0.h"
 #include "GBI.h"
 #include "RSP.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 
@@ -57,7 +57,7 @@ void UCode4::initializeGBI()
 //-----------------------------------------------------------------------------
 void UCode4::WaveRace64_Vertex(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("WaveRace64_Vertex", LML_TRIVIAL);
+    Logger::getSingleton().printMsg("WaveRace64_Vertex", M64MSG_VERBOSE);
     RSPUCodeAddVerticesWaveRace64* temp = (RSPUCodeAddVerticesWaveRace64*)ucode;
 
     //Add Vertices
@@ -70,7 +70,7 @@ void UCode4::WaveRace64_Vertex(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode4::WaveRace64_Tri1(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("WaveRace64_Tri1", LML_TRIVIAL);
+    Logger::getSingleton().printMsg("WaveRace64_Tri1", M64MSG_VERBOSE);
     RSPUCodeAddOneTriangleF3D* temp = (RSPUCodeAddOneTriangleF3D*)ucode;
 
     //Add triangle
@@ -83,7 +83,7 @@ void UCode4::WaveRace64_Tri1(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode4::WaveRace64_Tri2(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("WaveRace64_Tri2", LML_TRIVIAL);
+    Logger::getSingleton().printMsg("WaveRace64_Tri2", M64MSG_VERBOSE);
     RSPUCodeAddTwoTrianglesWaveRace64* temp = (RSPUCodeAddTwoTrianglesWaveRace64*)ucode;
 
     //Add Two triangles
@@ -97,7 +97,7 @@ void UCode4::WaveRace64_Tri2(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode4::WaveRace64_Quad(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("WaveRace64_Quad", LML_TRIVIAL);
+    Logger::getSingleton().printMsg("WaveRace64_Quad", M64MSG_VERBOSE);
     RSPUCodeAddOneQuadF3D* temp = (RSPUCodeAddOneQuadF3D*)ucode;
 
     //Add Quad

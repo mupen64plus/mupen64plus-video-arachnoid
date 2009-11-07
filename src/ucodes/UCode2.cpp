@@ -3,7 +3,7 @@
 #include "GBI.h"
 #include "RSP.h"
 #include "RDP.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "Memory.h"

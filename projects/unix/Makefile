@@ -61,10 +61,17 @@ ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
 endif
 
 # base CFLAGS, LIBS, and LDFLAGS
-CFLAGS = -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -I../../src
-LDFLAGS = -ldl
+CFLAGS = -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -I../../src \
+		 -I../../src/hash -I../../src/ucodes -I../../src/GBI -I../../src/RDP -I../../src/utils \
+		 -I../../src/log -I../../src/RSP -I../../src/framebuffer -I../../src/math -I../../src/renderer \
+		 -I../../src/assembler -I../../src/texture -I../../src/config -I../../src/combiner 
+LDFLAGS = -ldl -lGL -lGLU -lpthread
 ifneq ($(OS), FREEBSD)
-  CFLAGS += -pipe -O3
+  CFLAGS += -pipe -O0
+endif
+
+ifeq ($(ARCH_DETECTED), 64BITS)
+  CFLAGS += -fPIC
 endif
 
 # set mupen64plus core API header path
@@ -142,7 +149,6 @@ SOURCE = \
 	$(SRCDIR)/utils/ScreenshotCreator.cpp \
 	$(SRCDIR)/utils/SmartScriptParser.cpp \
 	$(SRCDIR)/config/Config.cpp \
-	$(SRCDIR)/config/ConfigGUI.cpp \
 	$(SRCDIR)/config/ConfigFile.cpp \
 	$(SRCDIR)/config/StreamFunctions.cpp \
 	$(SRCDIR)/config/StringFunctions.cpp \
@@ -196,34 +202,31 @@ SOURCE = \
 	$(SRCDIR)/Combiner/CombinerCache.cpp \
 	$(SRCDIR)/RomDetector.cpp \
 	$(SRCDIR)/RDP/RDP.cpp \
-	$(SRCDIR)/RDP/RDPInstructions.cpp
+	$(SRCDIR)/RDP/RDPInstructions.cpp \
+	$(SRCDIR)/osal_dynamiclib_unix.cpp
+#	$(SRCDIR)/config/ConfigGUI.cpp \
 
 # generate a list of object files build, make a temporary directory for them
-OBJECTS := $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(filter %.c, $(SOURCE)))
+OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter %.cpp, $(SOURCE)))
 OBJDIRS = $(dir $(OBJECTS))
 $(shell mkdir -p $(OBJDIRS))
-
-# build targets
-all: mupen64plus-cli
-
-clean:
-	rm -rf ./_obj mupen64plus-cli
 
 # build targets
 all: mupen64plus-video-arachnoid.so
 
 clean:
-    rm -rf ./_obj mupen64plus-video-arachnoid.so
+	rm -rf ./_obj mupen64plus-video-arachnoid.so
 
 # build rules
 
 mupen64plus-video-arachnoid.so: $(OBJECTS)
-    $(LD) -shared $^ $(LDFLAGS) -o $@
-    $(STRIP) $@
+	echo $(OBJECTS)
+	$(LD) -shared $^ $(LDFLAGS) -o $@
+	$(STRIP) $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-    $(CC) -o $@ $(CFLAGS) -c $<
+	$(CC) -o $@ $(CFLAGS) -c $<
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-    $(CXX) -o $@ $(CFLAGS) -c $<
+	$(CXX) -o $@ $(CFLAGS) -c $<
 

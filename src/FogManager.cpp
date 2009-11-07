@@ -1,6 +1,6 @@
 #include "FogManager.h"
 #include "ExtensionChecker.h"
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------
@@ -15,12 +15,13 @@
 		extern void APIENTRY glFogCoorddvEXT (const GLdouble *);
 		extern void APIENTRY glFogCoordPointerEXT (GLenum, GLsizei, const GLvoid *);
 	#endif 
+#ifdef WIN32
 	typedef void (APIENTRY * PFNGLFOGCOORDFEXTPROC) (GLfloat coord);
 	typedef void (APIENTRY * PFNGLFOGCOORDFVEXTPROC) (const GLfloat *coord);
 	typedef void (APIENTRY * PFNGLFOGCOORDDEXTPROC) (GLdouble coord);
 	typedef void (APIENTRY * PFNGLFOGCOORDDVEXTPROC) (const GLdouble *coord);
 	typedef void (APIENTRY * PFNGLFOGCOORDPOINTEREXTPROC) (GLenum type, GLsizei stride, const GLvoid *pointer);
-
+#endif
 	#define GL_FOG_COORDINATE_SOURCE_EXT      0x8450
 	#define GL_FOG_COORDINATE_EXT             0x8451
 	#define GL_FOG_COORDINATE_ARRAY_EXT       0x8457
@@ -68,11 +69,13 @@ void FogManager::initialize()
 	{
 		if ( m_fogExtensionsSupported = isExtensionSupported("GL_EXT_fog_coord") )
 		{
+#ifdef WIN32
 			glFogCoordfEXT       = (PFNGLFOGCOORDFEXTPROC)wglGetProcAddress( "glFogCoordfEXT" );
 			glFogCoordfvEXT      = (PFNGLFOGCOORDFVEXTPROC)wglGetProcAddress( "glFogCoordfvEXT" );
 			glFogCoorddEXT       = (PFNGLFOGCOORDDEXTPROC)wglGetProcAddress( "glFogCoorddEXT" );
 			glFogCoorddvEXT      = (PFNGLFOGCOORDDVEXTPROC)wglGetProcAddress( "glFogCoorddvEXT" );
 			glFogCoordPointerEXT = (PFNGLFOGCOORDPOINTEREXTPROC)wglGetProcAddress( "glFogCoordPointerEXT" );
+#endif
 			fogExtensionInitialized  = true;
 		}		
 	}

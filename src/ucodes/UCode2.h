@@ -1,7 +1,7 @@
 #ifndef UCODE_2_H_
 #define UCODE_2_H_
 
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 
 //Forward declaration
 class GBI;

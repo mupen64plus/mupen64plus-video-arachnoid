@@ -3,7 +3,7 @@
 
 //Forward declarations
 #include "UCodeDefs.h"
-struct GFX_INFO;
+#include "m64p_plugin.h"
 
 //*****************************************************************************
 //! Video Interface

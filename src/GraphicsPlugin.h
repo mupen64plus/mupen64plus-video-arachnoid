@@ -8,7 +8,7 @@
 #include "RDP.h"
 
 //Forward declarations
-struct GFX_INFO;
+//struct GFX_INFO;
 class VI;
 class Memory;
 class DisplayListParser;

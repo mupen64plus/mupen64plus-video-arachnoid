@@ -142,7 +142,7 @@ StringValue ConfigFile::get(const char* key, char* section, StringValue defualtV
     SettingsMap::const_iterator keyIt;
     bool foundKey = false;
 
-    std::string temp = m_settings[defaultSectionName]->begin()->second;
+	std::string temp = m_settings[defaultSectionName]->begin()->second.str();
 
     if ( section )
     {

@@ -1,5 +1,5 @@
 #include "ScreenshotCreator.h"
-#include <windows.h> //BMP
+#include "platform.h" //BMP
 #include <GL/gl.h>   //ReadPixels
 #include <cstdio>    //sprintf
 #include "StringFunctions.h"  //trim
@@ -37,7 +37,7 @@ void ScreenshotCreator::createScreenshot(const char* directory, const char* pref
 	glReadBuffer(GL_FRONT);
 	glReadPixels(x, y, width, height, GL_BGR_EXT, GL_UNSIGNED_BYTE, image);
 	glReadBuffer(GL_BACK);
-
+#if 0
     //Create fileheader
     BITMAPFILEHEADER fileHeader;
 	fileHeader.bfType      = 19778;   //Magic number (identifier for BMP)
@@ -86,5 +86,6 @@ void ScreenshotCreator::createScreenshot(const char* directory, const char* pref
 
     //Clean up and return
  	CloseHandle(bitmapFile);
+#endif
     delete[] image;
 }

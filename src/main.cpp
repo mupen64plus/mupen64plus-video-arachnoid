@@ -35,14 +35,25 @@
 //*****************************************************************************
 
 //Includes
+#include "platform.h"
 #include "GraphicsPlugin.h"        //Main class
 #include "PluginInfo.h"            //Tell emulator what type of plugin this is
-#include "Config.h"                //Configuration   
+#include "config/Config.h"                //Configuration   
 #include "Logger.h"                //Debug logger
 #include "MemoryLeakDetector.h"    //For detecting memory leaks
 #include "ConsoleWindow.h"         //Console Window for debuging
 
+#include "m64p_types.h"
+#include "m64p_plugin.h"
+#include "m64p_config.h"
+#include "m64p_vidext.h"
+
+#include "osal_dynamiclib.h"
+
 //Definitions
+#define PLUGIN_NAME "Arachnoid"
+#define PLUGIN_VERSION 0x020000
+
 #define MI_INTR_DP 0x00000020      //!< RDP Interrupt signal
 #define MI_INTR_SP 0x00000001      //!< RSP Interrupt signal
 
@@ -55,98 +66,143 @@ GFX_INFO          g_graphicsInfo;                                //!< Informatio
 GraphicsPlugin    g_graphicsPlugin;                              //!< Main class for application
 Config            g_config(&g_graphicsPlugin);                   //!< Handles configuration
 HINSTANCE         g_instance;                                    //!< DLL Instance
- 
-//-----------------------------------------------------------------------------
-// Main
-//-----------------------------------------------------------------------------
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
-{
-	g_instance = hinstDLL;
 
-    switch ( dwReason )
+void (*renderCallback)() = NULL;
+
+
+/* definitions of pointers to Core config functions */
+ptr_ConfigOpenSection      ConfigOpenSection = NULL;
+ptr_ConfigSetParameter     ConfigSetParameter = NULL;
+ptr_ConfigGetParameter     ConfigGetParameter = NULL;
+ptr_ConfigGetParameterHelp ConfigGetParameterHelp = NULL;
+ptr_ConfigSetDefaultInt    ConfigSetDefaultInt = NULL;
+ptr_ConfigSetDefaultFloat  ConfigSetDefaultFloat = NULL;
+ptr_ConfigSetDefaultBool   ConfigSetDefaultBool = NULL;
+ptr_ConfigSetDefaultString ConfigSetDefaultString = NULL;
+ptr_ConfigGetParamInt      ConfigGetParamInt = NULL;
+ptr_ConfigGetParamFloat    ConfigGetParamFloat = NULL;
+ptr_ConfigGetParamBool     ConfigGetParamBool = NULL;
+ptr_ConfigGetParamString   ConfigGetParamString = NULL;
+
+ptr_ConfigGetSharedDataFilepath ConfigGetSharedDataFilepath = NULL;
+ptr_ConfigGetUserConfigPath     ConfigGetUserConfigPath = NULL;
+ptr_ConfigGetUserDataPath       ConfigGetUserDataPath = NULL;
+ptr_ConfigGetUserCachePath      ConfigGetUserCachePath = NULL;
+
+/* definitions of pointers to Core video extension functions */
+ptr_VidExt_Init                  CoreVideo_Init = NULL;
+ptr_VidExt_Quit                  CoreVideo_Quit = NULL;
+ptr_VidExt_ListFullscreenModes   CoreVideo_ListFullscreenModes = NULL;
+ptr_VidExt_SetVideoMode          CoreVideo_SetVideoMode = NULL;
+ptr_VidExt_SetCaption            CoreVideo_SetCaption = NULL;
+ptr_VidExt_ToggleFullScreen      CoreVideo_ToggleFullScreen = NULL;
+ptr_VidExt_GL_GetProcAddress     CoreVideo_GL_GetProcAddress = NULL;
+ptr_VidExt_GL_SetAttribute       CoreVideo_GL_SetAttribute = NULL;
+ptr_VidExt_GL_SwapBuffers        CoreVideo_GL_SwapBuffers = NULL;
+
+//-----------------------------------------------------------------------------
+// Mupen64plus 2.0 Common Plugin API Functions
+//-----------------------------------------------------------------------------
+#ifdef __cplusplus
+extern "C" {
+#endif
+EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context,
+                                   void (*DebugCallback)(void *, int, const char *))
+{
+	fprintf(stderr, "PluginStartup\n");
+	/* Get the core config function pointers from the library handle */
+    ConfigOpenSection = (ptr_ConfigOpenSection) osal_dynlib_getproc(CoreLibHandle, "ConfigOpenSection");
+    ConfigSetParameter = (ptr_ConfigSetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigSetParameter");
+    ConfigGetParameter = (ptr_ConfigGetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParameter");
+    ConfigSetDefaultInt = (ptr_ConfigSetDefaultInt) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultInt");
+    ConfigSetDefaultFloat = (ptr_ConfigSetDefaultFloat) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultFloat");
+    ConfigSetDefaultBool = (ptr_ConfigSetDefaultBool) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultBool");
+    ConfigSetDefaultString = (ptr_ConfigSetDefaultString) osal_dynlib_getproc(CoreLibHandle, "ConfigSetDefaultString");
+    ConfigGetParamInt = (ptr_ConfigGetParamInt) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamInt");
+    ConfigGetParamFloat = (ptr_ConfigGetParamFloat) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamFloat");
+    ConfigGetParamBool = (ptr_ConfigGetParamBool) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamBool");
+    ConfigGetParamString = (ptr_ConfigGetParamString) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamString");
+
+    ConfigGetSharedDataFilepath = (ptr_ConfigGetSharedDataFilepath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetSharedDataFilepath");
+    ConfigGetUserConfigPath = (ptr_ConfigGetUserConfigPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserConfigPath");
+    ConfigGetUserDataPath = (ptr_ConfigGetUserDataPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserDataPath");
+    ConfigGetUserCachePath = (ptr_ConfigGetUserCachePath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserCachePath");
+
+    if (!ConfigOpenSection || !ConfigSetParameter || !ConfigGetParameter ||
+        !ConfigSetDefaultInt || !ConfigSetDefaultFloat || !ConfigSetDefaultBool || !ConfigSetDefaultString ||
+        !ConfigGetParamInt   || !ConfigGetParamFloat   || !ConfigGetParamBool   || !ConfigGetParamString ||
+        !ConfigGetSharedDataFilepath || !ConfigGetUserConfigPath || !ConfigGetUserDataPath || !ConfigGetUserCachePath)
     {
-        case DLL_PROCESS_ATTACH:
-            g_graphicsPlugin.setConfig(g_config.getConfig());
-            g_config.loadFromFile(g_cfgFilename);		
-            break;
-        case DLL_PROCESS_DETACH:
-			#ifdef _DEBUG
-				//Close Console
-				terminateConsole();
-			#endif
-            break;
+		Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
+        return M64ERR_INCOMPATIBLE;
     }
-	return true;
+
+    /* Get the core Video Extension function pointers from the library handle */
+    CoreVideo_Init = (ptr_VidExt_Init) osal_dynlib_getproc(CoreLibHandle, "VidExt_Init");
+    CoreVideo_Quit = (ptr_VidExt_Quit) osal_dynlib_getproc(CoreLibHandle, "VidExt_Quit");
+    CoreVideo_ListFullscreenModes = (ptr_VidExt_ListFullscreenModes) osal_dynlib_getproc(CoreLibHandle, "VidExt_ListFullscreenModes");
+    CoreVideo_SetVideoMode = (ptr_VidExt_SetVideoMode) osal_dynlib_getproc(CoreLibHandle, "VidExt_SetVideoMode");
+    CoreVideo_SetCaption = (ptr_VidExt_SetCaption) osal_dynlib_getproc(CoreLibHandle, "VidExt_SetCaption");
+    CoreVideo_ToggleFullScreen = (ptr_VidExt_ToggleFullScreen) osal_dynlib_getproc(CoreLibHandle, "VidExt_ToggleFullScreen");
+    CoreVideo_GL_GetProcAddress = (ptr_VidExt_GL_GetProcAddress) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_GetProcAddress");
+    CoreVideo_GL_SetAttribute = (ptr_VidExt_GL_SetAttribute) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_SetAttribute");
+    CoreVideo_GL_SwapBuffers = (ptr_VidExt_GL_SwapBuffers) osal_dynlib_getproc(CoreLibHandle, "VidExt_GL_SwapBuffers");
+
+    if (!CoreVideo_Init || !CoreVideo_Quit || !CoreVideo_ListFullscreenModes || !CoreVideo_SetVideoMode ||
+        !CoreVideo_SetCaption || !CoreVideo_ToggleFullScreen || !CoreVideo_GL_GetProcAddress ||
+        !CoreVideo_GL_SetAttribute || !CoreVideo_GL_SwapBuffers)
+    {
+		printf("eek!\n");
+		Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
+        return M64ERR_INCOMPATIBLE;
+    }
+
+	//Read configuration
+	//TODO: get values from core
+	g_graphicsPlugin.setConfig(g_config.getConfig());
+
+    return M64ERR_SUCCESS;
 }
 
-//-----------------------------------------------------------------------------
-// Handle Cofig Dialog Process
-//-----------------------------------------------------------------------------
-BOOL CALLBACK g_configDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
-{ 
-	g_config.handleWindowMsg(hWndDlg, message, wParam, lParam);
-    return false; 
-}
-
-//-----------------------------------------------------------------------------
-//* DllAbout
-//! This function is optional function that is provided
-//! to give further information about the DLL.
-//! @param hParent HWND parent a handle to the window that calls this function
-//-----------------------------------------------------------------------------
-void  DllAbout(HWND hParent)
+EXPORT m64p_error CALL PluginShutdown(void)
 {
-    Logger::getSingleton().printMsg("DllAbout\n");
-	MessageBox(hParent, "Arachnoid Graphics Plugin for Nintendo 64 Emulation by Kristofer Karlsson and Rickard Niklasson", "Arachnoid Graphics Plugin", MB_OK|MB_SETFOREGROUND );
+	//Close Logger
+    Logger::getSingleton().printMsg("CloseDLL\n");
+    Logger::getSingleton().dispose();   
+
+	//g_graphicsPlugin.dispose();  
+	return M64ERR_SUCCESS;
 }
 
-//-----------------------------------------------------------------------------
-//* DllConfig
-//! This function is optional function that is provided
-//! to allow the user to configure the dll
-//! @param hParent A handle to the window that calls this function
-//-----------------------------------------------------------------------------
-void DllConfig(HWND hParent)
+EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
 {
-    Logger::getSingleton().printMsg("DllConfig\n");
-	g_config.openConfigDialog(g_instance, g_configDlgProc, g_graphicsInfo.hWnd);
+    /* set version info */
+    if (PluginType != NULL)
+        *PluginType = M64PLUGIN_GFX;
+
+    if (PluginVersion != NULL)
+        *PluginVersion = PLUGIN_VERSION;
+
+    if (APIVersion != NULL)
+        *APIVersion = PLUGIN_API_VERSION;
+    
+    if (PluginNamePtr != NULL)
+        *PluginNamePtr = PLUGIN_NAME;
+
+    if (Capabilities != NULL)
+    {
+        *Capabilities = 0;
+    }
+                    
+    return M64ERR_SUCCESS;
 }
 
-//-----------------------------------------------------------------------------
-//* DllTest
-//! This function is optional function that is provided
-//! to allow the user to test the dll
-//! @param hParent A handle to the window that calls this function
-//! @todo DllTest
-//----------------------------------------------------------------------------- 
-void DllTest(HWND hParent)
-{
-    Logger::getSingleton().printMsg("DllTest\n");    
-	//TODO
-}
+
 
 //-----------------------------------------------------------------------------
-//* GetDllInfo
-//! This function allows the emulator to gather information
-//! about the dll by filling in the PluginInfo structure.
-//! @param pluginInfo A pointer to a PLUGIN_INFO stucture that needs to be
-//!                   filled by the function. 
+// Mupen64plus 2.0 Video Plugin API Functions
 //-----------------------------------------------------------------------------
- void  GetDllInfo(PLUGIN_INFO * pluginInfo)
-{	
-	#ifdef _DEBUG
-		//Create Console
-		createConsole();
-		Logger::getSingleton().initialize("log.txt", true, true);
-	#else
-		Logger::getSingleton().initialize("log.txt", false, false);
-	#endif
-	Logger::getSingleton().setLogDetail(LL_LOW);
-    Logger::getSingleton().printMsg("GetDllInfo");    
-	
-	//Get Plugin Information
-    getPluginInfo(pluginInfo);	
-}
+
 
 //-----------------------------------------------------------------------------
 //* InitiateGFX
@@ -161,7 +217,7 @@ void DllTest(HWND hParent)
 //!    and then  the function CheckInterrupts to tell the emulator
 //!    that there is a waiting interrupt.
 //-----------------------------------------------------------------------------
-BOOL InitiateGFX(GFX_INFO Gfx_Info)
+EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 {
     Logger::getSingleton().printMsg("InitiateGFX");
 
@@ -174,7 +230,7 @@ BOOL InitiateGFX(GFX_INFO Gfx_Info)
 //* Rom Open
 //! This function is called when a rom is open. (from the emulation thread)
 //-----------------------------------------------------------------------------
- void RomOpen()
+EXPORT void CALL RomOpen()
 {	
     Logger::getSingleton().printMsg("RomOpen\n");    
     
@@ -186,7 +242,7 @@ BOOL InitiateGFX(GFX_INFO Gfx_Info)
 //* Rom Closed
 //! This function is called when a rom is closed.
 //-----------------------------------------------------------------------------
-void  RomClosed()
+EXPORT void CALL RomClosed()
 {
     //Logger::getSingleton().printMsg("RomClosed\n");
 
@@ -200,35 +256,18 @@ void  RomClosed()
 //! This function is called in response to a vsync of the
 //! screen were the VI bit in MI_INTR_REG has already been set
 //-----------------------------------------------------------------------------
-void UpdateScreen()
+EXPORT void CALL UpdateScreen()
 {
     //logger.printMsg("UpdateScreen");	
-
 	g_graphicsPlugin.drawScreen();	
-
-	//Render to screen
-   	//DrawScreen();
 }
 
-//-----------------------------------------------------------------------------
-//* DrawScreen
-//! This function is called when the emulator receives a
-//! WM_PAINT message. This allows the gfx to fit in when
-//!	it is being used in the desktop.
-//-----------------------------------------------------------------------------
-void DrawScreen(void)
-{
-	//logger.printMsg("DrawScreen\n");
-
-	//Render to screen
-	//g_graphicsPlugin.drawScreen();		
-}
 
 //-----------------------------------------------------------------------------
 //* ProcessDList
 //! This function is called when there is a Dlist to be processed. (High level GFX list)
 //-----------------------------------------------------------------------------
-void ProcessDList()
+EXPORT void CALL ProcessDList()
 {
 	Logger::getSingleton().printMsg("ProcessDList\n");
 
@@ -239,7 +278,7 @@ void ProcessDList()
 	}
 	catch (...)
 	{
-		Logger::getSingleton().printMsg("Unknown Error processing DisplayList", LML_CRITICAL, true); 
+		Logger::getSingleton().printMsg("Unknown Error processing DisplayList", M64MSG_WARNING); 
 		//MessageBox(0, "Unknown Error processing DisplayList", "Arachnoid Graphics Plugin", MB_OK|MB_SETFOREGROUND); 
 
 		g_graphicsPlugin.dispose();
@@ -259,7 +298,7 @@ void ProcessDList()
 //! This function is called when there is a Dlist to be processed. (Low level GFX list)
 //! @todo ProcessRDPList
 //-----------------------------------------------------------------------------
-void ProcessRDPList()
+EXPORT void CALL ProcessRDPList()
 {
 	Logger::getSingleton().printMsg("ProcessRDPList\n");
     //TODO
@@ -271,32 +310,17 @@ void ProcessRDPList()
 //! ignored. This function tells the dll to start displaying
 //! them again.
 //-----------------------------------------------------------------------------
-void ShowCFB()
+EXPORT void CALL ShowCFB()
 {
     Logger::getSingleton().printMsg("ShowCFB\n");
 }
-
-//-----------------------------------------------------------------------------
-//* CloseDLL
-//! This function is called when the emulator is closing down 
-//! allowing the dll to de-initialise.
-//----------------------------------------------------------------------------- 
-void CloseDLL()
-{
-	//Close Logger
-    Logger::getSingleton().printMsg("CloseDLL\n");
-    Logger::getSingleton().dispose();   
-
-	//g_graphicsPlugin.dispose();   
-}
-
 
 //-----------------------------------------------------------------------------
 //* ViStatusChanged
 //! This function is called to notify the dll that the
 //! ViStatus registers value has been changed.
 //-----------------------------------------------------------------------------
-void ViStatusChanged()
+EXPORT void CALL ViStatusChanged()
 {
     Logger::getSingleton().printMsg("ViStatusChanged");
 
@@ -308,7 +332,7 @@ void ViStatusChanged()
 //! This function is called to notify the dll that the
 //! ViWidth registers value has been changed.
 //-----------------------------------------------------------------------------
-void ViWidthChanged()
+EXPORT void CALL ViWidthChanged()
 {	
     Logger::getSingleton().printMsg("ViWidthChanged");
 
@@ -326,7 +350,7 @@ void ViWidthChanged()
 //!             client area of the window. 
 //! @todo MoveScreen
 //----------------------------------------------------------------------------- 
-void MoveScreen(int xpos, int ypos)
+EXPORT void CALL MoveScreen(int xpos, int ypos)
 {
     Logger::getSingleton().printMsg("MoveScreen\n");
     //TODO
@@ -336,7 +360,7 @@ void MoveScreen(int xpos, int ypos)
 //* ChangeWindow
 //! Toggle between fullscreen and window mode
 //-----------------------------------------------------------------------------
-void ChangeWindow()
+EXPORT void CALL ChangeWindow()
 {
     Logger::getSingleton().printMsg("ChangeWindow\n");
 
@@ -345,15 +369,95 @@ void ChangeWindow()
 }
 
 //-----------------------------------------------------------------------------
-//* CaptureScreen
-//! This function dumps the current frame to a file (takes a screenshot)
-//! param[in] Pointer to the directory to save the file to.
+//* ReadScreen
+//! This function reads the pixels of the currently displayed screen
 //-----------------------------------------------------------------------------
-void CaptureScreen(char* directory)
+EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
 {
-    Logger::getSingleton().printMsg("CaptureScreen");
-
-    //Take a screenshot
-    g_graphicsPlugin.takeScreenshot(directory);
+	//TODO
 }
+
+//-----------------------------------------------------------------------------
+//* SetRenderingCallback
+//! Allows the core to register a callback function that will be called by the 
+//! graphics plugin just before the the frame buffers are swapped.
+//-----------------------------------------------------------------------------
+EXPORT void CALL SetRenderingCallback(void (*callback)())
+{
+	//TODO
+}
+
+//-----------------------------------------------------------------------------
+//* FBRead
+//! Read data from frame buffer into emulated RAM space 
+//-----------------------------------------------------------------------------
+EXPORT void CALL FBRead(unsigned int addr)
+{
+	//TODO
+}
+
+//-----------------------------------------------------------------------------
+//* FBWrite
+//! Write data from emulated RAM space into frame buffer
+//-----------------------------------------------------------------------------
+EXPORT void CALL FBWrite(unsigned int addr, unsigned int size)
+{
+	//TODO
+}
+
+//-----------------------------------------------------------------------------
+//* FBWrite
+//! Get some information about the frame buffer 
+//-----------------------------------------------------------------------------
+EXPORT void FBGetFrameBufferInfo(void *p)
+{
+	//TODO
+}
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
+
+
+
+
+//TODO: remove these
+//-----------------------------------------------------------------------------
+// Main
+//-----------------------------------------------------------------------------
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
+{
+#ifdef WIN32
+	g_instance = hinstDLL;
+
+    switch ( dwReason )
+    {
+        case DLL_PROCESS_ATTACH:
+            g_graphicsPlugin.setConfig(g_config.getConfig());
+            g_config.loadFromFile(g_cfgFilename);		
+            break;
+        case DLL_PROCESS_DETACH:
+			#ifdef _DEBUG
+				//Close Console
+				terminateConsole();
+			#endif
+            break;
+    }
+#endif
+	return true;
+}
+
+//-----------------------------------------------------------------------------
+// Handle Cofig Dialog Process
+//-----------------------------------------------------------------------------
+#ifdef WIN32
+BOOL CALLBACK g_configDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
+{ 
+	//g_config.handleWindowMsg(hWndDlg, message, wParam, lParam);
+    return false; 
+}
+#endif
 

@@ -1,18 +1,24 @@
 #ifndef ASSEMBLER_H_
 #define ASSEMBLER_H_
 
+#ifndef WIN32
+#include <cstring>
+#include <assert.h>
+#endif
 
 // Swap bytes from 80 37 12 40
 // to              40 12 37 80
+// dwLen must be a multiple of 4
 inline void swapRomHeaderBytes(void *v, unsigned long dwLen)
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		esi, v
-			mov		edi, v
-			mov		ecx, dwLen
+		mov		edi, v
+		mov		ecx, dwLen
 
-			add		edi, ecx
+		add		edi, ecx
 
 top:
 		mov		al, byte ptr [esi + 0]
@@ -21,30 +27,50 @@ top:
 		mov		dl, byte ptr [esi + 3]
 
 		mov		byte ptr [esi + 0], dl		//3
-			mov		byte ptr [esi + 1], cl		//2
-			mov		byte ptr [esi + 2], bl		//1
-			mov		byte ptr [esi + 3], al		//0
+		mov		byte ptr [esi + 1], cl		//2
+		mov		byte ptr [esi + 2], bl		//1
+		mov		byte ptr [esi + 3], al		//0
 
-			add		esi, 4
-			cmp		esi, edi
-			jne		top
-
+		add		esi, 4
+		cmp		esi, edi
+		jne		top
 	}
+#else
+	assert(dwLen % 4 == 0);
+	char *c = (char*)v + dwLen;
+	while (c > v)
+	{
+		c -= 4;
+		char t1 = c[0];
+		char t2 = c[1];
+		char t3 = c[2];
+		char t4 = c[3];
+		c[0] = t4;
+		c[1] = t3;
+		c[2] = t2;
+		c[3] = t1;
+	}
+#endif
 }
 
 
 inline unsigned short swapword( unsigned short value )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ax, word ptr [value]
 		xchg	ah, al
 	}
+#else
+	return (value >> 8) | (value << 8);
+#endif
 }
 
 
 inline void UnswapCopy( void *src, void *dest, unsigned long numBytes )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ecx, 0
@@ -107,10 +133,21 @@ TrailingLoop:
 		loop	TrailingLoop
 Done:
 	}
+#else
+	char *d = (char*)dest;
+	char *s = (char*)src;
+	for (unsigned long i = 0; i < numBytes; ++i)
+	{
+		unsigned long x1 = i / 4;
+		unsigned long x2 = i % 4;
+		d[i] = s[x1 * 4 + (3 - x2)];
+	}
+#endif
 }
 
 inline void DWordInterleave( void *mem, unsigned long numDWords )
 {
+#ifdef WIN32
 	__asm {
 		mov		esi, dword ptr [mem]
 		mov		edi, dword ptr [mem]
@@ -125,10 +162,20 @@ DWordInterleaveLoop:
 		add		edi, 8
 		loop	DWordInterleaveLoop
 	}
+#else
+	int *m = (int*)mem;
+	for (unsigned long i = 0; i < numDWords; ++i)
+	{
+		int tmp = m[2 * i];
+		m[2 * i] = m[2 * i + 1];
+		m[2 * i + 1] = tmp;
+	}
+#endif
 }
 
 inline void QWordInterleave( void *mem, unsigned long numDWords )
 {
+#ifdef WIN32
 	__asm
 	{
 	// Interleave the line on the qword
@@ -152,6 +199,15 @@ QWordInterleaveLoop:
 		add		edi, 12
 		loop	QWordInterleaveLoop
 	}
+#else
+	long long *m = (long long*)mem;
+	for (unsigned long i = 0; i < numDWords / 2; ++i)
+	{
+		long long tmp = m[2 * i];
+		m[2 * i] = m[2 * i + 1];
+		m[2 * i + 1] = tmp;
+	}
+#endif
 }
 
 const unsigned char Five2Eight[32] =
@@ -255,6 +311,7 @@ const unsigned char One2Eight[2] =
 
 inline unsigned short RGBA8888_RGBA4444( unsigned long color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ebx, dword ptr [color]
@@ -276,10 +333,15 @@ inline unsigned short RGBA8888_RGBA4444( unsigned long color )
 		shr		bl, 4
 		or		al, bl
 	}
+#else
+	return ((color & 0xF0000000) >> 28) | ((color & 0x00F00000) >> 16) |
+	       ((color & 0x0000F000) >>  4) | ((color & 0x000000F0) << 8);
+#endif
 }
 
 inline unsigned long RGBA5551_RGBA8888( unsigned short color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ebx, 00000000h
@@ -307,20 +369,36 @@ inline unsigned long RGBA5551_RGBA8888( unsigned short color )
 		and		bx, 1Fh
 		mov		al, byte ptr [Five2Eight+ebx]
 	}
+#else
+	int rgba;
+	char *p = (char*)&rgba;
+	color = (color >> 8) | (color << 8);
+	p[3] = One2Eight[color & 1];
+	p[2] = Five2Eight[color >> 1 & 0x1f];
+	p[1] = Five2Eight[color >> 6 & 0x1f];
+	p[0] = Five2Eight[color >> 11 & 0x1f];
+	return rgba;
+
+#endif
 }
 
 // Just swaps the word
 inline unsigned short RGBA5551_RGBA5551( unsigned short color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ax, word ptr [color]
 		xchg	ah, al
 	}
+#else
+	return (color >> 8) | (color << 8);
+#endif
 }
 
 inline unsigned long IA88_RGBA8888( unsigned short color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		cx, word ptr [color]
@@ -333,10 +411,14 @@ inline unsigned long IA88_RGBA8888( unsigned short color )
 		mov		ah, cl
 		mov		al, cl
 	}
+#else
+	return (color & 0xFF) | ((color & 0xFF) << 8) | (color << 16);
+#endif
 }
 
 inline unsigned short IA88_RGBA4444( unsigned short color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		cx, word ptr [color]
@@ -350,10 +432,15 @@ inline unsigned short IA88_RGBA4444( unsigned short color )
 		shr		ch, 4
 		or		al, ch
 	}
+#else
+	unsigned char b = color & 0xf0;
+	return (color >> 12) | b | (b << 4) | (b << 8);
+#endif
 }
 
 inline unsigned short IA44_RGBA4444( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		cl, byte ptr [color]
@@ -364,10 +451,15 @@ inline unsigned short IA44_RGBA4444( unsigned char color )
 		shl		cl, 4
 		or		ah, cl
 	}
+#else
+	unsigned char b = color >> 4;
+	return color | (b << 8) | (b << 12);
+#endif
 }
 
 inline unsigned long IA44_RGBA8888( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ebx, 00000000h
@@ -389,10 +481,16 @@ inline unsigned long IA44_RGBA8888( unsigned char color )
 		mov		ah, ch
 		mov		al, ch
 	}
+#else
+	unsigned char b1 = color >> 4;
+	unsigned char b2 = color & 0x0f;
+	return b1 | (b1 << 4) | (b1 << 8) | (b1 << 12) | (b1 << 16) | (b1 << 20) | (b2 << 24) | (b2 << 28);
+#endif
 }
 
 inline unsigned short IA31_RGBA4444( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ebx, 00000000h
@@ -411,10 +509,15 @@ inline unsigned short IA31_RGBA4444( unsigned char color )
 		mov		ch, byte ptr [One2Four+ebx]
 		or		al, ch
 	}
+#else
+	unsigned char t = Three2Four[color >> 1];
+	return One2Four[color & 1] | (t << 4) | (t << 8) | (t << 12); 
+#endif
 }
 
 inline unsigned long IA31_RGBA8888( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ebx, 00000000h
@@ -436,10 +539,15 @@ inline unsigned long IA31_RGBA8888( unsigned char color )
 		mov		ah, ch
 		mov		al, ch
 	}
+#else
+	unsigned char t = Three2Eight[color >> 1];
+	return t | (t << 8) | (t << 16) | (One2Eight[color & 1] << 24);
+#endif
 }
 
 inline unsigned short I8_RGBA4444( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		cl, byte ptr [color]
@@ -450,10 +558,15 @@ inline unsigned short I8_RGBA4444( unsigned char color )
 		or		al, cl
 		mov		ah, al
 	}
+#else
+	color &= 0xf0;
+	return (color >> 4) | color | (color << 4) | (color << 8);
+#endif
 }
 
 inline unsigned long I8_RGBA8888( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		cl, byte ptr [color]
@@ -464,10 +577,14 @@ inline unsigned long I8_RGBA8888( unsigned char color )
 		mov		ah, cl
 		mov		al, cl
 	}
+#else
+	return color | (color << 8) | (color << 16) | (color << 24);
+#endif
 }
 
 inline unsigned short I4_RGBA4444( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		cl, byte ptr [color]
@@ -476,10 +593,15 @@ inline unsigned short I4_RGBA4444( unsigned char color )
 		or		al, cl
 		mov		ah, al
 	}
+#else
+	color &= 0x0f;
+	return color | (color << 4) | (color << 8) | (color << 12);
+#endif
 }
 
 inline unsigned long I4_RGBA8888( unsigned char color )
 {
+#ifdef WIN32
 	__asm
 	{
 		mov		ebx, 00000000h
@@ -493,6 +615,10 @@ inline unsigned long I4_RGBA8888( unsigned char color )
 		mov		ah, cl
 		mov		al, cl
 	}
+#else
+	unsigned char b = Four2Eight[color];
+	return b | (b << 8) | (b << 16) | (b << 24);
+#endif
 }
 
 #endif

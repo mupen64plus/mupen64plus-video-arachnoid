@@ -16,11 +16,11 @@
 // the plugin
 //
 //*****************************************************************************
-
+#if 0
 #ifndef ZILMARS_PLUGIN_SPEC_H_
 #define ZILMARS_PLUGIN_SPEC_H_
 
-#include <windows.h>
+#include "platform.h"
 
 #if defined(__cplusplus)
 extern "C" {
@@ -29,8 +29,13 @@ extern "C" {
 // Plugin types 
 #define PLUGIN_TYPE_GRAPHICS		2   //!< Definition for graphics plugin
 
-#define EXPORT						__declspec(dllexport)
-#define CALL						_cdecl
+#ifdef WINDOWS
+	#define EXPORT						__declspec(dllexport)
+	#define CALL						_cdecl
+#else
+	#define EXPORT
+	#define CALL
+#endif
 
 //*****************************************************************************
 //! Plugin Info
@@ -232,5 +237,6 @@ EXPORT void CALL CaptureScreen ( char * Directory );
 
 #if defined(__cplusplus)
 }
+#endif
 #endif
 #endif

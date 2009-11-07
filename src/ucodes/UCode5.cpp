@@ -4,7 +4,7 @@
 #include "RSP.h"
 #include "RDP.h"
 #include "Memory.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "DisplayListParser.h"
@@ -157,14 +157,14 @@ void UCode5::initializeGBI()
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_Mtx( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_Mtx", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Mtx", M64MSG_VERBOSE);
     RSPUCodeAddMatrixF3DEX2* temp = (RSPUCodeAddMatrixF3DEX2*)ucode;
 
 	//TODO Bomberman2 hack
     if( temp->param == 0 && temp->lenght == 0 )
 	{
 	    //Bomberman2TextRect(ucode);
-		Logger::getSingleton().printMsg("F3DEX2_Mtx - Bomberman2TextRect - Unimplemented", LML_CRITICAL, false);
+		Logger::getSingleton().printMsg("F3DEX2_Mtx - Bomberman2TextRect - Unimplemented", M64MSG_WARNING);
 		return;
 	}
 
@@ -182,7 +182,7 @@ void UCode5::F3DEX2_Mtx( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_PopMtx( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_PopMtx", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_PopMtx", M64MSG_VERBOSE);
 
 	m_rsp->RSP_PopMatrixN( ucode->w1 >> 6 );
 }
@@ -196,7 +196,7 @@ void UCode5::F3DEX2_PopMtx( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_Texture( MicrocodeArgument* ucode ) 
 {
-	Logger::getSingleton().printMsg("F3DEX2_Texture", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3DEX2_Texture", M64MSG_VERBOSE);
 
 	float scaleS  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 16, 16 ), 16 ); 
 	float scaleT  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 0, 16 ), 16 ); 
@@ -216,7 +216,7 @@ void UCode5::F3DEX2_Texture( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_Vtx( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_Vtx", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Vtx", M64MSG_VERBOSE);
     RSPUCodeAddVerticesF3DEX2* temp = (RSPUCodeAddVerticesF3DEX2*)ucode;
 
     //Add Vertices
@@ -229,7 +229,7 @@ void UCode5::F3DEX2_Vtx( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_Tri1( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_Tri1", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Tri1", M64MSG_VERBOSE);
 	RSPUCodeAddOneTriangleF3DEX2* temp = (RSPUCodeAddOneTriangleF3DEX2*)ucode;
 
 	//Add one triangle
@@ -241,7 +241,7 @@ void UCode5::F3DEX2_Tri1( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_Quad( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_Quad", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Quad", M64MSG_VERBOSE);
 	RSPUCodeAddOneQuadF3DEX2* temp = (RSPUCodeAddOneQuadF3DEX2*)ucode;
 
 	//Add two triangles
@@ -254,7 +254,7 @@ void UCode5::F3DEX2_Quad( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_Line3D( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_Line3D - Unimplemented", LML_CRITICAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Line3D - Unimplemented", M64MSG_WARNING);
 }
 
 
@@ -267,7 +267,7 @@ void UCode5::F3DEX2_Line3D( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_MoveMem( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_MoveMem", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_MoveMem", M64MSG_VERBOSE);
 
 	switch (_SHIFTR( ucode->w0, 0, 8 ))
 	{
@@ -322,8 +322,8 @@ void UCode5::F3DEX2_MoveMem( MicrocodeArgument* ucode )
 			else
 			{
 				static bool warned = false;
-				if ( warned ) {
-					Logger::getSingleton().printMsg("F3DEX2_MoveMem - Light - Unimplemented", LML_CRITICAL, true);
+				if ( !warned ) {
+					Logger::getSingleton().printMsg("F3DEX2_MoveMem - Light - Unimplemented", M64MSG_WARNING);
 					warned = true;
 				}
 			}
@@ -337,13 +337,13 @@ void UCode5::F3DEX2_MoveMem( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_MoveWord(MicrocodeArgument* ucode) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_MoveWord", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_MoveWord", M64MSG_VERBOSE);
     RSPUCodeMoveWordF3DEX2* temp = (RSPUCodeMoveWordF3DEX2*)ucode;
 
     switch ( temp->type )
 	{
 		case G_MW_FORCEMTX:
-			Logger::getSingleton().printMsg("ForceMatrix - Unimplemented", LML_CRITICAL, true);  // Handled in movemem???			
+			Logger::getSingleton().printMsg("ForceMatrix - Unimplemented", M64MSG_WARNING);  // Handled in movemem???			
 			break;
 
 		case G_MW_MATRIX:
@@ -384,7 +384,7 @@ void UCode5::F3DEX2_MoveWord(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_GeometryMode( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_GeometryMode", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_GeometryMode", M64MSG_VERBOSE);
 	                         //clear                              set
 	m_rsp->RSP_GeometryMode( ~_SHIFTR( ucode->w0, 0, 24 ), ucode->w1 );
 }
@@ -395,7 +395,7 @@ void UCode5::F3DEX2_GeometryMode( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_SetOtherMode_H( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_H", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_H", M64MSG_VERBOSE);
 
 	switch (32 - _SHIFTR( ucode->w0, 8, 8 ) - (_SHIFTR( ucode->w0, 0, 8 ) + 1))
 	{
@@ -422,7 +422,7 @@ void UCode5::F3DEX2_SetOtherMode_H( MicrocodeArgument* ucode )
 		case G_MDSFT_ALPHADITHER:  //gDPSetAlphaDither( w1 >> G_MDSFT_ALPHADITHER );
 			break;
 		default:
-			Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_L - Unknown type", LML_CRITICAL, true);
+			Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_L - Unknown type", M64MSG_WARNING);
 
 			unsigned long length = _SHIFTR( ucode->w0, 0, 8 ) + 1;
 			unsigned long shift = 32 - _SHIFTR( ucode->w0, 8, 8 ) - length;
@@ -441,7 +441,7 @@ void UCode5::F3DEX2_SetOtherMode_H( MicrocodeArgument* ucode )
 //-----------------------------------------------------------------------------
 void UCode5::F3DEX2_SetOtherMode_L( MicrocodeArgument* ucode ) 
 {
-    Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_L", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_L", M64MSG_VERBOSE);
 
 	switch (32 - _SHIFTR( ucode->w0, 8, 8 ) - (_SHIFTR( ucode->w0, 0, 8 ) + 1))
 	{
@@ -469,19 +469,19 @@ void UCode5::F3DEX2_SetOtherMode_L( MicrocodeArgument* ucode )
 //*****************************************************************************
 
 void UCode5::F3DEX2_DMAIO( MicrocodeArgument* ucode ) {
-    Logger::getSingleton().printMsg("F3DEX2_DMAIO", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_DMAIO", M64MSG_VERBOSE);
 	//Ignore?
 }
 void UCode5::F3DEX2_Special_1( MicrocodeArgument* ucode ) {
-    Logger::getSingleton().printMsg("F3DEX2_Special_1", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Special_1", M64MSG_VERBOSE);
 	//Ignore?
 }
 void UCode5::F3DEX2_Special_2( MicrocodeArgument* ucode ) {
-    Logger::getSingleton().printMsg("F3DEX2_Special_2", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Special_2", M64MSG_VERBOSE);
 	//Ignore?
 }
 void UCode5::F3DEX2_Special_3( MicrocodeArgument* ucode ) {
-    Logger::getSingleton().printMsg("F3DEX2_Special_3", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Special_3", M64MSG_VERBOSE);
 	//Ignore?
 }
 
@@ -489,6 +489,6 @@ void UCode5::F3DEX2_Special_3( MicrocodeArgument* ucode ) {
 // Unimportant Functions
 //*****************************************************************************
 void UCode5::F3DEX2_Reserved1(MicrocodeArgument* ucode) {
-    Logger::getSingleton().printMsg("F3DEX2_Reserved1", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX2_Reserved1", M64MSG_VERBOSE);
 	//Ignore
 }

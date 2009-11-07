@@ -1,6 +1,7 @@
 #include "OpenGLRenderer.h"
 #include <cmath>
-#include <windows.h>
+#include <algorithm>
+#include "platform.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "OpenGLManager.h"
@@ -15,6 +16,8 @@
 #include "ExtensionChecker.h"
 #include "MultiTexturingExt.h"
 #include "SecondaryColorExt.h"
+
+using std::max;
 
 #ifndef GL_CLAMP_TO_EDGE
 	#define GL_CLAMP_TO_EDGE  0x812F
@@ -178,7 +181,7 @@ void OpenGLRenderer::addTriangle( SPVertex *vertices, int v0, int v1, int v2 )
 	if ( m_numVertices >= 255 ) 
 	{	
 		
-		Logger::getSingleton().printMsg("RENDER VERTICES!!! :)", LML_VERY_CRITICAL);
+		Logger::getSingleton().printMsg("RENDER VERTICES!!! :)", M64MSG_ERROR);
 		OpenGLRenderer::getSingleton().render();
 	}	
 }

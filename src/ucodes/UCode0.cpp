@@ -3,7 +3,7 @@
 #include "RSP.h"
 #include "RDP.h"
 #include "Memory.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "DisplayListParser.h"
@@ -88,7 +88,7 @@ void UCode0::initializeGBI(GBI* gbi)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Mtx(MicrocodeArgument* ucode)
 {	
-    Logger::getSingleton().printMsg("F3D_Mtx", LML_TRIVIAL);
+    Logger::getSingleton().printMsg("F3D_Mtx", M64MSG_VERBOSE);
     RSPUCodeAddMatrix0* temp = (RSPUCodeAddMatrix0*)ucode;
 
     //Add matrix
@@ -104,7 +104,7 @@ void UCode0::F3D_Mtx(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_PopMtx(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("F3D_PopMtx", LML_TRIVIAL);
+	Logger::getSingleton().printMsg("F3D_PopMtx", M64MSG_VERBOSE);
 
 	//Pop Matrix
 	m_rsp->RSP_PopMatrix();
@@ -120,7 +120,7 @@ void UCode0::F3D_PopMtx(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Vtx(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_Vtx", LML_TRIVIAL);
+	Logger::getSingleton().printMsg("F3D_Vtx", M64MSG_VERBOSE);
     RSPUCodeAddVertices0* temp = (RSPUCodeAddVertices0*)ucode;
 
     //Add vertex
@@ -134,7 +134,7 @@ void UCode0::F3D_Vtx(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Tri1(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_Tri1", LML_TRIVIAL);
+	Logger::getSingleton().printMsg("F3D_Tri1", M64MSG_VERBOSE);
 	RSPUCodeAddOneTriangleF3D* temp = (RSPUCodeAddOneTriangleF3D*)ucode;
 
 	//Add one triangle  //TODO Flag?
@@ -147,7 +147,7 @@ void UCode0::F3D_Tri1(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Tri4(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_Tri4", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Tri4", M64MSG_VERBOSE);
 	RSPUCodeAddFourTrianglesF3D* temp = (RSPUCodeAddFourTrianglesF3D*)ucode;
 
 	//Add four triangles
@@ -163,7 +163,7 @@ void UCode0::F3D_Tri4(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Quad(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_Quad", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Quad", M64MSG_VERBOSE);
 	RSPUCodeAddOneQuadF3D* temp = (RSPUCodeAddOneQuadF3D*)ucode;
 
 	//Add one Quad
@@ -180,7 +180,7 @@ void UCode0::F3D_Quad(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_DList(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_DList", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_DList", M64MSG_VERBOSE);
 	RSPUCodeDisplayList* temp = (RSPUCodeDisplayList*)ucode;
 
 	switch ( temp->param )
@@ -196,7 +196,7 @@ void UCode0::F3D_DList(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_EndDL(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_EndDL", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_EndDL", M64MSG_VERBOSE);
 
 	//End Display List
 	m_rsp->RSP_EndDisplayList();	
@@ -208,7 +208,7 @@ void UCode0::F3D_EndDL(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_CullDL(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_CullDL", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_CullDL", M64MSG_VERBOSE);
 	//TODO
 }
 
@@ -221,7 +221,7 @@ void UCode0::F3D_CullDL(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Texture(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_Texture", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Texture", M64MSG_VERBOSE);
     RSPUCodeTexture* temp = (RSPUCodeTexture*)ucode;
 
 	float scaleS  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 16, 16 ), 16 ); 
@@ -241,7 +241,7 @@ void UCode0::F3D_Texture(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_RDPHalf_1(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_RDPHalf_1", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_RDPHalf_1", M64MSG_VERBOSE);
 	m_rdp->setHalf1( ucode->w1 );
 }
 
@@ -251,7 +251,7 @@ void UCode0::F3D_RDPHalf_1(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_RDPHalf_2(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_RDPHalf_2", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_RDPHalf_2", M64MSG_VERBOSE);
 	m_rdp->setHalf2( ucode->w1 );
 }
 //-----------------------------------------------------------------------------
@@ -259,7 +259,7 @@ void UCode0::F3D_RDPHalf_2(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_RDPHalf_Cont(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_RDPHalf_Cont", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_RDPHalf_Cont", M64MSG_VERBOSE);
 	//Ignore
 }
 
@@ -272,7 +272,7 @@ void UCode0::F3D_RDPHalf_Cont(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_SetGeometryMode(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_SetGeometryMode", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_SetGeometryMode", M64MSG_VERBOSE);
 	m_rsp->RSP_SetGeometryMode(ucode->w1);
 }
 
@@ -281,7 +281,7 @@ void UCode0::F3D_SetGeometryMode(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_ClearGeometryMode(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_ClearGeometryMode", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_ClearGeometryMode", M64MSG_VERBOSE);
 	m_rsp->RSP_ClearGeometryMode(ucode->w1);
 }
 
@@ -294,7 +294,7 @@ void UCode0::F3D_ClearGeometryMode(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_SetOtherMode_H(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_SetOtherMode_H", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_SetOtherMode_H", M64MSG_VERBOSE);
 
 	unsigned long otherModeType = _SHIFTR(ucode->w0, 8, 8);
 	unsigned int w1             = ucode->w1;
@@ -351,7 +351,7 @@ void UCode0::F3D_SetOtherMode_H(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_SetOtherMode_L(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_SetOtherMode_L", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_SetOtherMode_L", M64MSG_VERBOSE);
 	
 	switch (_SHIFTR( ucode->w0, 8, 8 ))
 	{
@@ -386,7 +386,7 @@ void UCode0::F3D_SetOtherMode_L(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_MoveMem(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_MoveMem", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_MoveMem", M64MSG_VERBOSE);
 
 	unsigned long type    = ((ucode->w0)>>16)&0xFF;
 	unsigned long length  = ((ucode->w0))&0xFFFF;
@@ -440,7 +440,7 @@ void UCode0::F3D_MoveMem(MicrocodeArgument* ucode)
 		//case RSP_GBI1_MV_MEM_MATRIX_4: break;
 		
 		default:
-			Logger::getSingleton().printMsg("F3D_MoveMem: Unknown type", LML_CRITICAL, false); 
+			Logger::getSingleton().printMsg("F3D_MoveMem: Unknown type", M64MSG_WARNING); 
 			break;
 	}
 }
@@ -451,7 +451,7 @@ void UCode0::F3D_MoveMem(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode0::F3D_Sprite2D_Base(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("F3D_Sprite2D_Base - Unimplemented", LML_CRITICAL, false);
+	Logger::getSingleton().printMsg("F3D_Sprite2D_Base - Unimplemented", M64MSG_WARNING);
 	//TODO
 }
 
@@ -507,7 +507,7 @@ void UCode0::F3D_MoveWord(MicrocodeArgument* ucode)
 //*****************************************************************************
 
 void UCode0::F3D_SPNoOp(MicrocodeArgument* ucode){ 
-	Logger::getSingleton().printMsg("F3D_SPNoOp", LML_TRIVIAL, false);   
+	Logger::getSingleton().printMsg("F3D_SPNoOp", M64MSG_VERBOSE);   
 
     //If next command is a no-operation then skip displaylist for some ucodes. 
 	//if( (ucode+1)->words.cmd == 0x00 && gRSP.ucode >= 17 )
@@ -517,17 +517,17 @@ void UCode0::F3D_SPNoOp(MicrocodeArgument* ucode){
 }
 
 void UCode0::F3D_Reserved0(MicrocodeArgument* ucode) {
-	Logger::getSingleton().printMsg("F3D_Reserved0", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Reserved0", M64MSG_VERBOSE);
 }
 
 void UCode0::F3D_Reserved1(MicrocodeArgument* ucode){
-	Logger::getSingleton().printMsg("F3D_Reserved1", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Reserved1", M64MSG_VERBOSE);
 }
 
 void UCode0::F3D_Reserved2(MicrocodeArgument* ucode){
-	Logger::getSingleton().printMsg("F3D_Reserved2", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Reserved2", M64MSG_VERBOSE);
 }
 
 void UCode0::F3D_Reserved3(MicrocodeArgument* ucode){
-	Logger::getSingleton().printMsg("F3D_Reserved3", LML_TRIVIAL, false);
+	Logger::getSingleton().printMsg("F3D_Reserved3", M64MSG_VERBOSE);
 }

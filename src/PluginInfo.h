@@ -2,9 +2,9 @@
 #define ABOUT_H_
 
 //Forward declaration
-struct PLUGIN_INFO;
-
+//#include "m64p_plugin.h"
+//TODO: remove this file
 //Get Plugin Information
-void getPluginInfo(PLUGIN_INFO* pluginInfoOut);
+//void getPluginInfo(PLUGIN_INFO* pluginInfoOut);
 
 #endif

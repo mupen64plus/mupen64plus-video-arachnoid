@@ -32,7 +32,7 @@ public:
     void dispose();
 
     //Set Mux
-	void setMux(unsigned __int64 muxs, unsigned long cycleType);
+	void setMux(unsigned long long muxs, unsigned long cycleType);
 	void setMux(unsigned long muxs0, unsigned long muxs1, unsigned long cycleType);
 
     //Select Combiner

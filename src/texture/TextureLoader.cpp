@@ -110,7 +110,7 @@ void TextureLoader::loadTile(int tile, int s0, int t0, int s1, int t1)
 	//unsigned long tile   = _SHIFTR( ucode->w1, 24, 3 );
 
 	unsigned long address, height, bpl, line, y;
-	unsigned __int64 *dest;
+	unsigned long long *dest;
 	unsigned char *src;
 
 	//Set new Tile Size
@@ -175,8 +175,8 @@ void TextureLoader::loadBlock(int tile, int s0, int t0, int s1, int t1)
 		return;
 	}
 
-	unsigned __int64* src = (unsigned __int64*)m_memory->getRDRAM(address);
-	unsigned __int64* dest = m_memory->getTextureMemory(m_currentTile->tmem);
+	unsigned long long* src = (unsigned long long*)m_memory->getRDRAM(address);
+	unsigned long long* dest = m_memory->getTextureMemory(m_currentTile->tmem);
 
 	unsigned long line = 0;
 

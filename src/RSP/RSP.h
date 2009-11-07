@@ -1,7 +1,7 @@
 #ifndef REALITY_SIGNAL_PROCESSOR_H_
 #define REALITY_SIGNAL_PROCESSOR_H_
 
-#include "ZilmarsPluginSpec.h"
+#include "m64p_plugin.h"
 #include "UCodeDefs.h"
 #include "RSPMatrixManager.h"
 #include "RSPVertexManager.h"

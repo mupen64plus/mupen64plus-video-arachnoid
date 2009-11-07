@@ -4,7 +4,7 @@
 #include "RSP.h"
 #include "RDP.h"
 #include "Memory.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "DisplayListParser.h"
@@ -149,7 +149,7 @@ void UCode6::F3DDKR_DMA_DList(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode6::F3DDKR_DMA_Offsets(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("PerfectDark_Vertex", LML_TRIVIAL);
+    Logger::getSingleton().printMsg("PerfectDark_Vertex", M64MSG_VERBOSE);
     RSPUCodeSetDMAOffsets* temp = (RSPUCodeSetDMAOffsets*)ucode;
 
     //Set DMA Offsets

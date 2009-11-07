@@ -1,13 +1,15 @@
 #include "FrameBuffer.h"
 
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------
 //OpenGL Texture Definitions
 //-----------------------------------------------------------------------------
+#ifdef WIN32
 typedef GLvoid (APIENTRY *PFNGLACTIVETEXTUREPROC) (GLenum texture);
 PFNGLACTIVETEXTUREPROC      glActiveTexture = NULL;
+#endif
 #ifndef GL_TEXTURE0
 	#define GL_TEXTURE0     0x84C0
 #endif
@@ -231,9 +233,11 @@ void FrameBuffer::render2()
 void FrameBuffer::_activate()
 {
     //Activate Texture (so we can copy to it)
+#ifdef WIN32
     if ( glActiveTexture == 0 ) {
-        glActiveTexture = (PFNGLACTIVETEXTUREPROC) wglGetProcAddress("glActiveTexture");
+        glActiveTexture = (PFNGLACTIVETEXTUREPROC) CoreVideo_GL_GetProcAddress("glActiveTexture");
     }
+#endif
     glActiveTexture(GL_TEXTURE0);
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, m_id);

@@ -1,8 +1,10 @@
 #include "ConsoleWindow.h"
-#include <windows.h>
+#include "platform.h"
 #include <cstdio>
 #include <fcntl.h>
+#ifdef WIN32
 #include <io.h>
+#endif
 #include <iostream>
 #include <fstream>
 
@@ -14,6 +16,7 @@
 //-----------------------------------------------------------------------------
 bool createConsole()
 {
+#ifdef WIN32
     //Open and show a console
     if ( !AllocConsole() ) 
 	{
@@ -49,7 +52,7 @@ bool createConsole()
 
     //Rederect IO (cout, wcout, cin, wcin, wcerr, cerr, wclog and clog)
     std::ios::sync_with_stdio();
-
+#endif
     return true;
 }
 
@@ -59,11 +62,13 @@ bool createConsole()
 //-----------------------------------------------------------------------------
 bool terminateConsole()
 {
+#ifdef WIN32
     //CloseHandle(console);
 
     //Terminate console
     if ( !FreeConsole() ) {
         return false;
     }  
+#endif
     return true;
 }

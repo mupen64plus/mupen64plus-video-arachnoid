@@ -193,7 +193,7 @@ void RSP::moveMemViewport(unsigned long segmentAddress)
 //-----------------------------------------------------------------------------
 void RSP::RSP_LoadUcodeEx( unsigned long uc_start, unsigned long uc_dstart, unsigned short uc_dsize )
 {
-	Logger::getSingleton().printMsg("RSP_LoadUcodeEx - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_LoadUcodeEx - Unimplemented", M64MSG_WARNING);
 	//TODO or skip
 
 	/*
@@ -246,7 +246,7 @@ void RSP::RSP_DMAMatrix( unsigned long matrix, unsigned char index, unsigned cha
 //-----------------------------------------------------------------------------
 void RSP::RSP_ForceMatrix( unsigned long segmentAddress )
 { 
-	// Logger::getSingleton().printMsg("RSP_ForceMatrix", LML_CRITICAL);
+	// Logger::getSingleton().printMsg("RSP_ForceMatrix", M64MSG_WARNING);
 	m_matrixMgr->ForceMatrix( m_memory->getRDRAMAddress(segmentAddress));
 }
 
@@ -462,7 +462,7 @@ void RSP::RSP_EndDisplayList()
 //-----------------------------------------------------------------------------
 void RSP::RSP_CullDisplayList( unsigned long v0, unsigned long vn )
 {
-	//Logger::getSingleton().printMsg("RSP_CullDisplayList - Unimplemented", LML_CRITICAL);
+	//Logger::getSingleton().printMsg("RSP_CullDisplayList - Unimplemented", M64MSG_WARNING);
 	//TODO
 }
 
@@ -556,47 +556,47 @@ void RSP::RSP_ClearGeometryMode( unsigned long mode )
 
 void RSP::RSP_Line3D( long v0, long v1, long flag )
 {
-	Logger::getSingleton().printMsg("RSP_Line3D - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_Line3D - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_LineW3D( long v0, long v1, long wd, long flag )
 {
-	Logger::getSingleton().printMsg("RSP_LineW3D - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_LineW3D - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjRectangle( unsigned long sp )
 {
-	Logger::getSingleton().printMsg("RSP_ObjRectangle - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjRectangle - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjSprite( unsigned long sp )
 {
-	Logger::getSingleton().printMsg("RSP_ObjSprite - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjSprite - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjLoadTxtr( unsigned long tx )
 {
-	Logger::getSingleton().printMsg("RSP_ObjLoadTxtr - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjLoadTxtr - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjLoadTxSprite( unsigned long txsp )
 {
-	Logger::getSingleton().printMsg("RSP_ObjLoadTxSprite - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjLoadTxSprite - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjLoadTxRectR( unsigned long txsp )
 {
-	Logger::getSingleton().printMsg("RSP_ObjLoadTxRectR - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjLoadTxRectR - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_BgRect1Cyc( unsigned long bg )
 {
-	Logger::getSingleton().printMsg("RSP_BgRect1Cyc - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_BgRect1Cyc - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_BgRectCopy( unsigned long bg )
 {
-	Logger::getSingleton().printMsg("RSP_BgRectCopy - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_BgRectCopy - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjMatrix( unsigned long mtx )
 { 
-	Logger::getSingleton().printMsg("RSP_ObjMatrix - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjMatrix - Unimplemented", M64MSG_WARNING);
 }
 void RSP::RSP_ObjSubMatrix( unsigned long mtx )
 {
-	Logger::getSingleton().printMsg("RSP_ObjSubMatrix - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ObjSubMatrix - Unimplemented", M64MSG_WARNING);
 }
 
 //*****************************************************************************
@@ -604,17 +604,17 @@ void RSP::RSP_ObjSubMatrix( unsigned long mtx )
 //*****************************************************************************
 
 void RSP::RSP_Sprite2DBase( unsigned long base ) {
-	Logger::getSingleton().printMsg("RSP_Sprite2DBase - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_Sprite2DBase - Unimplemented", M64MSG_WARNING);
 }
 
 void RSP::RSP_LookAt( unsigned long l ) {
-	Logger::getSingleton().printMsg("RSP_LookAt - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_LookAt - Unimplemented", M64MSG_WARNING);
 }
 
 void RSP::RSP_ClipRatio( unsigned long r ) {
-	Logger::getSingleton().printMsg("RSP_ClipRatio - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_ClipRatio - Unimplemented", M64MSG_WARNING);
 }
 
 void RSP::RSP_PerspNormalize( unsigned short scale ) {
-	Logger::getSingleton().printMsg("RSP_PerspNormalize - Unimplemented", LML_CRITICAL);
+	Logger::getSingleton().printMsg("RSP_PerspNormalize - Unimplemented", M64MSG_WARNING);
 }

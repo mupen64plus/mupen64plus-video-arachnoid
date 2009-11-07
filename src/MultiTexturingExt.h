@@ -1,7 +1,7 @@
 #ifndef MULTI_TEXTURING_EXTENSION_H_
 #define MULTI_TEXTURING_EXTENSION_H_
 
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //Multi Texturing Definitions

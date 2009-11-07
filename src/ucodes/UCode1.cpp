@@ -7,7 +7,7 @@
 #include "RDP.h"
 #include "Memory.h"
 
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 
@@ -87,7 +87,7 @@ void UCode1::initializeGBI()
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_Load_uCode(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("F3DEX_Load_uCode - experimental", LML_CRITICAL, false);
+    Logger::getSingleton().printMsg("F3DEX_Load_uCode - experimental", M64MSG_WARNING);
     RSPUCodeLoadUCode* temp = (RSPUCodeLoadUCode*)ucode;
 
     //unsigned long ucodeDataStart1 = m_memory->getRDRAMAddress( (*(unsigned long*)( m_memory->getRDRAM(pc-12))  );
@@ -95,7 +95,7 @@ void UCode1::F3DEX_Load_uCode(MicrocodeArgument* ucode)
 
     //if ( ucodeDataStart1 != ucodeDataStart2 )
     //{
-    //    Logger::getSingleton().printMsg("Warning - UCode Data Start differs", LML_NORMAL);
+    //    Logger::getSingleton().printMsg("Warning - UCode Data Start differs", M64MSG_INFO);
     //}
 
     //Select UCode
@@ -111,7 +111,7 @@ void UCode1::F3DEX_Load_uCode(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_Vtx(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("F3DEX_Vtx", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX_Vtx", M64MSG_VERBOSE);
     RSPUCodeAddVertices1* temp = (RSPUCodeAddVertices1*)ucode;
 
 	//Add Vertices
@@ -123,7 +123,7 @@ void UCode1::F3DEX_Vtx(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_ModifyVtx(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("F3DEX_ModifyVtx", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX_ModifyVtx", M64MSG_VERBOSE);
 	RSPUCodeModifyVertex* temp = (RSPUCodeModifyVertex*)ucode;
 
 	switch ( temp->modifyType )
@@ -153,7 +153,7 @@ void UCode1::F3DEX_ModifyVtx(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_Tri1(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("F3DEX_Tri1", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX_Tri1", M64MSG_VERBOSE);
     RSPUCodeAddOneTriangleF3DEX* temp = (RSPUCodeAddOneTriangleF3DEX*)ucode;
 
 	//Add one triangle 
@@ -166,7 +166,7 @@ void UCode1::F3DEX_Tri1(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_Tri2(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("F3DEX_Tri2", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX_Tri2", M64MSG_VERBOSE);
 	RSPUCodeAddTwoTrianglesF3DEX* temp = (RSPUCodeAddTwoTrianglesF3DEX*)ucode;
 
 	//Add two triangles
@@ -180,7 +180,7 @@ void UCode1::F3DEX_Tri2(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_Quad( MicrocodeArgument* ucode )
 {
-    Logger::getSingleton().printMsg("F3DEX_Quad", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX_Quad", M64MSG_VERBOSE);
 	RSPUCodeAddOneQuadF3DEX* temp = (RSPUCodeAddOneQuadF3DEX*)ucode;
 
     unsigned long v0 = _SHIFTR( ucode->w1, 25, 7 );
@@ -200,7 +200,7 @@ void UCode1::F3DEX_CullDL(MicrocodeArgument* ucode)
 	static bool warned = false;
 	if ( !warned )
 	{
-		Logger::getSingleton().printMsg("F3DEX_CullDL - Unimplemented", LML_CRITICAL, false);
+		Logger::getSingleton().printMsg("F3DEX_CullDL - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
     RSPUCodeCullDisplayList* temp = (RSPUCodeCullDisplayList*)ucode;
@@ -217,7 +217,7 @@ void UCode1::F3DEX_CullDL(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode1::F3DEX_Branch_Z(MicrocodeArgument* ucode)
 {
-    Logger::getSingleton().printMsg("F3DEX_Branch_Z", LML_TRIVIAL, false);
+    Logger::getSingleton().printMsg("F3DEX_Branch_Z", M64MSG_VERBOSE);
     RSPUCodeBranchZF3DEX* temp = (RSPUCodeBranchZF3DEX*)ucode;
 
     //Branch Display List?

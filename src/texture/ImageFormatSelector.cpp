@@ -9,7 +9,7 @@
 #include "CachedTexture.h"
 #include "Assembler.h"
 #include "GBIDefs.h"
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "Memory.h"
@@ -23,15 +23,15 @@
 	#define GL_UNSIGNED_INT_10_10_10_2_EXT       0x8036
 #endif /* GL_EXT_packed_pixels */
 
-unsigned __int64* TMEM = Memory::getTextureMemory();
+unsigned long long* TMEM = Memory::getTextureMemory();
 
 
-inline unsigned long GetNone( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetNone( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return 0x00000000;
 }
 
-inline unsigned long GetCI4IA_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI4IA_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -43,7 +43,7 @@ inline unsigned long GetCI4IA_RGBA4444( unsigned __int64 *src, unsigned short x,
 		return IA88_RGBA4444( *(unsigned short*)&TMEM[256 + (palette << 4) + (color4B >> 4)] );
 }
 
-inline unsigned long GetCI4IA_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI4IA_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -55,7 +55,7 @@ inline unsigned long GetCI4IA_RGBA8888( unsigned __int64 *src, unsigned short x,
 		return IA88_RGBA8888( *(unsigned short*)&TMEM[256 + (palette << 4) + (color4B >> 4)] );
 }
 
-inline unsigned long GetCI4RGBA_RGBA5551( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI4RGBA_RGBA5551( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -67,7 +67,7 @@ inline unsigned long GetCI4RGBA_RGBA5551( unsigned __int64 *src, unsigned short 
 		return RGBA5551_RGBA5551( *(unsigned short*)&TMEM[256 + (palette << 4) + (color4B >> 4)] );
 }
 
-inline unsigned long GetCI4RGBA_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI4RGBA_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -79,7 +79,7 @@ inline unsigned long GetCI4RGBA_RGBA8888( unsigned __int64 *src, unsigned short 
 		return RGBA5551_RGBA8888( *(unsigned short*)&TMEM[256 + (palette << 4) + (color4B >> 4)] );
 }
 
-inline unsigned long GetIA31_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetIA31_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -88,7 +88,7 @@ inline unsigned long GetIA31_RGBA8888( unsigned __int64 *src, unsigned short x, 
 	return IA31_RGBA8888( (x & 1) ? (color4B & 0x0F) : (color4B >> 4) );
 }
 
-inline unsigned long GetIA31_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetIA31_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -97,7 +97,7 @@ inline unsigned long GetIA31_RGBA4444( unsigned __int64 *src, unsigned short x, 
 	return IA31_RGBA4444( (x & 1) ? (color4B & 0x0F) : (color4B >> 4) );
 }
 
-inline unsigned long GetI4_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetI4_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -106,7 +106,7 @@ inline unsigned long GetI4_RGBA8888( unsigned __int64 *src, unsigned short x, un
 	return I4_RGBA8888( (x & 1) ? (color4B & 0x0F) : (color4B >> 4) );
 }
 
-inline unsigned long GetI4_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetI4_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	unsigned char color4B;
 
@@ -115,72 +115,72 @@ inline unsigned long GetI4_RGBA4444( unsigned __int64 *src, unsigned short x, un
 	return I4_RGBA4444( (x & 1) ? (color4B & 0x0F) : (color4B >> 4) );
 }
 
-inline unsigned long GetCI8IA_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI8IA_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return IA88_RGBA4444( *(unsigned short*)&TMEM[256 + ((unsigned char*)src)[x^(i<<1)]] );
 }
 
-inline unsigned long GetCI8IA_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI8IA_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return IA88_RGBA8888( *(unsigned short*)&TMEM[256 + ((unsigned char*)src)[x^(i<<1)]] );
 }
 
-inline unsigned long GetCI8RGBA_RGBA5551( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI8RGBA_RGBA5551( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return RGBA5551_RGBA5551( *(unsigned short*)&TMEM[256 + ((unsigned char*)src)[x^(i<<1)]] );
 }
 
-inline unsigned long GetCI8RGBA_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetCI8RGBA_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return RGBA5551_RGBA8888( *(unsigned short*)&TMEM[256 + ((unsigned char*)src)[x^(i<<1)]] );
 }
 
-inline unsigned long GetIA44_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetIA44_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return IA44_RGBA8888(((unsigned char*)src)[x^(i<<1)]);
 }
 
-inline unsigned long GetIA44_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetIA44_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return IA44_RGBA4444(((unsigned char*)src)[x^(i<<1)]);
 }
 
-inline unsigned long GetI8_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetI8_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return I8_RGBA8888(((unsigned char*)src)[x^(i<<1)]);
 }
 
-inline unsigned long GetI8_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetI8_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return I8_RGBA4444(((unsigned char*)src)[x^(i<<1)]);
 }
 
-inline unsigned long GetRGBA5551_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetRGBA5551_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return RGBA5551_RGBA8888( ((unsigned short*)src)[x^i] );
 }
 
-inline unsigned long GetRGBA5551_RGBA5551( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetRGBA5551_RGBA5551( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return RGBA5551_RGBA5551( ((unsigned short*)src)[x^i] );
 }
 
-inline unsigned long GetIA88_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetIA88_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return IA88_RGBA8888(((unsigned short*)src)[x^i]);
 }
 
-inline unsigned long GetIA88_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetIA88_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return IA88_RGBA4444(((unsigned short*)src)[x^i]);
 }
 
-inline unsigned long GetRGBA8888_RGBA8888( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetRGBA8888_RGBA8888( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return ((unsigned long*)src)[x^i];
 }
 
-inline unsigned long GetRGBA8888_RGBA4444( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette )
+inline unsigned long GetRGBA8888_RGBA4444( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette )
 {
 	return RGBA8888_RGBA4444(((unsigned long*)src)[x^i]);
 }

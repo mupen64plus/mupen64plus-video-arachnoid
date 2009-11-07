@@ -77,10 +77,10 @@ void RSPMatrixManager::insertMatrix(unsigned long where, unsigned long num)
 	if (where < 0x20)
 	{
 		fraction = modff( m_worldProject[0][where >> 1], &integer );
-		m_worldProject[0][where >> 1] = (short)_SHIFTR( num, 16, 16 ) + abs( fraction );
+		m_worldProject[0][where >> 1] = (short)_SHIFTR( num, 16, 16 ) + fabs( fraction );
 
 		fraction = modff( m_worldProject[0][(where >> 1) + 1], &integer );
-		m_worldProject[0][(where >> 1) + 1] = (short)_SHIFTR( num, 0, 16 ) + abs( fraction );
+		m_worldProject[0][(where >> 1) + 1] = (short)_SHIFTR( num, 0, 16 ) + fabs( fraction );
 	}
 	else
 	{
@@ -91,7 +91,7 @@ void RSPMatrixManager::insertMatrix(unsigned long where, unsigned long num)
 
 		// Make sure the sign isn't lost
 		if ((integer == 0.0f) && (fraction != 0.0f))
-			newValue = newValue * (fraction / abs( fraction ));
+			newValue = newValue * (fraction / fabs( fraction ));
 
 		m_worldProject[0][(where - 0x20) >> 1] = newValue;
 
@@ -100,7 +100,7 @@ void RSPMatrixManager::insertMatrix(unsigned long where, unsigned long num)
 
 		// Make sure the sign isn't lost
 		if ((integer == 0.0f) && (fraction != 0.0f))
-			newValue = newValue * (fraction / abs( fraction ));
+			newValue = newValue * (fraction / fabs( fraction ));
 
 		m_worldProject[0][((where - 0x20) >> 1) + 1] = newValue;
 	}
@@ -206,8 +206,8 @@ void RSPMatrixManager::_loadMatrix(unsigned long addr, Matrix4& out)
 	{
 		for (int j = 0; j < 4; j++) 
 		{
-			int               hi = *(short *)(RDRAM + ((addr+(i<<3)+(j<<1)     )^0x2));
-			unsigned __int16  lo = *(unsigned __int16  *)(RDRAM + ((addr+(i<<3)+(j<<1) + 32)^0x2));
+			int             hi = *(short *)(RDRAM + ((addr+(i<<3)+(j<<1)     )^0x2));
+			unsigned short  lo = *(unsigned short  *)(RDRAM + ((addr+(i<<3)+(j<<1) + 32)^0x2));
 			out[i][j] = (float)((hi<<16) | (lo))/ 65536.0f;
 		}
 	}

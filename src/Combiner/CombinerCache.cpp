@@ -4,7 +4,7 @@
 //* New Compiled Combiner
 //! Function used to add decoded mux values and the result of them to the list.
 //-----------------------------------------------------------------------------
-void CombinerCache::newCompiledCombiner(unsigned __int64 mux, TexEnvCombiner* compiled)
+void CombinerCache::newCompiledCombiner(unsigned long long mux, TexEnvCombiner* compiled)
 {
     //Create new Combiner
     CachedCombiner* newCombiner = new CachedCombiner();
@@ -19,7 +19,7 @@ void CombinerCache::newCompiledCombiner(unsigned __int64 mux, TexEnvCombiner* co
 //* New Compiled Combiner
 //! Function used to retrive decoded mux values and the result of them to the list.
 //-----------------------------------------------------------------------------
-CachedCombiner* CombinerCache::findCachedCombiner(unsigned __int64 mux)
+CachedCombiner* CombinerCache::findCachedCombiner(unsigned long long mux)
 {
     for (CombinerList::iterator it = m_cachedCombiners.begin(); it!=m_cachedCombiners.end(); ++it)
     {

@@ -353,7 +353,7 @@ void RDPInstructions::RDP_TileSync(MicrocodeArgument* ucode)
 
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_TileSync - Ignored", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_TileSync - Ignored", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -368,7 +368,7 @@ void RDPInstructions::RDP_PipeSync(MicrocodeArgument* ucode)
 
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_PipeSync - Ignored", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_PipeSync - Ignored", M64MSG_WARNING);
 		warned = true;
 	}	
 }
@@ -383,7 +383,7 @@ void RDPInstructions::RDP_LoadSync(MicrocodeArgument* ucode)
 
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_LoadSync - Ignored", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_LoadSync - Ignored", M64MSG_WARNING);
 		warned = true;
 	}   
 }
@@ -396,7 +396,7 @@ void RDPInstructions::RDP_SetConvert(MicrocodeArgument* ucode)
 {   
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_SetConvert - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_SetConvert - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -411,7 +411,7 @@ void RDPInstructions::RDP_SetKeyR(MicrocodeArgument* ucode)
 
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_SetKeyR - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_SetKeyR - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -424,7 +424,7 @@ void RDPInstructions::RDP_SetKeyGB(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_SetKeyGB - Unimplemented", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_SetKeyGB - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -439,7 +439,7 @@ void RDPInstructions::RDP_Unknown(MicrocodeArgument* ucode)
 
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_Unknown - Ignored", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_Unknown - Ignored", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -454,7 +454,7 @@ void RDPInstructions::RDP_NoOp(MicrocodeArgument* ucode)
 
 	static bool warned = false;
 	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_NoOp - Ignored", LML_CRITICAL);
+		Logger::getSingleton().printMsg("RDP_NoOp - Ignored", M64MSG_WARNING);
 		warned = true;
 	}
 }

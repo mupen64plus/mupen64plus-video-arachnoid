@@ -1,5 +1,5 @@
 #include "FileOpener.h"
-#include <windows.h>    //GetCurrentDirectory()
+#include "platform.h"    //GetCurrentDirectory()
 #include <iostream>     //std::system(); 
 
 //-----------------------------------------------------------------------------
@@ -56,7 +56,7 @@ void executeFile(const char* filename, const char* directory)
 
         //Execute file
         std::system(filepath); 
-    #else
+    #elif defined(WIN32)
         //Using ShellExecute()
         //--------------------
 

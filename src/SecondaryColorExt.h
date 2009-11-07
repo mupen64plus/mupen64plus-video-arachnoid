@@ -1,7 +1,7 @@
 #ifndef SECONDARY_COLOR_EXTENSION_H_
 #define SECONDARY_COLOR_EXTENSION_H_
 
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 #ifndef GL_EXT_secondary_color

@@ -28,7 +28,6 @@ struct RSPUCodeAddMatrixF3DEX2
         {
 			unsigned int param:8;         //!< Push?, Load?, Projection?
 			unsigned int len:16;          //!< Length
-			unsigned int cmd:8;           //!< Command
 		};
         struct
         {
@@ -37,9 +36,9 @@ struct RSPUCodeAddMatrixF3DEX2
 	        unsigned int projection:1;    //!< Is this a projection or view matrix?
 	        unsigned int :5;              //!< Padding
             unsigned int lenght:16;       //!< Length
-	        unsigned int cmd:8;           //!< Command
         };
     };
+	unsigned int cmd:8;           //!< Command
 	unsigned int segmentAddress:32;  //!< Address to register where there is an RDRAM address used to retrieve matrix
 };
 

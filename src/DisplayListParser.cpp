@@ -34,7 +34,7 @@ typedef struct
 
 typedef union {
 	Task_t t;
-	unsigned __int64 force_structure_alignment;
+	unsigned long long force_structure_alignment;
 } Task;
 
 //-----------------------------------------------------------------------------

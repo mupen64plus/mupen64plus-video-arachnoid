@@ -1,7 +1,7 @@
 #ifndef OPEN_GL_RENDERER_H_
 #define OPEN_GL_RENDERER_H_
 
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //Forward Declarations

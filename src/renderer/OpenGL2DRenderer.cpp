@@ -1,6 +1,6 @@
 #include "OpenGL2DRenderer.h"
 #include "VI.h"
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------

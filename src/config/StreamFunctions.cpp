@@ -1,5 +1,6 @@
 
 #include "StreamFunctions.h"
+#include <cstring>
 
 #define STREAM_TEMP_SIZE 128
 

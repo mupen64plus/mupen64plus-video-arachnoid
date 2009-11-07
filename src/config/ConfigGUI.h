@@ -2,7 +2,7 @@
 #define CONFIG_GUI_H_
 
 #include "resource.h"
-#include <windows.h>
+#include "platform.h"
 
 //*****************************************************************************
 //* Config GUI

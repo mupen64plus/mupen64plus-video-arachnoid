@@ -2,7 +2,7 @@
 #define UCODE_10_H_
 
 //Includes
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 
 //Forward declaration
 class GBI;

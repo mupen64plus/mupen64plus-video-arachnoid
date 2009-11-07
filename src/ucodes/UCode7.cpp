@@ -5,7 +5,7 @@
 #include "RSP.h"
 #include "RDP.h"
 #include "Memory.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 
@@ -90,7 +90,7 @@ void UCode7::S2DEX_BG_1Cyc(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_BG_1Cyc - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_BG_1Cyc - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -102,7 +102,7 @@ void UCode7::S2DEX_BG_Copy(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_BG_Copy - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_BG_Copy - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -114,7 +114,7 @@ void UCode7::S2DEX_Obj_Rectangle(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_Rectangle - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_Rectangle - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -126,7 +126,7 @@ void UCode7::S2DEX_Obj_Sprite(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_Sprite - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_Sprite - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -138,7 +138,7 @@ void UCode7::S2DEX_Obj_MoveMem(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_MoveMem - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_MoveMem - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -150,7 +150,7 @@ void UCode7::S2DEX_Obj_LoadTxtr(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_LoadTxtr - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_LoadTxtr - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -162,7 +162,7 @@ void UCode7::S2DEX_Obj_LdTx_Sprite(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_LdTx_Sprite - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_LdTx_Sprite - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -174,7 +174,7 @@ void UCode7::S2DEX_Obj_LdTx_Rect_R(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_LdTx_Rect_R - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_LdTx_Rect_R - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -186,7 +186,7 @@ void UCode7::S2DEX_Select_DL(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Select_DL - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Select_DL - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -198,7 +198,7 @@ void UCode7::S2DEX_Obj_RenderMode(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_RenderMode - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_RenderMode - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -210,7 +210,7 @@ void UCode7::S2DEX_Obj_Rectangle_R(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_Rectangle_R - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_Rectangle_R - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }
@@ -222,7 +222,7 @@ void UCode7::S2DEX_Obj_LdTx_Rect(MicrocodeArgument* ucode)
 {
 	static bool warned = false;
 	if ( !warned ) {
-		Logger::getSingleton().printMsg("S2DEX_Obj_LdTx_Rect - Unimplemented", LML_CRITICAL, true);
+		Logger::getSingleton().printMsg("S2DEX_Obj_LdTx_Rect - Unimplemented", M64MSG_WARNING);
 		warned = true;
 	}
 }

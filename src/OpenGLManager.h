@@ -5,13 +5,11 @@
 //OpenGL linking and includes 
 #pragma comment(lib,"opengl32.lib")  
 #pragma comment(lib,"glu32.lib")
-#pragma comment(lib, "glaux.lib")
 
 //OpenGL includes
-#include <windows.h>
-#include <gl/gl.h> 
-#include <gl/glu.h>
-#include <gl/glaux.h>	
+#include "platform.h"
+#include <GL/gl.h> 
+#include <GL/glu.h>
 
 //*****************************************************************************
 //* OpenGL Manager Class                                                        

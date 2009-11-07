@@ -1,6 +1,6 @@
 #ifndef STRING_VALUE_H_
 #define STRING_VALUE_H_
-
+#include <cstdlib>
 #include <string>
 #include <sstream>
 

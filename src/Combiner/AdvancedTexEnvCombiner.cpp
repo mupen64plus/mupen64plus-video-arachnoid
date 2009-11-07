@@ -1,3 +1,5 @@
+#include <algorithm>
+using std::max;
 #include "AdvancedTexEnvCombiner.h"
 #include "CombinerStructs.h"
 #include "MultiTexturingExt.h"    //glActiveTextureARB
@@ -186,8 +188,8 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
 		envCombiner->alpha[i].outputTexture = GL_TEXTURE0_ARB + i;
 	}
 
-	envCombiner->usesT0 = FALSE;
-	envCombiner->usesT1 = FALSE;
+	envCombiner->usesT0 = false;
+	envCombiner->usesT1 = false;
 
 	envCombiner->vertex.color = COMBINED;
 	envCombiner->vertex.secondaryColor = COMBINED;
@@ -514,6 +516,6 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
 		combinedUnit = max( curUnit - 1, 0 );
 	}
 
-	envCombiner->usedUnits = max( curUnit, envCombiner->usedUnits );
+	envCombiner->usedUnits = max( (short)curUnit, envCombiner->usedUnits );
 	return envCombiner;
 }

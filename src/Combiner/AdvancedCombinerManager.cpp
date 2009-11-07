@@ -8,7 +8,7 @@
 #include "CombinerStageMerger.h"
 #include "CombinerStageCreator.h"
 #include "ROMDetector.h"
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------
@@ -183,7 +183,7 @@ void AdvancedCombinerManager::update(unsigned long cycleType)
 //-----------------------------------------------------------------------------
 //! Set Mux
 //-----------------------------------------------------------------------------
-void AdvancedCombinerManager::setMux(unsigned __int64 mux, unsigned long cycleType)
+void AdvancedCombinerManager::setMux(unsigned long long mux, unsigned long cycleType)
 {
 	m_combineData.mux = mux;    
 }

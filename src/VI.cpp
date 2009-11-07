@@ -1,6 +1,6 @@
 #include "VI.h"
 #include "GBIDefs.h" //_FIXED2FLOAT, _SHIFTR
-#include "ZilmarsPluginSpec.h"
+#include "platform.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

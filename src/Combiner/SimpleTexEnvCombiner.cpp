@@ -2,7 +2,7 @@
 #include "CombinerStructs.h"
 #include "MultiTexturingExt.h"
 #include "ExtensionChecker.h"
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------
@@ -153,21 +153,21 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
 						if ( mode == GL_MODULATE )
 							m_color = ONE;
 
-						m_usesTexture0 = TRUE;
-						m_usesTexture1 = FALSE;
+						m_usesTexture0 = true;
+						m_usesTexture1 = false;
 					}
 					else if ( op->param1 == TEXEL1 || op->param1 == TEXEL1_ALPHA )
 					{
 						if ( mode == GL_MODULATE )
 							m_color = ONE;
 
-						m_usesTexture0 = FALSE;
-						m_usesTexture1 = TRUE;
+						m_usesTexture0 = false;
+						m_usesTexture1 = true;
 					}
 					else
 					{
 						m_color = op->param1;
-						m_usesTexture0 = m_usesTexture1 = FALSE;
+						m_usesTexture0 = m_usesTexture1 = false;
 					}
 					break;
 				case MUL:
@@ -176,8 +176,8 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
 						if (!m_usesTexture0 && !m_usesTexture1)
 						{
 							mode = GL_MODULATE;
-							m_usesTexture0 = TRUE;
-							m_usesTexture1 = FALSE;
+							m_usesTexture0 = true;
+							m_usesTexture1 = false;
 						}
 					}
 					else if ( op->param1 == TEXEL1 || op->param1 == TEXEL1_ALPHA )
@@ -185,8 +185,8 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
 						if (!m_usesTexture0 && !m_usesTexture1)
 						{
 							mode = GL_MODULATE;
-							m_usesTexture0 = FALSE;
-							m_usesTexture1 = TRUE;
+							m_usesTexture0 = false;
+							m_usesTexture1 = true;
 						}
 					}
 					else if ( m_usesTexture0 || m_usesTexture1 )
@@ -203,8 +203,8 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
 					{
 						mode = GL_DECAL;
 						m_color = op->param2;
-						m_usesTexture0 = TRUE;
-						m_usesTexture1 = FALSE;
+						m_usesTexture0 = true;
+						m_usesTexture1 = false;
 					}
 					else if ((op->param1 == TEXEL0) &&
 					    ((op->param2 != TEXEL0) && (op->param2 != TEXEL0_ALPHA) &&
@@ -213,8 +213,8 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
 					{
 						mode = GL_DECAL;
 						m_color = op->param2;
-						m_usesTexture0 = FALSE;
-						m_usesTexture1 = TRUE;
+						m_usesTexture0 = false;
+						m_usesTexture1 = true;
 					}
 					break;
 			}

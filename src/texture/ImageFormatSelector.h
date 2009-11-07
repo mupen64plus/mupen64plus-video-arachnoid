@@ -2,7 +2,7 @@
 #define IMAGE_FORMAT_SELECTOR_H_
 
 //Function pointer for image decoding
-typedef unsigned long (*GetTexelFunc)( unsigned __int64 *src, unsigned short x, unsigned short i, unsigned char palette );
+typedef unsigned long (*GetTexelFunc)( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette );
 
 //Forward declarations
 class CachedTexture;

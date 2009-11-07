@@ -2,7 +2,7 @@
 #define REALITY_DRAWING_PROCESSOR_H_
 
 //Includes
-#include "../ZilmarsPluginSpec.h"
+#include "m64p_plugin.h"
 #include "UCodeDefs.h"
 #include "GBI.h"
 #include "GBIDefs.h"
@@ -173,41 +173,41 @@ public:
 public:
 
 	//Texturing
-	void RDP::RDP_SetCImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
-	void RDP::RDP_SetZImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
-	void RDP::RDP_SetTImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
-	void RDP::RDP_SetTile(int format, int size, int line, int tmem, int tile, int palette, 
+	void RDP_SetCImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
+	void RDP_SetZImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
+	void RDP_SetTImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
+	void RDP_SetTile(int format, int size, int line, int tmem, int tile, int palette, 
 		                  int clampS, int clampT, int mirrorS, int mirrorT, int maskS, 
 						  int maskT, int shiftS, int shiftT);
-	void RDP::RDP_SetTileSize(int tile, unsigned long s0, unsigned long t0, unsigned long s1, unsigned long t1);
-	void RDP::RDP_LoadTile(int tile, int s0, int t0, int s1, int t1);
-	void RDP::RDP_LoadBlock(int tile, int s0, int t0, int s1, int t1);
-	void RDP::RDP_LoadTLUT(int tile, int s0, int t0, int s1, int t1);
+	void RDP_SetTileSize(int tile, unsigned long s0, unsigned long t0, unsigned long s1, unsigned long t1);
+	void RDP_LoadTile(int tile, int s0, int t0, int s1, int t1);
+	void RDP_LoadBlock(int tile, int s0, int t0, int s1, int t1);
+	void RDP_LoadTLUT(int tile, int s0, int t0, int s1, int t1);
 
 	//Colors
-	void RDP::RDP_SetEnvColor(float r, float g, float b, float a);
-	void RDP::RDP_SetFogColor(float r, float g, float b, float a);
-    void RDP::RDP_SetBlendColor(float r, float g, float b, float a);	
-	void RDP::RDP_SetPrimColor(float r, float g, float b, float a, unsigned long primLodMin, unsigned long primLevel);	
-	void RDP::RDP_SetFillColor(float r, float g, float b, float a);	
+	void RDP_SetEnvColor(float r, float g, float b, float a);
+	void RDP_SetFogColor(float r, float g, float b, float a);
+    void RDP_SetBlendColor(float r, float g, float b, float a);	
+	void RDP_SetPrimColor(float r, float g, float b, float a, unsigned long primLodMin, unsigned long primLevel);	
+	void RDP_SetFillColor(float r, float g, float b, float a);	
 
     //Combiner
-	void RDP::RDP_SetCombine(MicrocodeArgument* ucode);
+	void RDP_SetCombine(MicrocodeArgument* ucode);
 
     //Misc
-	void RDP::RDP_SetOtherMode(MicrocodeArgument* ucode);
-	void RDP::RDP_SetPrimDepth(unsigned long dwZ, unsigned long dwDZ);
-	void RDP::RDP_SetScissor(int x0, int y0, int x1, int y1, int mode);	
+	void RDP_SetOtherMode(MicrocodeArgument* ucode);
+	void RDP_SetPrimDepth(unsigned long dwZ, unsigned long dwDZ);
+	void RDP_SetScissor(int x0, int y0, int x1, int y1, int mode);	
 
 	//Rendering
-	void RDP::RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1);
-	void RDP::RDP_TexRectFlip(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL, unsigned long dwYL, 
+	void RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1);
+	void RDP_TexRectFlip(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL, unsigned long dwYL, 
                               unsigned long tileno, unsigned long dwS, unsigned long dwT, long nDSDX, long nDTDY);
-	void RDP::RDP_TexRect(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL, unsigned long dwYL, 
+	void RDP_TexRect(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL, unsigned long dwYL, 
                           unsigned long tileno, unsigned short dwS, unsigned short dwT, unsigned short nDSDX, unsigned short nDTDY);
 
 	//Other
-	void RDP::RDP_FullSync();
+	void RDP_FullSync();
 
 public:
 

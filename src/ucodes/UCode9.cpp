@@ -2,7 +2,7 @@
 #include "UCode0.h"
 #include "GBI.h"
 #include "RSP.h"
-#include "UcodeDefs.h"
+#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 
@@ -79,7 +79,7 @@ void UCode9::initializeGBI(GBI* gbi)
 //-----------------------------------------------------------------------------
 void UCode9::PerfectDark_Vertex(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("PerfectDark_Vertex", LML_TRIVIAL);
+	Logger::getSingleton().printMsg("PerfectDark_Vertex", M64MSG_VERBOSE);
     RSPUCode9AddColorIndexVertices* temp = (RSPUCode9AddColorIndexVertices*)ucode;
 
     //Set Color Index Vertices
@@ -91,7 +91,7 @@ void UCode9::PerfectDark_Vertex(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode9::PerfectDark_VertexColorBase(MicrocodeArgument* ucode)
 {
-	Logger::getSingleton().printMsg("PerfectDark_VertexColorBase", LML_TRIVIAL);
+	Logger::getSingleton().printMsg("PerfectDark_VertexColorBase", M64MSG_VERBOSE);
 	RSPUCodeSetVertexColorBase* temp = (RSPUCodeSetVertexColorBase*)ucode;
 
 	//Set Vertex Color Base

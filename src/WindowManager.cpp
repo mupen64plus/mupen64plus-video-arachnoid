@@ -1,7 +1,7 @@
 #include "WindowManager.h"
 #include "OpenGLManager.h"
 #include "FrameBuffer.h"
-#include "Commctrl.h"   //RBS_VARHEIGHT
+//#include "Commctrl.h"   //RBS_VARHEIGHT
 
 //-----------------------------------------------------------------------------
 //* Find ToolBarProc
@@ -10,12 +10,14 @@
 HWND hToolBar = 0;
 BOOL CALLBACK findToolBarProc(HWND hWnd, LPARAM lParam)
 {
+#ifdef WIN32
 	if (GetWindowLong( hWnd, GWL_STYLE ) & RBS_VARHEIGHT)
 	{
 		hToolBar = hWnd;   //Found toolbar!
 		return FALSE;      //No need to continue finding children, return false
 	}
-	return TRUE;           //Not correct child, continue looking
+#endif
+	return true;           //Not correct child, continue looking
 }
 
 //-----------------------------------------------------------------------------
@@ -41,6 +43,7 @@ WindowManager::~WindowManager()
 //-----------------------------------------------------------------------------
 bool WindowManager::initialize(HWND hWnd, HWND statusBar)
 {
+#ifdef WIN32
 	m_hWnd       = hWnd;
 	m_statusBar  = statusBar;
 	m_fullscreen = false;
@@ -49,7 +52,7 @@ bool WindowManager::initialize(HWND hWnd, HWND statusBar)
     hToolBar = 0;
     EnumChildWindows(hWnd, findToolBarProc, 0);
     m_toolBar = hToolBar;
-
+#endif
 	return true;
 }
 
@@ -61,6 +64,7 @@ bool WindowManager::initialize(HWND hWnd, HWND statusBar)
 //-----------------------------------------------------------------------------
 void WindowManager::resizeWindow(int width, int height)
 {
+#ifdef WIN32
 	RECT windowRect, statusRect, toolRect;
 	m_width  = width;
 	m_height = height;
@@ -92,6 +96,7 @@ void WindowManager::resizeWindow(int width, int height)
 	int cx = windowRect.right - windowRect.left + 1;
 	int cy = windowRect.bottom - windowRect.top + 1 + toolRect.bottom - toolRect.top + 1;
 	SetWindowPos( m_hWnd, NULL, 0, 0, cx, cy, SWP_NOACTIVATE | SWP_NOZORDER | SWP_NOMOVE );
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -100,6 +105,7 @@ void WindowManager::resizeWindow(int width, int height)
 //-----------------------------------------------------------------------------
 void WindowManager::toggleFullscreen()
 {
+#ifdef WIN32
     m_fullscreen = !m_fullscreen;
 
     if ( m_fullscreen )
@@ -152,5 +158,6 @@ void WindowManager::toggleFullscreen()
 		resizeWindow(m_width, m_height);
 		SetWindowPos(m_hWnd, 0, m_windowRect.left, m_windowRect.top, 0, 0, SWP_NOZORDER | SWP_NOSIZE);       
     }
+#endif
 }
 

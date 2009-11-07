@@ -1,10 +1,9 @@
 #include "Memory.h"
-#include <excpt.h> //EXCEPTION_EXECUTE_HANDLER
 
 //-----------------------------------------------------------------------------
 //* Static variables
 //-----------------------------------------------------------------------------
-unsigned __int64 Memory::m_TMEM[512] = {0};
+unsigned long long Memory::m_TMEM[512] = {0};
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -60,7 +59,7 @@ void Memory::_calculateRDRAMSize()
 	unsigned char test;
 		
 	#if 1
-		__try
+		try
 		{
 			test = m_RDRAM[0x400000];
 			test = m_RDRAM[0x500000];
@@ -69,7 +68,7 @@ void Memory::_calculateRDRAMSize()
 			test = m_RDRAM[0x7FFFFC];
 			m_RDRAMSize = 0x800000;
 		}
-		__except(EXCEPTION_EXECUTE_HANDLER)
+		catch(...)
 		{
 			m_RDRAMSize = 0x400000;
 		}

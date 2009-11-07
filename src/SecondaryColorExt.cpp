@@ -2,6 +2,7 @@
 #include "ExtensionChecker.h"
 
 // EXT_secondary_color functions
+#ifdef WIN32
 PFNGLSECONDARYCOLOR3BEXTPROC glSecondaryColor3bEXT;
 PFNGLSECONDARYCOLOR3BVEXTPROC glSecondaryColor3bvEXT;
 PFNGLSECONDARYCOLOR3DEXTPROC glSecondaryColor3dEXT;
@@ -19,11 +20,13 @@ PFNGLSECONDARYCOLOR3UIVEXTPROC glSecondaryColor3uivEXT;
 PFNGLSECONDARYCOLOR3USEXTPROC glSecondaryColor3usEXT;
 PFNGLSECONDARYCOLOR3USVEXTPROC glSecondaryColor3usvEXT;
 PFNGLSECONDARYCOLORPOINTEREXTPROC glSecondaryColorPointerEXT;
+#endif
 
 bool initializeSecondaryColorExtension()
 {
 	if ( isExtensionSupported( "GL_EXT_secondary_color" ))
 	{
+#ifdef WIN32
 		glSecondaryColor3bEXT = (PFNGLSECONDARYCOLOR3BEXTPROC)wglGetProcAddress( "glSecondaryColor3bEXT" );
 		glSecondaryColor3bvEXT = (PFNGLSECONDARYCOLOR3BVEXTPROC)wglGetProcAddress( "glSecondaryColor3bvEXT" );
 		glSecondaryColor3dEXT = (PFNGLSECONDARYCOLOR3DEXTPROC)wglGetProcAddress( "glSecondaryColor3dEXT" );
@@ -41,7 +44,8 @@ bool initializeSecondaryColorExtension()
 		glSecondaryColor3usEXT = (PFNGLSECONDARYCOLOR3USEXTPROC)wglGetProcAddress( "glSecondaryColor3usEXT" );
 		glSecondaryColor3usvEXT = (PFNGLSECONDARYCOLOR3USVEXTPROC)wglGetProcAddress( "glSecondaryColor3usvEXT" );
 		glSecondaryColorPointerEXT = (PFNGLSECONDARYCOLORPOINTEREXTPROC)wglGetProcAddress( "glSecondaryColorPointerEXT" );
-        return true;
+#endif
+		return true;
 	}
     return false;
 }

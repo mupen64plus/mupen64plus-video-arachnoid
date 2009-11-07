@@ -5,9 +5,9 @@
 #include "CachedTexture.h"
 #include "MathLib.h"
 #include <algorithm>
-#include <xutility>  //std::min
+//TODO remove: #include <xutility>  //std::min
 	using std::min;
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
 #include "Memory.h"
 #include "OpenGLRenderer.h"
@@ -306,7 +306,7 @@ void TextureCache::_loadTexture(CachedTexture* texture)
 
 	if (texture->maskS)
 	{
-		clampSClamp = unsigned short(texture->clampS ? texture->clampWidth - 1 : (texture->mirrorS ? (texture->width << 1) - 1 : texture->width - 1));
+		clampSClamp = (unsigned short)(texture->clampS ? texture->clampWidth - 1 : (texture->mirrorS ? (texture->width << 1) - 1 : texture->width - 1));
 		maskSMask = (1 << texture->maskS) - 1;
 		mirrorSBit = texture->mirrorS ? 1 << texture->maskS : 0;
 	}
@@ -319,7 +319,7 @@ void TextureCache::_loadTexture(CachedTexture* texture)
 
 	if (texture->maskT)
 	{
-		clampTClamp = unsigned short(texture->clampT ? texture->clampHeight - 1 : (texture->mirrorT ? (texture->height << 1) - 1: texture->height - 1));
+		clampTClamp = (unsigned short)(texture->clampT ? texture->clampHeight - 1 : (texture->mirrorT ? (texture->height << 1) - 1: texture->height - 1));
 		maskTMask = (1 << texture->maskT) - 1;
 		mirrorTBit = texture->mirrorT ?	1 << texture->maskT : 0;
 	}
@@ -336,7 +336,7 @@ void TextureCache::_loadTexture(CachedTexture* texture)
 
 	unsigned short x, y, i, j, tx, ty;
 
-	unsigned __int64* src;
+	unsigned long long* src;
 
 	j = 0;
 	for (y = 0; y < texture->realHeight; y++)
@@ -403,8 +403,8 @@ void TextureCache::_calculateTextureSize(unsigned long tile, CachedTexture* out,
 
 	if ( m_rdp->getTextureMode() == TM_TEXRECT )
 	{
-		unsigned short texRectWidth = unsigned short(m_rdp->getTexRectWidth() - rspTile->uls);
-		unsigned short texRectHeight = unsigned short(m_rdp->getTexRectHeight() - rspTile->ult);
+		unsigned short texRectWidth = (unsigned short)(m_rdp->getTexRectWidth() - rspTile->uls);
+		unsigned short texRectHeight = (unsigned short)(m_rdp->getTexRectHeight() - rspTile->ult);
 
 		if (rspTile->masks && ((maskWidth * maskHeight) <= maxTexels))
 			width = maskWidth;
@@ -500,7 +500,7 @@ unsigned long TextureCache::_calculateCRC(unsigned long t, unsigned long width, 
 
 	unsigned long crc;
 	unsigned long y, bpl, lineBytes, line;
-	unsigned __int64 *src;
+	unsigned long long *src;
 
     src = m_memory->getTextureMemory(tile->tmem);
 	bpl = width << tile->size >> 1;

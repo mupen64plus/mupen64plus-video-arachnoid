@@ -1,8 +1,8 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#include <windows.h>
-#include "ConfigGUI.h"
+#include "platform.h"
+//#include "ConfigGUI.h"
 #include "ConfigFile.h"
 #include "ConfigMap.h"
 
@@ -59,7 +59,7 @@ public:
 private:
 
 	ConfigMap m_cfg;                     //!< Config map with all settings
-	ConfigGUI m_configGUI;               //!< Config Dialog 
+	//ConfigGUI m_configGUI;               //!< Config Dialog 
     ConfigFile* m_configFile;            //!< Handles configuration file (used to store settings on disk)
     bool m_hasChanged;                   //!< True if configuration has changed since last check
     GraphicsPlugin* m_graphicsPlugin;    //!< Pointer to graphics plugin

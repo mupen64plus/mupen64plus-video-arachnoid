@@ -1,5 +1,5 @@
-#include <Windows.h>
-#include <GL/GL.h>
+#include "platform.h"
+#include <GL/gl.h>
 #include "ExtensionChecker.h"
 
 //-----------------------------------------------------------------------------

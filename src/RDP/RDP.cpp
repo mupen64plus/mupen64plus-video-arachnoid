@@ -16,8 +16,10 @@
 #include "Logger.h"
 #include "MathLib.h"
 #include "ROMDetector.h"
-#include <windows.h>
+#include "platform.h"
 #include <GL/gl.h>
+#include <algorithm>
+using std::max;
 
 //-----------------------------------------------------------------------------
 //! Defines
@@ -112,9 +114,9 @@ void RDP::updateStates()
 
 	//Depth Update
 	if (m_otherMode.depthUpdate)
-		glDepthMask( TRUE );
+		glDepthMask( true );
 	else
-		glDepthMask( FALSE );
+		glDepthMask( false );
 
 	// Depth Mode
 	if (m_otherMode.depthMode == ZMODE_DEC)
@@ -475,7 +477,7 @@ void RDP::RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, uns
 	{
 		//Clear the Z Buffer
 		updateStates();
-		glDepthMask( TRUE );
+		glDepthMask( true );
 		glClear(GL_DEPTH_BUFFER_BIT);
 
 		// Depth update
