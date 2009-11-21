@@ -4,7 +4,7 @@
 #define MATH_LIBRARY_H_
 
 #include <cmath>     //sqrtf
-#include "platform.h"  
+#include "m64p.h"  
 
 // Formula: a.b = a0*b0 + a1*b1 + a2*b2
 #define Vec3Dot(a,b)         ((a)[0]*(b)[0]+(a)[1]*(b)[1]+(a)[2]*(b)[2])
@@ -56,19 +56,19 @@ inline float randomFloat(float min, float max)
     return (float)( min + double(max-min)*rand()/RAND_MAX );
 }
 
-inline unsigned long pow2( unsigned long dim )
+inline unsigned int pow2( unsigned int dim )
 {
-	unsigned long i = 1;
+	unsigned int i = 1;
 
 	while (i < dim) i <<= 1;
 
 	return i;
 }
 
-inline unsigned long powof( unsigned long dim )
+inline unsigned int powof( unsigned int dim )
 {
-	unsigned long num = 1;
-	unsigned long i = 0;
+	unsigned int num = 1;
+	unsigned int i = 0;
 
 	while (num < dim)
 	{

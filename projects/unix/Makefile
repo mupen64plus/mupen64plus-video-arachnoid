@@ -64,10 +64,10 @@ endif
 CFLAGS = -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -I../../src \
 		 -I../../src/hash -I../../src/ucodes -I../../src/GBI -I../../src/RDP -I../../src/utils \
 		 -I../../src/log -I../../src/RSP -I../../src/framebuffer -I../../src/math -I../../src/renderer \
-		 -I../../src/assembler -I../../src/texture -I../../src/config -I../../src/combiner 
+		 -I../../src/Assembler -I../../src/texture -I../../src/config -I../../src/Combiner 
 LDFLAGS = -ldl -lGL -lGLU -lpthread
 ifneq ($(OS), FREEBSD)
-  CFLAGS += -pipe -O0
+  CFLAGS += -pipe -O3
 endif
 
 ifeq ($(ARCH_DETECTED), 64BITS)
@@ -133,7 +133,7 @@ ifneq ($(PLUGINDIR),)
   CFLAGS += -DPLUGINDIR="$(PLUGINDIR)"
 endif
 ifeq ($(DEBUG),1)
-  CFLAGS += -g
+  CFLAGS += -g  -fno-inline -Werror
   STRIP = true # disable binary strip
 endif
 
@@ -143,14 +143,8 @@ OBJDIR = _obj
 # list of source files to compile
 SOURCE = \
 	$(SRCDIR)/main.cpp \
-	$(SRCDIR)/utils/FileOpener.cpp \
 	$(SRCDIR)/log/Logger.cpp \
-	$(SRCDIR)/utils/ConsoleWindow.cpp \
-	$(SRCDIR)/utils/ScreenshotCreator.cpp \
-	$(SRCDIR)/utils/SmartScriptParser.cpp \
 	$(SRCDIR)/config/Config.cpp \
-	$(SRCDIR)/config/ConfigFile.cpp \
-	$(SRCDIR)/config/StreamFunctions.cpp \
 	$(SRCDIR)/config/StringFunctions.cpp \
 	$(SRCDIR)/GraphicsPlugin.cpp \
 	$(SRCDIR)/OpenGLManager.cpp \
@@ -161,7 +155,6 @@ SOURCE = \
 	$(SRCDIR)/MultiTexturingExt.cpp \
 	$(SRCDIR)/ExtensionChecker.cpp \
 	$(SRCDIR)/SecondaryColorExt.cpp \
-	$(SRCDIR)/WindowManager.cpp \
 	$(SRCDIR)/Memory.cpp \
 	$(SRCDIR)/math/MathLib.cpp \
 	$(SRCDIR)/math/Matrix4.cpp \
@@ -191,7 +184,6 @@ SOURCE = \
 	$(SRCDIR)/RSP/RSPVertexManager.cpp \
 	$(SRCDIR)/RSP/RSPLightManager.cpp \
 	$(SRCDIR)/Assembler/assembler.cpp \
-	$(SRCDIR)/PluginInfo.cpp \
 	$(SRCDIR)/Combiner/AdvancedCombinerManager.cpp \
 	$(SRCDIR)/Combiner/CombinerBase.cpp \
 	$(SRCDIR)/Combiner/AdvancedTexEnvCombiner.cpp \
@@ -204,7 +196,6 @@ SOURCE = \
 	$(SRCDIR)/RDP/RDP.cpp \
 	$(SRCDIR)/RDP/RDPInstructions.cpp \
 	$(SRCDIR)/osal_dynamiclib_unix.cpp
-#	$(SRCDIR)/config/ConfigGUI.cpp \
 
 # generate a list of object files build, make a temporary directory for them
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter %.cpp, $(SOURCE)))

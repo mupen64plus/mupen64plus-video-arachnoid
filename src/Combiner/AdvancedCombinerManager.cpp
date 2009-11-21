@@ -7,8 +7,8 @@
 #include "DummyCombiner.h"
 #include "CombinerStageMerger.h"
 #include "CombinerStageCreator.h"
-#include "ROMDetector.h"
-#include "platform.h"
+#include "RomDetector.h"
+#include "m64p.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------
@@ -69,12 +69,12 @@ void AdvancedCombinerManager::dispose()
 //-----------------------------------------------------------------------------
 //! Select Combine
 //-----------------------------------------------------------------------------
-void AdvancedCombinerManager::selectCombine(unsigned long cycleType)
+void AdvancedCombinerManager::selectCombine(unsigned int cycleType)
 {
 	//Hack for the Banjo-Tooie shadow 
-	if ( cycleType == G_CYC_1CYCLE && m_combineData.mux == 0x00ffe7ffffcf9fcf )
+	if ( cycleType == G_CYC_1CYCLE && m_combineData.mux == 0x00ffe7ffffcf9fcfLL )
 	{
-		m_combineData.mux = 71943244815007743;
+		m_combineData.mux = 71943244815007743LL;
 		m_combiner->setBlendColor(0,0,0,0);
 		m_combiner->setPrimColor(0,0,0,0);
 		m_combiner->setEnvColor(0,0,0,0);
@@ -108,7 +108,7 @@ void AdvancedCombinerManager::updateCombineColors()
 //-----------------------------------------------------------------------------
 //! Update 
 //-----------------------------------------------------------------------------
-void AdvancedCombinerManager::update(unsigned long cycleType)
+void AdvancedCombinerManager::update(unsigned int cycleType)
 {
 	int numCycles;
 
@@ -183,7 +183,7 @@ void AdvancedCombinerManager::update(unsigned long cycleType)
 //-----------------------------------------------------------------------------
 //! Set Mux
 //-----------------------------------------------------------------------------
-void AdvancedCombinerManager::setMux(unsigned long long mux, unsigned long cycleType)
+void AdvancedCombinerManager::setMux(unsigned long long mux, unsigned int cycleType)
 {
 	m_combineData.mux = mux;    
 }
@@ -191,7 +191,7 @@ void AdvancedCombinerManager::setMux(unsigned long long mux, unsigned long cycle
 //-----------------------------------------------------------------------------
 //! Set Mux
 //-----------------------------------------------------------------------------
-void AdvancedCombinerManager::setMux(unsigned long muxs0, unsigned long muxs1, unsigned long cycleType)
+void AdvancedCombinerManager::setMux(unsigned int muxs0, unsigned int muxs1, unsigned int cycleType)
 {
 	m_combineData.muxs0 = muxs0;
 	m_combineData.muxs1 = muxs1;	
@@ -317,7 +317,7 @@ void AdvancedCombinerManager::setEnvColor  (float r, float g, float b, float a)
 //* Set Prim LOD Min
 //! @param primLodMin
 //-----------------------------------------------------------------------------
-void AdvancedCombinerManager::setPrimLodMin(unsigned long primLodMin) 
+void AdvancedCombinerManager::setPrimLodMin(unsigned int primLodMin) 
 { 
     m_combiner->setPrimLodMin(primLodMin); 
 };

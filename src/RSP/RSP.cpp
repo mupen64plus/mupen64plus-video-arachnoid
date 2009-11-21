@@ -8,7 +8,6 @@
 #include "Logger.h"
 #include "OpenGLRenderer.h"
 #include "OpenGLManager.h"
-#include "WindowManager.h"
 #include "RSPLightManager.h"
 #include "FogManager.h"
 #include "DisplayListParser.h"
@@ -48,12 +47,11 @@ RSP::~RSP()
 //-----------------------------------------------------------------------------
 //* Initialize
 //-----------------------------------------------------------------------------
-bool RSP::initialize(GFX_INFO* graphicsInfo, RDP* rdp, Memory* memory, WindowManager* windowMgr, VI* vi, DisplayListParser* dlp, FogManager* fogMgr)
+bool RSP::initialize(GFX_INFO* graphicsInfo, RDP* rdp, Memory* memory, VI* vi, DisplayListParser* dlp, FogManager* fogMgr)
 {
 	//Save pointers
 	m_graphicsInfo = graphicsInfo;
 	m_rdp = rdp;
-	m_windowMgr = windowMgr;
 	m_vi = vi;
 	m_memory = memory;
 	m_displayListParser = dlp;
@@ -137,7 +135,7 @@ void RSP::triggerInterrupt()
 //-----------------------------------------------------------------------------
 //* Move Segment
 //-----------------------------------------------------------------------------
-void RSP::moveSegment(long segmentID, long value)
+void RSP::moveSegment(int segmentID, int value)
 {
 	m_memory->setSegment(segmentID, value);
 }
@@ -146,10 +144,10 @@ void RSP::moveSegment(long segmentID, long value)
 // Set Viewport
 // FIXME
 //-----------------------------------------------------------------------------
-void RSP::moveMemViewport(unsigned long segmentAddress)
+void RSP::moveMemViewport(unsigned int segmentAddress)
 {
 	//Get Adress
-	unsigned long rdramAddress = m_memory->getRDRAMAddress(segmentAddress);
+	unsigned int rdramAddress = m_memory->getRDRAMAddress(segmentAddress);
 
 	//Error controll
 	if ( rdramAddress + 16 > m_memory->getRDRAMSize() )
@@ -191,7 +189,7 @@ void RSP::moveMemViewport(unsigned long segmentAddress)
 //* Load UCode Ex
 //! @todo Change ucode while running
 //-----------------------------------------------------------------------------
-void RSP::RSP_LoadUcodeEx( unsigned long uc_start, unsigned long uc_dstart, unsigned short uc_dsize )
+void RSP::RSP_LoadUcodeEx( unsigned int uc_start, unsigned int uc_dstart, unsigned short uc_dsize )
 {
 	Logger::getSingleton().printMsg("RSP_LoadUcodeEx - Unimplemented", M64MSG_WARNING);
 	//TODO or skip
@@ -236,7 +234,7 @@ void RSP::RSP_Matrix( unsigned int segmentAddress, bool projectionMatrix, bool p
 //-----------------------------------------------------------------------------
 // RSP DMA Matrix
 //-----------------------------------------------------------------------------
-void RSP::RSP_DMAMatrix( unsigned long matrix, unsigned char index, unsigned char multiply )
+void RSP::RSP_DMAMatrix( unsigned int matrix, unsigned char index, unsigned char multiply )
 {
     m_matrixMgr->DMAMatrix(m_memory->getRDRAMAddress(matrix), index, multiply);
 }
@@ -244,7 +242,7 @@ void RSP::RSP_DMAMatrix( unsigned long matrix, unsigned char index, unsigned cha
 //-----------------------------------------------------------------------------
 // RSP Force Matrix
 //-----------------------------------------------------------------------------
-void RSP::RSP_ForceMatrix( unsigned long segmentAddress )
+void RSP::RSP_ForceMatrix( unsigned int segmentAddress )
 { 
 	// Logger::getSingleton().printMsg("RSP_ForceMatrix", M64MSG_WARNING);
 	m_matrixMgr->ForceMatrix( m_memory->getRDRAMAddress(segmentAddress));
@@ -263,7 +261,7 @@ void RSP::RSP_PopMatrix( )
 //! Pop Matrix from stack N number of times
 //! @param num The number of matrices to pop from matrix-stack
 //-----------------------------------------------------------------------------
-void RSP::RSP_PopMatrixN( unsigned long num )
+void RSP::RSP_PopMatrixN( unsigned int num )
 { 
 	m_matrixMgr->popMatrixN(num);
 }
@@ -271,7 +269,7 @@ void RSP::RSP_PopMatrixN( unsigned long num )
 //-----------------------------------------------------------------------------
 // Insert Matrix
 //-----------------------------------------------------------------------------
-void RSP::RSP_InsertMatrix(unsigned long where, unsigned long num)
+void RSP::RSP_InsertMatrix(unsigned int where, unsigned int num)
 {
 	m_matrixMgr->insertMatrix(where, num);
 }
@@ -291,7 +289,7 @@ void RSP::RSP_FogFactor(short fogMultiplier, short fogOffset)
 //-----------------------------------------------------------------------------
 // Texture
 //-----------------------------------------------------------------------------
-void RSP::RSP_Texture( float scaleS, float scaleT, long level, long tile, long on )
+void RSP::RSP_Texture( float scaleS, float scaleT, int level, int tile, int on )
 { 
 	//Set Texture
 	m_texture.scaleS = (scaleS != 0.0f) ? scaleS : 1.0f;
@@ -318,7 +316,7 @@ void RSP::RSP_Texture( float scaleS, float scaleT, long level, long tile, long o
 //-----------------------------------------------------------------------------
 // Set DMA Offsets
 //-----------------------------------------------------------------------------
-void RSP::RSP_SetDMAOffsets( unsigned long mtxoffset, unsigned long vtxoffset )
+void RSP::RSP_SetDMAOffsets( unsigned int mtxoffset, unsigned int vtxoffset )
 {
     m_matrixMgr->setRDRAMOffset(mtxoffset);
     m_vertexMgr->setRDRAMOffset(vtxoffset);
@@ -331,7 +329,7 @@ void RSP::RSP_SetDMAOffsets( unsigned long mtxoffset, unsigned long vtxoffset )
 //-----------------------------------------------------------------------------
 // RSP Light
 //-----------------------------------------------------------------------------
-void RSP::RSP_Light( unsigned long lightIndex, unsigned long segmentAddress )
+void RSP::RSP_Light( unsigned int lightIndex, unsigned int segmentAddress )
 { 
     m_lightMgr->setLight(lightIndex, m_memory->getRDRAMAddress(segmentAddress) );
 }
@@ -339,7 +337,7 @@ void RSP::RSP_Light( unsigned long lightIndex, unsigned long segmentAddress )
 //-----------------------------------------------------------------------------
 // Num Lights
 //-----------------------------------------------------------------------------
-void RSP::RSP_NumLights( long numLights )
+void RSP::RSP_NumLights( int numLights )
 { 
 	m_lightMgr->setNumLights(numLights);
 }
@@ -347,7 +345,7 @@ void RSP::RSP_NumLights( long numLights )
 //-----------------------------------------------------------------------------
 // Light Color
 //-----------------------------------------------------------------------------
-void RSP::RSP_LightColor( unsigned long lightIndex, unsigned long packedColor )
+void RSP::RSP_LightColor( unsigned int lightIndex, unsigned int packedColor )
 {
 	m_lightMgr->setLightColor(lightIndex, packedColor);
 }
@@ -359,7 +357,7 @@ void RSP::RSP_LightColor( unsigned long lightIndex, unsigned long packedColor )
 //-----------------------------------------------------------------------------
 // Vertex
 //-----------------------------------------------------------------------------
-void RSP::RSP_Vertex( unsigned long segmentAddress, unsigned long numVertices, unsigned long firstVertexIndex  )
+void RSP::RSP_Vertex( unsigned int segmentAddress, unsigned int numVertices, unsigned int firstVertexIndex  )
 { 
 	m_vertexMgr->setVertices(m_memory->getRDRAMAddress(segmentAddress), numVertices, firstVertexIndex);
 }
@@ -367,17 +365,17 @@ void RSP::RSP_Vertex( unsigned long segmentAddress, unsigned long numVertices, u
 //-----------------------------------------------------------------------------
 // Modify Vertex
 //-----------------------------------------------------------------------------
-void RSP::RSP_ModifyVertex( unsigned long vtx, unsigned long where, unsigned long val )
+void RSP::RSP_ModifyVertex( unsigned int vtx, unsigned int where, unsigned int val )
 {
 	m_vertexMgr->modifyVertex(vtx, where, val);
 }
 
-void RSP::RSP_SetVertexColor( unsigned long vtx, float r, float g, float b, float a)
+void RSP::RSP_SetVertexColor( unsigned int vtx, float r, float g, float b, float a)
 {
 	m_vertexMgr->setVertexColor(vtx, r,g,b,a);
 }
 
-void RSP::RSP_SetVertexTexCoord( unsigned long vtx, float s, float t)
+void RSP::RSP_SetVertexTexCoord( unsigned int vtx, float s, float t)
 {
 	m_vertexMgr->setVertexTextureCoord(vtx, s,t);
 }
@@ -389,7 +387,7 @@ void RSP::RSP_SetVertexTexCoord( unsigned long vtx, float s, float t)
 //! param numVertices Number of vertices to retrive from RDRAM.
 //! param firstVertexIndex Index of first vertex
 //-----------------------------------------------------------------------------
-void RSP::RSP_CIVertex(unsigned long segmentAddress, unsigned long numVertices, unsigned long firstVertexIndex )
+void RSP::RSP_CIVertex(unsigned int segmentAddress, unsigned int numVertices, unsigned int firstVertexIndex )
 {	
 	m_vertexMgr->ciVertex(segmentAddress, numVertices, firstVertexIndex);
 }
@@ -397,7 +395,7 @@ void RSP::RSP_CIVertex(unsigned long segmentAddress, unsigned long numVertices, 
 //-----------------------------------------------------------------------------
 // DMA Vertex
 //-----------------------------------------------------------------------------
-void RSP::RSP_DMAVertex( unsigned long v, unsigned long n, unsigned long v0 )
+void RSP::RSP_DMAVertex( unsigned int v, unsigned int n, unsigned int v0 )
 {
 	m_vertexMgr->DMAVertex(v, n, v0);
 }
@@ -405,7 +403,7 @@ void RSP::RSP_DMAVertex( unsigned long v, unsigned long n, unsigned long v0 )
 //-----------------------------------------------------------------------------
 // Set Vertex Color Base
 //-----------------------------------------------------------------------------
-void RSP::RSP_SetVertexColorBase(unsigned long segmentAddress)
+void RSP::RSP_SetVertexColorBase(unsigned int segmentAddress)
 {
 	m_vertexMgr->setVertexColorBase( m_memory->getRDRAMAddress(segmentAddress) );
 }
@@ -417,7 +415,7 @@ void RSP::RSP_SetVertexColorBase(unsigned long segmentAddress)
 //-----------------------------------------------------------------------------
 // Display List
 //-----------------------------------------------------------------------------
-void RSP::RSP_DisplayList(unsigned long segmentAddress)
+void RSP::RSP_DisplayList(unsigned int segmentAddress)
 {
 	m_displayListParser->displayList(segmentAddress);
 }
@@ -425,7 +423,7 @@ void RSP::RSP_DisplayList(unsigned long segmentAddress)
 //-----------------------------------------------------------------------------
 // DMA Display List
 //-----------------------------------------------------------------------------
-void RSP::RSP_DMADisplayList( unsigned long w0, unsigned long w1 )
+void RSP::RSP_DMADisplayList( unsigned int w0, unsigned int w1 )
 { 
     m_displayListParser->DMADisplayList(w0, w1);
 }
@@ -433,7 +431,7 @@ void RSP::RSP_DMADisplayList( unsigned long w0, unsigned long w1 )
 //-----------------------------------------------------------------------------
 // Branch Display List
 //-----------------------------------------------------------------------------
-void RSP::RSP_BranchList( unsigned long dl )
+void RSP::RSP_BranchList( unsigned int dl )
 { 
 	m_displayListParser->branchDisplayList(dl);
 }
@@ -441,7 +439,7 @@ void RSP::RSP_BranchList( unsigned long dl )
 //-----------------------------------------------------------------------------
 // Branch Display List Z
 //-----------------------------------------------------------------------------
-void RSP::RSP_BranchLessZ( unsigned long branchdl, unsigned long vtx, float zval )
+void RSP::RSP_BranchLessZ( unsigned int branchdl, unsigned int vtx, float zval )
 { 
 	if ( m_vertexMgr->getVertex(vtx)->z <= zval ) {
 		m_displayListParser->branchDisplayList(branchdl);
@@ -460,7 +458,7 @@ void RSP::RSP_EndDisplayList()
 //* Cull Display List
 //! @todo Cull Display List
 //-----------------------------------------------------------------------------
-void RSP::RSP_CullDisplayList( unsigned long v0, unsigned long vn )
+void RSP::RSP_CullDisplayList( unsigned int v0, unsigned int vn )
 {
 	//Logger::getSingleton().printMsg("RSP_CullDisplayList - Unimplemented", M64MSG_WARNING);
 	//TODO
@@ -473,7 +471,7 @@ void RSP::RSP_CullDisplayList( unsigned long v0, unsigned long vn )
 //-----------------------------------------------------------------------------
 // 1 Triangle
 //-----------------------------------------------------------------------------
-void RSP::RSP_1Triangle( long v0, long v1, long v2)
+void RSP::RSP_1Triangle( int v0, int v1, int v2)
 { 
 	m_vertexMgr->add1Triangle(v0, v1, v2);
 }
@@ -481,8 +479,8 @@ void RSP::RSP_1Triangle( long v0, long v1, long v2)
 //-----------------------------------------------------------------------------
 // 2 Trangles
 //-----------------------------------------------------------------------------
-void RSP::RSP_2Triangles( long v00, long v01, long v02, long flag0, 
-					long v10, long v11, long v12, long flag1 )
+void RSP::RSP_2Triangles( int v00, int v01, int v02, int flag0, 
+					int v10, int v11, int v12, int flag1 )
 {			
 	m_vertexMgr->add1Triangle(v00, v01, v02);		
 	m_vertexMgr->add1Triangle(v10, v11, v12);
@@ -491,10 +489,10 @@ void RSP::RSP_2Triangles( long v00, long v01, long v02, long flag0,
 //-----------------------------------------------------------------------------
 // 4 Triangles
 //-----------------------------------------------------------------------------
-void RSP::RSP_4Triangles( long v00, long v01, long v02,
-					long v10, long v11, long v12,
-					long v20, long v21, long v22,
-					long v30, long v31, long v32 )
+void RSP::RSP_4Triangles( int v00, int v01, int v02,
+					int v10, int v11, int v12,
+					int v20, int v21, int v22,
+					int v30, int v31, int v32 )
 {
 	m_vertexMgr->add1Triangle(v00, v01, v02);
 	m_vertexMgr->add1Triangle(v10, v11, v12);
@@ -505,7 +503,7 @@ void RSP::RSP_4Triangles( long v00, long v01, long v02,
 //-----------------------------------------------------------------------------
 // DMA Triangel
 //-----------------------------------------------------------------------------
-void RSP::RSP_DMATriangles( unsigned long tris, unsigned long n )
+void RSP::RSP_DMATriangles( unsigned int tris, unsigned int n )
 { 
     m_vertexMgr->addDMATriangles(tris, n);
 }
@@ -513,7 +511,7 @@ void RSP::RSP_DMATriangles( unsigned long tris, unsigned long n )
 //-----------------------------------------------------------------------------
 // Quadrangle
 //-----------------------------------------------------------------------------
-void RSP::RSP_1Quadrangle( long v0, long v1, long v2, long v3 )
+void RSP::RSP_1Quadrangle( int v0, int v1, int v2, int v3 )
 {
 	m_vertexMgr->add1Triangle(v0, v1, v2);
 	m_vertexMgr->add1Triangle(v0, v2, v3);
@@ -526,7 +524,7 @@ void RSP::RSP_1Quadrangle( long v0, long v1, long v2, long v3 )
 //-----------------------------------------------------------------------------
 // Geometry Mode
 //-----------------------------------------------------------------------------
-void RSP::RSP_GeometryMode(unsigned long clear, unsigned long set)
+void RSP::RSP_GeometryMode(unsigned int clear, unsigned int set)
 { 
 	RSP_ClearGeometryMode(clear);
 	RSP_SetGeometryMode(set);	
@@ -535,7 +533,7 @@ void RSP::RSP_GeometryMode(unsigned long clear, unsigned long set)
 //-----------------------------------------------------------------------------
 // Set Geometry Mode
 //-----------------------------------------------------------------------------
-void RSP::RSP_SetGeometryMode( unsigned long mode )
+void RSP::RSP_SetGeometryMode( unsigned int mode )
 { 
 	m_geometryMode |= mode;
 	updateGeometryStates();
@@ -544,7 +542,7 @@ void RSP::RSP_SetGeometryMode( unsigned long mode )
 //-----------------------------------------------------------------------------
 // Clear Geometry Mode
 //-----------------------------------------------------------------------------
-void RSP::RSP_ClearGeometryMode( unsigned long mode )
+void RSP::RSP_ClearGeometryMode( unsigned int mode )
 {
 	m_geometryMode &= ~mode;
 	updateGeometryStates();
@@ -554,47 +552,47 @@ void RSP::RSP_ClearGeometryMode( unsigned long mode )
 // Other
 //*****************************************************************************
 
-void RSP::RSP_Line3D( long v0, long v1, long flag )
+void RSP::RSP_Line3D( int v0, int v1, int flag )
 {
 	Logger::getSingleton().printMsg("RSP_Line3D - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_LineW3D( long v0, long v1, long wd, long flag )
+void RSP::RSP_LineW3D( int v0, int v1, int wd, int flag )
 {
 	Logger::getSingleton().printMsg("RSP_LineW3D - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjRectangle( unsigned long sp )
+void RSP::RSP_ObjRectangle( unsigned int sp )
 {
 	Logger::getSingleton().printMsg("RSP_ObjRectangle - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjSprite( unsigned long sp )
+void RSP::RSP_ObjSprite( unsigned int sp )
 {
 	Logger::getSingleton().printMsg("RSP_ObjSprite - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjLoadTxtr( unsigned long tx )
+void RSP::RSP_ObjLoadTxtr( unsigned int tx )
 {
 	Logger::getSingleton().printMsg("RSP_ObjLoadTxtr - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjLoadTxSprite( unsigned long txsp )
+void RSP::RSP_ObjLoadTxSprite( unsigned int txsp )
 {
 	Logger::getSingleton().printMsg("RSP_ObjLoadTxSprite - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjLoadTxRectR( unsigned long txsp )
+void RSP::RSP_ObjLoadTxRectR( unsigned int txsp )
 {
 	Logger::getSingleton().printMsg("RSP_ObjLoadTxRectR - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_BgRect1Cyc( unsigned long bg )
+void RSP::RSP_BgRect1Cyc( unsigned int bg )
 {
 	Logger::getSingleton().printMsg("RSP_BgRect1Cyc - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_BgRectCopy( unsigned long bg )
+void RSP::RSP_BgRectCopy( unsigned int bg )
 {
 	Logger::getSingleton().printMsg("RSP_BgRectCopy - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjMatrix( unsigned long mtx )
+void RSP::RSP_ObjMatrix( unsigned int mtx )
 { 
 	Logger::getSingleton().printMsg("RSP_ObjMatrix - Unimplemented", M64MSG_WARNING);
 }
-void RSP::RSP_ObjSubMatrix( unsigned long mtx )
+void RSP::RSP_ObjSubMatrix( unsigned int mtx )
 {
 	Logger::getSingleton().printMsg("RSP_ObjSubMatrix - Unimplemented", M64MSG_WARNING);
 }
@@ -603,15 +601,15 @@ void RSP::RSP_ObjSubMatrix( unsigned long mtx )
 // Non important functions
 //*****************************************************************************
 
-void RSP::RSP_Sprite2DBase( unsigned long base ) {
+void RSP::RSP_Sprite2DBase( unsigned int base ) {
 	Logger::getSingleton().printMsg("RSP_Sprite2DBase - Unimplemented", M64MSG_WARNING);
 }
 
-void RSP::RSP_LookAt( unsigned long l ) {
+void RSP::RSP_LookAt( unsigned int l ) {
 	Logger::getSingleton().printMsg("RSP_LookAt - Unimplemented", M64MSG_WARNING);
 }
 
-void RSP::RSP_ClipRatio( unsigned long r ) {
+void RSP::RSP_ClipRatio( unsigned int r ) {
 	Logger::getSingleton().printMsg("RSP_ClipRatio - Unimplemented", M64MSG_WARNING);
 }
 

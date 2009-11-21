@@ -41,25 +41,25 @@ bool UCodeSelector::initialize(Memory* memory)
 //! Will select a good ucode
 //! @return ID of The selected ucode
 //-----------------------------------------------------------------------------
-unsigned long UCodeSelector::checkUCode( unsigned long ucStart, 
-		                                    unsigned long ucDataStart, 
-					                        unsigned long ucSize, 
-					                        unsigned long ucDataSize )
+unsigned int UCodeSelector::checkUCode( unsigned int ucStart, 
+		                                    unsigned int ucDataStart, 
+					                        unsigned int ucSize, 
+					                        unsigned int ucDataSize )
 {
 	unsigned char* RDRAM = m_memory->getRDRAM();
-	unsigned long base = ucStart & 0x1fffffff;
+	unsigned int base = ucStart & 0x1fffffff;
 
 	//Calculate Hash values
 	CRCCalculator crcCalculator;
-	unsigned long crc_ucDataSize = crcCalculator.calcCRC(0, &RDRAM[base], 8); //ucDataSize
-	unsigned long crc_800        = crcCalculator.calcCRC(0, &RDRAM[base], 0x800);
+	unsigned int crc_ucDataSize = crcCalculator.calcCRC(0, &RDRAM[base], 8); //ucDataSize
+	unsigned int crc_800        = crcCalculator.calcCRC(0, &RDRAM[base], 0x800);
 
 	//Get UCode String
 	char ucodeString[500];
 	bool foundString = _extractUCodeString(ucDataStart, ucodeString);
 
 	//Try to identify ucode
-	unsigned long ucode = _detectUCode(crc_ucDataSize, crc_800, ucodeString );
+	unsigned int ucode = _detectUCode(crc_ucDataSize, crc_800, ucodeString );
 
 	//Is ucode valid?
 	if ( ucode == -1 && foundString )
@@ -70,6 +70,7 @@ unsigned long UCodeSelector::checkUCode( unsigned long ucStart,
 		//Is ucode valid?
 		if ( ucode == -5 )
 		{
+			Logger::getSingleton().printMsg("Unable to find UCode!", M64MSG_WARNING);
 			ucode = 5; //We where unable to find ucode, so just select one and hope for the best.
 		}
 	}
@@ -77,7 +78,7 @@ unsigned long UCodeSelector::checkUCode( unsigned long ucStart,
 	if ( foundString )
 	{
 		sprintf(logMsg, "Selected UCode %d String=%s", ucode, ucodeString);
-		Logger::getSingleton().printMsg(logMsg);
+		Logger::getSingleton().printMsg(logMsg, M64MSG_INFO);
 	}
 	else
 	{
@@ -95,9 +96,9 @@ unsigned long UCodeSelector::checkUCode( unsigned long ucStart,
 //! @param out The string identifing what ucode to use
 //! @return True if we found the string OK.
 //-----------------------------------------------------------------------------
-bool UCodeSelector::_extractUCodeString(unsigned long ucDataStart, char out[500])
+bool UCodeSelector::_extractUCodeString(unsigned int ucDataStart, char out[500])
 {
-	unsigned long base = ucDataStart & 0x1fffffff;
+	unsigned int base = ucDataStart & 0x1fffffff;
 	signed char* RDRAM = (signed char*)m_memory->getRDRAM();
 	
 	//Check for error
@@ -107,7 +108,7 @@ bool UCodeSelector::_extractUCodeString(unsigned long ucDataStart, char out[500]
 	}	
 
 	//Extract string
-	for (unsigned long i=0; i<0x1000; ++i)
+	for (unsigned int i=0; i<0x1000; ++i)
 	{
 		//If found RSP string
 		if ( RDRAM[base+((i+0)^3)] == 'R' && 
@@ -134,7 +135,7 @@ bool UCodeSelector::_extractUCodeString(unsigned long ucDataStart, char out[500]
 //! Use hash values to detect ucodes
 //! @return Index of detected ucode, -1 if no ucode was found
 //-----------------------------------------------------------------------------
-int UCodeSelector::_detectUCode(unsigned long crcUCodeDataSize, unsigned long crc800, const char ucodeStr[500])
+int UCodeSelector::_detectUCode(unsigned int crcUCodeDataSize, unsigned int crc800, const char ucodeStr[500])
 {
 	//For each ucode
 	for (int i=0; i<sizeof(g_UcodeData)/sizeof(UcodeData); ++i)

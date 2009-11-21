@@ -6,59 +6,59 @@
 #include "UCodeIdentificationData.h"
 #include "OpenGLManager.h"
 #include "Logger.h"
-#include "platform.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Static Variables
 //-----------------------------------------------------------------------------
-unsigned long GBI::G_MOVEMEM, GBI::G_MOVEWORD;
-unsigned long GBI::G_RDPHALF_1, GBI::G_RDPHALF_2, GBI::G_RDPHALF_CONT;
-unsigned long GBI::G_SPNOOP;
-unsigned long GBI::G_SETOTHERMODE_H, GBI::G_SETOTHERMODE_L;
-unsigned long GBI::G_DL, GBI::G_ENDDL, GBI::G_CULLDL, GBI::G_BRANCH_Z;
-unsigned long GBI::G_LOAD_UCODE;
+unsigned int GBI::G_MOVEMEM, GBI::G_MOVEWORD;
+unsigned int GBI::G_RDPHALF_1, GBI::G_RDPHALF_2, GBI::G_RDPHALF_CONT;
+unsigned int GBI::G_SPNOOP;
+unsigned int GBI::G_SETOTHERMODE_H, GBI::G_SETOTHERMODE_L;
+unsigned int GBI::G_DL, GBI::G_ENDDL, GBI::G_CULLDL, GBI::G_BRANCH_Z;
+unsigned int GBI::G_LOAD_UCODE;
 
-unsigned long GBI::G_MTX, GBI::G_POPMTX;
-unsigned long GBI::G_GEOMETRYMODE, GBI::G_SETGEOMETRYMODE, GBI::G_CLEARGEOMETRYMODE;
-unsigned long GBI::G_TEXTURE;
-unsigned long GBI::G_DMA_IO, GBI::G_DMA_DL, GBI::G_DMA_TRI, GBI::G_DMA_MTX, GBI::G_DMA_VTX, GBI::G_DMA_OFFSETS;
-unsigned long GBI::G_SPECIAL_1, GBI::G_SPECIAL_2, GBI::G_SPECIAL_3;
-unsigned long GBI::G_VTX, GBI::G_MODIFYVTX, GBI::G_VTXCOLORBASE;
-unsigned long GBI::G_TRI1, GBI::G_TRI2, GBI::G_TRI4;
-unsigned long GBI::G_QUAD, GBI::G_LINE3D;
-unsigned long GBI::G_RESERVED0, GBI::G_RESERVED1, GBI::G_RESERVED2, GBI::G_RESERVED3;
-unsigned long GBI::G_SPRITE2D_BASE;
-unsigned long GBI::G_BG_1CYC, GBI::G_BG_COPY;
-unsigned long GBI::G_OBJ_RECTANGLE, GBI::G_OBJ_SPRITE, GBI::G_OBJ_MOVEMEM;
-unsigned long GBI::G_SELECT_DL, GBI::G_OBJ_RENDERMODE, GBI::G_OBJ_RECTANGLE_R;
-unsigned long GBI::G_OBJ_LOADTXTR, GBI::G_OBJ_LDTX_SPRITE, GBI::G_OBJ_LDTX_RECT, GBI::G_OBJ_LDTX_RECT_R;
-unsigned long GBI::G_RDPHALF_0;
+unsigned int GBI::G_MTX, GBI::G_POPMTX;
+unsigned int GBI::G_GEOMETRYMODE, GBI::G_SETGEOMETRYMODE, GBI::G_CLEARGEOMETRYMODE;
+unsigned int GBI::G_TEXTURE;
+unsigned int GBI::G_DMA_IO, GBI::G_DMA_DL, GBI::G_DMA_TRI, GBI::G_DMA_MTX, GBI::G_DMA_VTX, GBI::G_DMA_OFFSETS;
+unsigned int GBI::G_SPECIAL_1, GBI::G_SPECIAL_2, GBI::G_SPECIAL_3;
+unsigned int GBI::G_VTX, GBI::G_MODIFYVTX, GBI::G_VTXCOLORBASE;
+unsigned int GBI::G_TRI1, GBI::G_TRI2, GBI::G_TRI4;
+unsigned int GBI::G_QUAD, GBI::G_LINE3D;
+unsigned int GBI::G_RESERVED0, GBI::G_RESERVED1, GBI::G_RESERVED2, GBI::G_RESERVED3;
+unsigned int GBI::G_SPRITE2D_BASE;
+unsigned int GBI::G_BG_1CYC, GBI::G_BG_COPY;
+unsigned int GBI::G_OBJ_RECTANGLE, GBI::G_OBJ_SPRITE, GBI::G_OBJ_MOVEMEM;
+unsigned int GBI::G_SELECT_DL, GBI::G_OBJ_RENDERMODE, GBI::G_OBJ_RECTANGLE_R;
+unsigned int GBI::G_OBJ_LOADTXTR, GBI::G_OBJ_LDTX_SPRITE, GBI::G_OBJ_LDTX_RECT, GBI::G_OBJ_LDTX_RECT_R;
+unsigned int GBI::G_RDPHALF_0;
 
-unsigned long GBI::G_MTX_STACKSIZE;
-unsigned long GBI::G_MTX_MODELVIEW;
-unsigned long GBI::G_MTX_PROJECTION;
-unsigned long GBI::G_MTX_MUL;
-unsigned long GBI::G_MTX_LOAD;
-unsigned long GBI::G_MTX_NOPUSH;
-unsigned long GBI::G_MTX_PUSH;
+unsigned int GBI::G_MTX_STACKSIZE;
+unsigned int GBI::G_MTX_MODELVIEW;
+unsigned int GBI::G_MTX_PROJECTION;
+unsigned int GBI::G_MTX_MUL;
+unsigned int GBI::G_MTX_LOAD;
+unsigned int GBI::G_MTX_NOPUSH;
+unsigned int GBI::G_MTX_PUSH;
 
-unsigned long GBI::G_TEXTURE_ENABLE;
-unsigned long GBI::G_SHADING_SMOOTH;
-unsigned long GBI::G_CULL_FRONT;
-unsigned long GBI::G_CULL_BACK;
-unsigned long GBI::G_CULL_BOTH;
-unsigned long GBI::G_CLIPPING;
+unsigned int GBI::G_TEXTURE_ENABLE;
+unsigned int GBI::G_SHADING_SMOOTH;
+unsigned int GBI::G_CULL_FRONT;
+unsigned int GBI::G_CULL_BACK;
+unsigned int GBI::G_CULL_BOTH;
+unsigned int GBI::G_CLIPPING;
 
-unsigned long GBI::G_MV_VIEWPORT;
+unsigned int GBI::G_MV_VIEWPORT;
 
-unsigned long GBI::G_MWO_aLIGHT_1, GBI::G_MWO_bLIGHT_1;
-unsigned long GBI::G_MWO_aLIGHT_2, GBI::G_MWO_bLIGHT_2;
-unsigned long GBI::G_MWO_aLIGHT_3, GBI::G_MWO_bLIGHT_3;
-unsigned long GBI::G_MWO_aLIGHT_4, GBI::G_MWO_bLIGHT_4;
-unsigned long GBI::G_MWO_aLIGHT_5, GBI::G_MWO_bLIGHT_5;
-unsigned long GBI::G_MWO_aLIGHT_6, GBI::G_MWO_bLIGHT_6;
-unsigned long GBI::G_MWO_aLIGHT_7, GBI::G_MWO_bLIGHT_7;
-unsigned long GBI::G_MWO_aLIGHT_8, GBI::G_MWO_bLIGHT_8;
+unsigned int GBI::G_MWO_aLIGHT_1, GBI::G_MWO_bLIGHT_1;
+unsigned int GBI::G_MWO_aLIGHT_2, GBI::G_MWO_bLIGHT_2;
+unsigned int GBI::G_MWO_aLIGHT_3, GBI::G_MWO_bLIGHT_3;
+unsigned int GBI::G_MWO_aLIGHT_4, GBI::G_MWO_bLIGHT_4;
+unsigned int GBI::G_MWO_aLIGHT_5, GBI::G_MWO_bLIGHT_5;
+unsigned int GBI::G_MWO_aLIGHT_6, GBI::G_MWO_bLIGHT_6;
+unsigned int GBI::G_MWO_aLIGHT_7, GBI::G_MWO_bLIGHT_7;
+unsigned int GBI::G_MWO_aLIGHT_8, GBI::G_MWO_bLIGHT_8;
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -157,10 +157,10 @@ void GBI::dispose()
 //-----------------------------------------------------------------------------
 // Select UCode
 //-----------------------------------------------------------------------------
-void GBI::selectUCode( unsigned long ucStart, 
-		            unsigned long ucDStart, 
-					unsigned long ucSize, 
-					unsigned long ucDSize)
+void GBI::selectUCode( unsigned int ucStart, 
+		            unsigned int ucDStart, 
+					unsigned int ucSize, 
+					unsigned int ucDSize)
 {
 	if ( m_previusUCodeStart == ucStart )
 	{
@@ -169,7 +169,7 @@ void GBI::selectUCode( unsigned long ucStart,
 	m_previusUCodeStart = ucStart;
 
 	//Identify ucode
-	unsigned long ucode = m_ucodeSelector->checkUCode(ucStart, ucDStart, ucSize, ucDSize);
+	unsigned int ucode = m_ucodeSelector->checkUCode(ucStart, ucDStart, ucSize, ucDSize);
 
 	//Unsupported ucodes
 	if ( ucode >= 6 || ucode == 3 )

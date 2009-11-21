@@ -20,16 +20,16 @@ public:
 	bool initialize(Memory* memory);
 
 	//Check ucode
-	unsigned long checkUCode( unsigned long ucStart, 
-		                         unsigned long ucDStart, 
-					             unsigned long ucSize, 
-					             unsigned long ucDSize );
+	unsigned int checkUCode( unsigned int ucStart, 
+		                         unsigned int ucDStart, 
+					             unsigned int ucSize, 
+					             unsigned int ucDSize );
 
 private:
 
 	//Private functions
-	bool _extractUCodeString(unsigned long ucDataStart, char out[500]);
-	int _detectUCode(unsigned long crcUCodeDataSize, unsigned long crc800, const char ucodeStr[500]);
+	bool _extractUCodeString(unsigned int ucDataStart, char out[500]);
+	int _detectUCode(unsigned int crcUCodeDataSize, unsigned int crc800, const char ucodeStr[500]);
 	int _detectUCodeFromString(const char ucodeStr[500]);
 
 private:

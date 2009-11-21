@@ -96,7 +96,7 @@ struct StringValue
         return x;
     }
     operator unsigned long() const {
-        unsigned long x;
+        unsigned int x;
         std::stringstream ss; ss << data; ss >> x;
         return x;
     }

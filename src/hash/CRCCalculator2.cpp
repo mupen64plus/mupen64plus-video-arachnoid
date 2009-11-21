@@ -1,15 +1,15 @@
 
 #include "CRCCalculator2.h"
 
-#define CRC32_POLYNOMIAL    0xedb88320L    //0x04C11DB7
+#define CRC32_POLYNOMIAL    0xedb88320    //0x04C11DB7
 typedef unsigned char byte;
 
 //-----------------------------------------------------------------------------
 // Static Variabels
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator2::m_crcTable[256] = {0};   
+unsigned int CRCCalculator2::m_crcTable[256] = {0};   
 
-static unsigned long crc_table[256];
+static unsigned int crc_table[256];
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -22,7 +22,7 @@ CRCCalculator2::CRCCalculator2()
     //http://www.gamedev.net/reference/articles/article1941.asp
     if ( !hashTableInitialized )
     {
-        unsigned long crc;
+        unsigned int crc;
 
         //For each value 
         for (int i=0; i<256; i++)
@@ -44,10 +44,10 @@ CRCCalculator2::CRCCalculator2()
 //-----------------------------------------------------------------------------
 // CalculateCRC
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator2::calcCRC(unsigned long crc, void *buffer, unsigned long count)
+unsigned int CRCCalculator2::calcCRC(unsigned int crc, void *buffer, unsigned int count)
 {
     byte* p = (byte*) buffer; 
-	unsigned long orig = crc;
+	unsigned int orig = crc;
 
     p = (byte*) buffer;
     while (count--) 
@@ -61,10 +61,10 @@ unsigned long CRCCalculator2::calcCRC(unsigned long crc, void *buffer, unsigned 
 //-----------------------------------------------------------------------------
 // CalculatePaletteCRC
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator2::calcPaletteCRC(unsigned long crc, void *buffer, unsigned long count)
+unsigned int CRCCalculator2::calcPaletteCRC(unsigned int crc, void *buffer, unsigned int count)
 {
     byte *p;
-	unsigned long orig = crc;
+	unsigned int orig = crc;
 
     p = (byte*) buffer;
     while (count--)
@@ -89,9 +89,9 @@ unsigned long CRCCalculator2::calcPaletteCRC(unsigned long crc, void *buffer, un
 //!       bit 1 for bit 6
 //!       bit 2 for bit 5 ...
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator2::_reflect(unsigned long ref, char ch)
+unsigned int CRCCalculator2::_reflect(unsigned int ref, char ch)
 {
-    unsigned long value = 0;
+    unsigned int value = 0;
     for (int i=1; i<(ch + 1); ++i)
     {
         if(ref & 1) 

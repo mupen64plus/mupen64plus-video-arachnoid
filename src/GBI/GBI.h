@@ -25,8 +25,8 @@ class UCodeSelector;
 	target[command] = function
 
 // Useful macros for decoding GBI command's parameters
-#define _SHIFTL( v, s, w )	(((unsigned long)v & ((0x01 << w) - 1)) << s)
-#define _SHIFTR( v, s, w )	(((unsigned long)v >> s) & ((0x01 << w) - 1))
+#define _SHIFTL( v, s, w )	(((unsigned int)v & ((0x01 << w) - 1)) << s)
+#define _SHIFTR( v, s, w )	(((unsigned int)v >> s) & ((0x01 << w) - 1))
 
 
 //-----------------------------------------------------------------------------
@@ -49,62 +49,62 @@ public:
 
 	bool initialize(RSP* rsp, RDP* rdp, Memory* memory, DisplayListParser* dlp);  
     void dispose();
-	void selectUCode( unsigned long ucStart, 
-		              unsigned long ucDStart, 
-					  unsigned long ucSize, 
-					  unsigned long ucDSize);
+	void selectUCode( unsigned int ucStart, 
+		              unsigned int ucDStart, 
+					  unsigned int ucSize, 
+					  unsigned int ucDSize);
 
 	//Dummy instruction
 	static void unknownInstruction(MicrocodeArgument* arg);
 
-	static unsigned long G_MOVEMEM, G_MOVEWORD;
-	static unsigned long G_RDPHALF_1, G_RDPHALF_2, G_RDPHALF_CONT;
-	static unsigned long G_SPNOOP;
-	static unsigned long G_SETOTHERMODE_H, G_SETOTHERMODE_L;
-	static unsigned long G_DL, G_ENDDL, G_CULLDL, G_BRANCH_Z;
-	static unsigned long G_LOAD_UCODE;
+	static unsigned int G_MOVEMEM, G_MOVEWORD;
+	static unsigned int G_RDPHALF_1, G_RDPHALF_2, G_RDPHALF_CONT;
+	static unsigned int G_SPNOOP;
+	static unsigned int G_SETOTHERMODE_H, G_SETOTHERMODE_L;
+	static unsigned int G_DL, G_ENDDL, G_CULLDL, G_BRANCH_Z;
+	static unsigned int G_LOAD_UCODE;
 
-	static unsigned long G_MTX, G_POPMTX;
-	static unsigned long G_GEOMETRYMODE, G_SETGEOMETRYMODE, G_CLEARGEOMETRYMODE;
-	static unsigned long G_TEXTURE;
-	static unsigned long G_DMA_IO, G_DMA_DL, G_DMA_TRI, G_DMA_MTX, G_DMA_VTX, G_DMA_OFFSETS;
-	static unsigned long G_SPECIAL_1, G_SPECIAL_2, G_SPECIAL_3;
-	static unsigned long G_VTX, G_MODIFYVTX, G_VTXCOLORBASE;
-	static unsigned long G_TRI1, G_TRI2, G_TRI4;
-	static unsigned long G_QUAD, G_LINE3D;
-	static unsigned long G_RESERVED0, G_RESERVED1, G_RESERVED2, G_RESERVED3;
-	static unsigned long G_SPRITE2D_BASE;
-	static unsigned long G_BG_1CYC, G_BG_COPY;
-	static unsigned long G_OBJ_RECTANGLE, G_OBJ_SPRITE, G_OBJ_MOVEMEM;
-	static unsigned long G_SELECT_DL, G_OBJ_RENDERMODE, G_OBJ_RECTANGLE_R;
-	static unsigned long G_OBJ_LOADTXTR, G_OBJ_LDTX_SPRITE, G_OBJ_LDTX_RECT, G_OBJ_LDTX_RECT_R;
-	static unsigned long G_RDPHALF_0;
+	static unsigned int G_MTX, G_POPMTX;
+	static unsigned int G_GEOMETRYMODE, G_SETGEOMETRYMODE, G_CLEARGEOMETRYMODE;
+	static unsigned int G_TEXTURE;
+	static unsigned int G_DMA_IO, G_DMA_DL, G_DMA_TRI, G_DMA_MTX, G_DMA_VTX, G_DMA_OFFSETS;
+	static unsigned int G_SPECIAL_1, G_SPECIAL_2, G_SPECIAL_3;
+	static unsigned int G_VTX, G_MODIFYVTX, G_VTXCOLORBASE;
+	static unsigned int G_TRI1, G_TRI2, G_TRI4;
+	static unsigned int G_QUAD, G_LINE3D;
+	static unsigned int G_RESERVED0, G_RESERVED1, G_RESERVED2, G_RESERVED3;
+	static unsigned int G_SPRITE2D_BASE;
+	static unsigned int G_BG_1CYC, G_BG_COPY;
+	static unsigned int G_OBJ_RECTANGLE, G_OBJ_SPRITE, G_OBJ_MOVEMEM;
+	static unsigned int G_SELECT_DL, G_OBJ_RENDERMODE, G_OBJ_RECTANGLE_R;
+	static unsigned int G_OBJ_LOADTXTR, G_OBJ_LDTX_SPRITE, G_OBJ_LDTX_RECT, G_OBJ_LDTX_RECT_R;
+	static unsigned int G_RDPHALF_0;
 
-	static unsigned long G_MTX_STACKSIZE;
-	static unsigned long G_MTX_MODELVIEW;
-	static unsigned long G_MTX_PROJECTION;
-	static unsigned long G_MTX_MUL;
-	static unsigned long G_MTX_LOAD;
-	static unsigned long G_MTX_NOPUSH;
-	static unsigned long G_MTX_PUSH;
+	static unsigned int G_MTX_STACKSIZE;
+	static unsigned int G_MTX_MODELVIEW;
+	static unsigned int G_MTX_PROJECTION;
+	static unsigned int G_MTX_MUL;
+	static unsigned int G_MTX_LOAD;
+	static unsigned int G_MTX_NOPUSH;
+	static unsigned int G_MTX_PUSH;
 
-	static unsigned long G_TEXTURE_ENABLE;
-	static unsigned long G_SHADING_SMOOTH;
-	static unsigned long G_CULL_FRONT;
-	static unsigned long G_CULL_BACK;
-	static unsigned long G_CULL_BOTH;
-	static unsigned long G_CLIPPING;
+	static unsigned int G_TEXTURE_ENABLE;
+	static unsigned int G_SHADING_SMOOTH;
+	static unsigned int G_CULL_FRONT;
+	static unsigned int G_CULL_BACK;
+	static unsigned int G_CULL_BOTH;
+	static unsigned int G_CLIPPING;
 
-	static unsigned long G_MV_VIEWPORT;
+	static unsigned int G_MV_VIEWPORT;
 
-	static unsigned long G_MWO_aLIGHT_1, G_MWO_bLIGHT_1;
-	static unsigned long G_MWO_aLIGHT_2, G_MWO_bLIGHT_2;
-	static unsigned long G_MWO_aLIGHT_3, G_MWO_bLIGHT_3;
-	static unsigned long G_MWO_aLIGHT_4, G_MWO_bLIGHT_4;
-	static unsigned long G_MWO_aLIGHT_5, G_MWO_bLIGHT_5;
-	static unsigned long G_MWO_aLIGHT_6, G_MWO_bLIGHT_6;
-	static unsigned long G_MWO_aLIGHT_7, G_MWO_bLIGHT_7;
-	static unsigned long G_MWO_aLIGHT_8, G_MWO_bLIGHT_8;
+	static unsigned int G_MWO_aLIGHT_1, G_MWO_bLIGHT_1;
+	static unsigned int G_MWO_aLIGHT_2, G_MWO_bLIGHT_2;
+	static unsigned int G_MWO_aLIGHT_3, G_MWO_bLIGHT_3;
+	static unsigned int G_MWO_aLIGHT_4, G_MWO_bLIGHT_4;
+	static unsigned int G_MWO_aLIGHT_5, G_MWO_bLIGHT_5;
+	static unsigned int G_MWO_aLIGHT_6, G_MWO_bLIGHT_6;
+	static unsigned int G_MWO_aLIGHT_7, G_MWO_bLIGHT_7;
+	static unsigned int G_MWO_aLIGHT_8, G_MWO_bLIGHT_8;
 
 public:
 

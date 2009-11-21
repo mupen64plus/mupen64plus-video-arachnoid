@@ -7,9 +7,9 @@ typedef unsigned char byte;
 //-----------------------------------------------------------------------------
 // Static Variabels
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator::m_crcTable[256] = {0};   
+unsigned int CRCCalculator::m_crcTable[256] = {0};   
 
-static unsigned long crc_table[256];
+static unsigned int crc_table[256];
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -22,7 +22,7 @@ CRCCalculator::CRCCalculator()
     //http://www.gamedev.net/reference/articles/article1941.asp
     if ( !hashTableInitialized )
     {
-     //   unsigned long crc;
+     //   unsigned int crc;
 
      //   //For each value 
      //   for (int i=0; i<256; i++)
@@ -37,8 +37,8 @@ CRCCalculator::CRCCalculator()
      //       m_crcTable[i] = _reflect( crc, 32 );
      //   }
 
-		unsigned long crc;
-		unsigned long poly;  // polynomial exclusive-or pattern 
+		unsigned int crc;
+		unsigned int poly;  // polynomial exclusive-or pattern 
 		// terms of polynomial defining this crc (except x^32): 
 		static const unsigned char p[] = {0,1,2,4,5,7,8,10,11,12,16,22,23,26};
 
@@ -51,7 +51,7 @@ CRCCalculator::CRCCalculator()
 		 
 		for (int n=0; n<256; ++n)
 		{
-			crc = (unsigned long)n;
+			crc = (unsigned int)n;
 
 			for (int k = 0; k < 8; k++)
 			{
@@ -69,10 +69,10 @@ CRCCalculator::CRCCalculator()
 //-----------------------------------------------------------------------------
 #define DO1(buf) crc = crc_table[((int)crc ^ (*buf++)) & 0xff] ^ (crc >> 8);
 #define DO1b(buf) crc = (crc >> 8) ^ crc_table[(crc & 0xFF) ^ *buf++]
-unsigned long CRCCalculator::calcCRC(unsigned long crc, void *buffer, unsigned long count)
+unsigned int CRCCalculator::calcCRC(unsigned int crc, void *buffer, unsigned int count)
 {
     byte* p = (byte*) buffer; 
-	//unsigned long orig = crc;
+	//unsigned int orig = crc;
 
  //   p = (byte*) buffer;
  //   while (count--) 
@@ -98,10 +98,10 @@ unsigned long CRCCalculator::calcCRC(unsigned long crc, void *buffer, unsigned l
 //-----------------------------------------------------------------------------
 // CalculatePaletteCRC
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator::calcPaletteCRC(unsigned long crc, void *buffer, unsigned long count)
+unsigned int CRCCalculator::calcPaletteCRC(unsigned int crc, void *buffer, unsigned int count)
 {
     byte *p;
-	unsigned long orig = crc;
+	unsigned int orig = crc;
 
     p = (byte*) buffer;
     while (count--)
@@ -126,9 +126,9 @@ unsigned long CRCCalculator::calcPaletteCRC(unsigned long crc, void *buffer, uns
 //!       bit 1 for bit 6
 //!       bit 2 for bit 5 ...
 //-----------------------------------------------------------------------------
-unsigned long CRCCalculator::_reflect(unsigned long ref, char ch)
+unsigned int CRCCalculator::_reflect(unsigned int ref, char ch)
 {
-    unsigned long value = 0;
+    unsigned int value = 0;
     for (int i=1; i<(ch + 1); ++i)
     {
         if(ref & 1) 

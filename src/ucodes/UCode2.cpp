@@ -69,24 +69,24 @@ void UCode2::renderSky(MicrocodeArgument* ucode)
 		return;
 	}
 
-	unsigned long w2  = m_displayListParser->getNextWord();
-	unsigned long w3  = m_displayListParser->getNextWord();
-	unsigned long w4  = m_displayListParser->getNextWord();
-	unsigned long w5  = m_displayListParser->getNextWord();
-	unsigned long w6  = m_displayListParser->getNextWord();
-	unsigned long w7  = m_displayListParser->getNextWord();
-	unsigned long w8  = m_displayListParser->getNextWord();
-	unsigned long w9  = m_displayListParser->getNextWord();
-	unsigned long w10 = m_displayListParser->getNextWord();
+	unsigned int w2  = m_displayListParser->getNextWord();
+	unsigned int w3  = m_displayListParser->getNextWord();
+	unsigned int w4  = m_displayListParser->getNextWord();
+	unsigned int w5  = m_displayListParser->getNextWord();
+	unsigned int w6  = m_displayListParser->getNextWord();
+	unsigned int w7  = m_displayListParser->getNextWord();
+	unsigned int w8  = m_displayListParser->getNextWord();
+	unsigned int w9  = m_displayListParser->getNextWord();
+	unsigned int w10 = m_displayListParser->getNextWord();
 
 	int width  = m_rsp->getTile(0)->getWidth();
 	int height = m_rsp->getTile(0)->getHeight();
 	
 	//Extract Vertex Coordinats
-	unsigned long x0 = 0;     //TODO Use VI pos or Viewport pos or Scissor pos ?
-	unsigned long y0 = (unsigned long)int(w2&0xFFFF)/4;
-	unsigned long x1 = 320;   //TODO Use VI Height or Viewport Height or Scissor Height ?
-	unsigned long y1 = (unsigned long)int(w2>>16)/4;
+	unsigned int x0 = 0;     //TODO Use VI pos or Viewport pos or Scissor pos ?
+	unsigned int y0 = (unsigned int)int(w2&0xFFFF)/4;
+	unsigned int x1 = 320;   //TODO Use VI Height or Viewport Height or Scissor Height ?
+	unsigned int y1 = (unsigned int)int(w2>>16)/4;
 
     //Extract Texture Coordinats
 	float uS = (short)(w4&0xFFFF)/32768.0f*width;

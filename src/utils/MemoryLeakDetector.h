@@ -2,7 +2,7 @@
 #ifndef MEMORY_LEAK_DETECTOR_H
 #define MEMORY_LEAK_DETECTOR_H
 
-#include "platform.h"
+#include "m64p.h"
 #include <cstdio>
 #ifdef WIN32
 #include <crtdbg.h>

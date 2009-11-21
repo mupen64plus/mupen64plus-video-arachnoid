@@ -97,8 +97,8 @@ void UCode10::initializeGBI()
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_Vertex(MicrocodeArgument* ucode)
 {
-	unsigned long vertexEnd   = (((ucode->w0)   )&0xFFF)/2;
-	unsigned long numVertices = (((ucode->w0)>>12)&0xFFF);
+	unsigned int vertexEnd   = (((ucode->w0)   )&0xFFF)/2;
+	unsigned int numVertices = (((ucode->w0)>>12)&0xFFF);
 
     //Add Vertices
     m_rsp->getVertexMgr()->addConkerVertices( ucode->w1, numVertices, vertexEnd - numVertices );
@@ -110,10 +110,10 @@ void UCode10::ConkerBFD_Vertex(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_Add4Triangles(MicrocodeArgument* ucode)
 {
-	unsigned long w0 = ucode->w0;
-	unsigned long w1 = ucode->w1;
+	unsigned int w0 = ucode->w0;
+	unsigned int w1 = ucode->w1;
 
-	unsigned long idx[12];
+	unsigned int idx[12];
 	idx[0]  = (w1   )&0x1F;    //Tri1
 	idx[1]  = (w1>> 5)&0x1F;
 	idx[2]  = (w1>>10)&0x1F;
@@ -133,7 +133,7 @@ void UCode10::ConkerBFD_Add4Triangles(MicrocodeArgument* ucode)
     m_rsp->RSP_1Triangle(idx[6], idx[7], idx[8]);
     m_rsp->RSP_1Triangle(idx[9], idx[10], idx[11]);
 
-    unsigned long* RDRAMu32 = m_memory->getRDRAMint32();
+    unsigned int* RDRAMu32 = m_memory->getRDRAMint32();
 
 	//Get next command		
     MicrocodeArgument* ucodeNext =  (MicrocodeArgument*)&RDRAMu32[(m_displayListParser->getPC()>>2)];
@@ -151,7 +151,7 @@ void UCode10::ConkerBFD_Add4Triangles(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_MoveWord(MicrocodeArgument* ucode)
 {
-	unsigned long dwType   = ((ucode->w0) >> 16) & 0xFF;
+	unsigned int dwType   = ((ucode->w0) >> 16) & 0xFF;
 
 	if( dwType == RSP_MOVE_WORD_NUMLIGHT )
 	{
@@ -168,8 +168,8 @@ void UCode10::ConkerBFD_MoveWord(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_MoveMem(MicrocodeArgument* ucode)
 {
-	unsigned long dwType = ((ucode->w0)     ) & 0xFE;
-	unsigned long dwAddr =  ucode->w1;     //RSPSegmentAddr((gfx->words.w1));
+	unsigned int dwType = ((ucode->w0)     ) & 0xFE;
+	unsigned int dwAddr =  ucode->w1;     //RSPSegmentAddr((gfx->words.w1));
 
     switch ( dwType )
     {
@@ -179,7 +179,7 @@ void UCode10::ConkerBFD_MoveMem(MicrocodeArgument* ucode)
 
         case RSP_GBI2_MV_MEM__LIGHT:
 	        {
-		        unsigned long dwOffset2 = ((ucode->w0) >> 5) & 0x3FFF;
+		        unsigned int dwOffset2 = ((ucode->w0) >> 5) & 0x3FFF;
 		        if( dwOffset2 >= 0x30 )
 		        {
                     m_rsp->RSP_Light(((dwOffset2 - 0x30)/0x30), dwAddr);

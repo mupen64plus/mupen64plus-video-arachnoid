@@ -40,7 +40,7 @@ bool TextureLoader::initialize(RDP* rdp, Memory* memory)
 //* Set Texture Image
 //! Stores information about texture image.
 //-----------------------------------------------------------------------------
-void TextureLoader::setTextureImage(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress)
+void TextureLoader::setTextureImage(unsigned int format, unsigned int size, unsigned int width, unsigned int segmentAddress)
 {
 	m_textureImage.address = m_memory->getRDRAMAddress( segmentAddress );  
     m_textureImage.format  = format; 
@@ -86,7 +86,7 @@ void TextureLoader::setTile( int format, int size, int line, int tmem, int tile,
 //* Set Tile Size
 //! Stores size information for a rdp tile.
 //-----------------------------------------------------------------------------
-void TextureLoader::setTileSize(int tile, unsigned long s0, unsigned long t0, unsigned long s1, unsigned long t1)
+void TextureLoader::setTileSize(int tile, unsigned int s0, unsigned int t0, unsigned int s1, unsigned int t1)
 {
 	m_tiles[tile].uls = _SHIFTR( s0, 2, 10 );
 	m_tiles[tile].ult = _SHIFTR( t0, 2, 10 );
@@ -104,12 +104,12 @@ void TextureLoader::setTileSize(int tile, unsigned long s0, unsigned long t0, un
 //-----------------------------------------------------------------------------
 void TextureLoader::loadTile(int tile, int s0, int t0, int s1, int t1)
 {
-	void (*Interleave)( void *mem, unsigned long numDWords );
+	void (*Interleave)( void *mem, unsigned int numDWords );
 
 
-	//unsigned long tile   = _SHIFTR( ucode->w1, 24, 3 );
+	//unsigned int tile   = _SHIFTR( ucode->w1, 24, 3 );
 
-	unsigned long address, height, bpl, line, y;
+	unsigned int address, height, bpl, line, y;
 	unsigned long long *dest;
 	unsigned char *src;
 
@@ -160,15 +160,15 @@ void TextureLoader::loadTile(int tile, int s0, int t0, int s1, int t1)
 //-----------------------------------------------------------------------------
 void TextureLoader::loadBlock(int tile, int s0, int t0, int s1, int t1)
 {
-	unsigned long dxt = t1; 
+	unsigned int dxt = t1; 
 
 	//Set new Tile Size
 	this->setTileSize(tile, s0, t0, s1, t1);
 	m_currentTile = &m_tiles[tile];
 
 
- 	unsigned long bytes = (s1 + 1) << m_currentTile->size >> 1;
-	unsigned long address = m_textureImage.address + t0 * m_textureImage.bpl + (s0 << m_textureImage.size >> 1);
+ 	unsigned int bytes = (s1 + 1) << m_currentTile->size >> 1;
+	unsigned int address = m_textureImage.address + t0 * m_textureImage.bpl + (s0 << m_textureImage.size >> 1);
 
 	if ((bytes == 0) || ((address + bytes) > m_memory->getRDRAMSize()) || (((m_currentTile->tmem << 3) + bytes) > 4096))
 	{
@@ -178,28 +178,37 @@ void TextureLoader::loadBlock(int tile, int s0, int t0, int s1, int t1)
 	unsigned long long* src = (unsigned long long*)m_memory->getRDRAM(address);
 	unsigned long long* dest = m_memory->getTextureMemory(m_currentTile->tmem);
 
-	unsigned long line = 0;
+	unsigned int line = 0;
 
 	if (dxt > 0)
 	{
-		void (*Interleave)( void *mem, unsigned long numDWords );
-
-		              line = (2047 + dxt) / dxt;
-		unsigned long bpl = line << 3;
-		unsigned long height = bytes / bpl;
+        line = (2047 + dxt) / dxt;
+		unsigned int bpl = line << 3;
+		unsigned int height = bytes / bpl;
 
 		if (m_currentTile->size == G_IM_SIZ_32b)
-			Interleave = QWordInterleave;
-		else
-			Interleave = DWordInterleave;
-
-		for (unsigned int y = 0; y < height; y++)
 		{
-			UnswapCopy( src, dest, bpl );
-			if (y & 1) Interleave( dest, line );
+			for (unsigned int y = 0; y < height; y++)
+			{
+				UnswapCopy( src, dest, bpl );
+				if (y & 1) 
+					QWordInterleave( dest, line );
 
-			src += line;
-			dest += line;
+				src += line;
+				dest += line;
+			}
+		}
+		else
+		{
+			for (unsigned int y = 0; y < height; y++)
+			{
+				UnswapCopy( src, dest, bpl );
+				if (y & 1) 
+					DWordInterleave( dest, line );
+
+				src += line;
+				dest += line;
+			}
 		}
 	}
 	else
@@ -219,7 +228,7 @@ void TextureLoader::loadTLUT(int tile, int s0, int t0, int s1, int t1)
 
 
     unsigned short count   = (m_tiles[tile].lrs - m_tiles[tile].uls + 1) * (m_tiles[tile].lrt - m_tiles[tile].ult + 1);
-	unsigned long  address = m_textureImage.address + m_tiles[tile].ult * m_textureImage.bpl + (m_tiles[tile].uls << m_textureImage.size >> 1);
+	unsigned int  address = m_textureImage.address + m_tiles[tile].ult * m_textureImage.bpl + (m_tiles[tile].uls << m_textureImage.size >> 1);
 
 	//Copy from rdram to texture memory
 	unsigned short *src = (unsigned short*)m_memory->getRDRAM(address);

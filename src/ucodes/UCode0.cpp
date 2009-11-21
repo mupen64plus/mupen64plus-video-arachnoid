@@ -226,9 +226,9 @@ void UCode0::F3D_Texture(MicrocodeArgument* ucode)
 
 	float scaleS  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 16, 16 ), 16 ); 
 	float scaleT  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 0, 16 ), 16 ); 
-	long on       = _SHIFTR( ucode->w0, 0, 8 );
+	int on       = _SHIFTR( ucode->w0, 0, 8 );
 
-	m_rsp->RSP_Texture(scaleS, scaleT, (long)temp->level, (long)temp->tile, on);
+	m_rsp->RSP_Texture(scaleS, scaleT, (int)temp->level, (int)temp->tile, on);
 }
 
 //*****************************************************************************
@@ -296,7 +296,7 @@ void UCode0::F3D_SetOtherMode_H(MicrocodeArgument* ucode)
 {
 	Logger::getSingleton().printMsg("F3D_SetOtherMode_H", M64MSG_VERBOSE);
 
-	unsigned long otherModeType = _SHIFTR(ucode->w0, 8, 8);
+	unsigned int otherModeType = _SHIFTR(ucode->w0, 8, 8);
 	unsigned int w1             = ucode->w1;
 
 	switch ( otherModeType )
@@ -336,9 +336,9 @@ void UCode0::F3D_SetOtherMode_H(MicrocodeArgument* ucode)
 			//gDPSetAlphaDither( w1 >> G_MDSFT_ALPHADITHER );
 			break;
 		default:
-			unsigned long shift = _SHIFTR( ucode->w0, 8, 8 );
-			unsigned long length = _SHIFTR( ucode->w0, 0, 8 );
-			unsigned long mask = ((1 << length) - 1) << shift;
+			unsigned int shift = _SHIFTR( ucode->w0, 8, 8 );
+			unsigned int length = _SHIFTR( ucode->w0, 0, 8 );
+			unsigned int mask = ((1 << length) - 1) << shift;
 			m_rdp->m_otherMode.h &= ~mask;
 			m_rdp->m_otherMode.h |= w1 & mask;
 			m_rdp->setUpdateCombiner(true);
@@ -365,9 +365,9 @@ void UCode0::F3D_SetOtherMode_L(MicrocodeArgument* ucode)
 			m_rdp->setRenderMode(ucode->w1);
 			break;
 		default:
-			unsigned long shift = _SHIFTR( ucode->w0, 8, 8 );
-			unsigned long length = _SHIFTR( ucode->w0, 0, 8 );
-			unsigned long mask = ((1 << length) - 1) << shift;
+			unsigned int shift = _SHIFTR( ucode->w0, 8, 8 );
+			unsigned int length = _SHIFTR( ucode->w0, 0, 8 );
+			unsigned int mask = ((1 << length) - 1) << shift;
 
 			m_rdp->m_otherMode.l &= ~mask;
 			m_rdp->m_otherMode.l |= ucode->w1 & mask;
@@ -388,9 +388,9 @@ void UCode0::F3D_MoveMem(MicrocodeArgument* ucode)
 {
 	Logger::getSingleton().printMsg("F3D_MoveMem", M64MSG_VERBOSE);
 
-	unsigned long type    = ((ucode->w0)>>16)&0xFF;
-	unsigned long length  = ((ucode->w0))&0xFFFF;
-	unsigned long segmentAddress = ucode->w1;
+	unsigned int type    = ((ucode->w0)>>16)&0xFF;
+	unsigned int length  = ((ucode->w0))&0xFFFF;
+	unsigned int segmentAddress = ucode->w1;
 
 	switch (type) 
 	{
@@ -474,7 +474,7 @@ void UCode0::F3D_MoveWord(MicrocodeArgument* ucode)
 			break;
 
 		case G_MW_NUMLIGHT: 
-            m_rsp->RSP_NumLights( (unsigned long)(((ucode->w1 - 0x80000000) >> 5) - 1) );			
+            m_rsp->RSP_NumLights( (unsigned int)(((ucode->w1 - 0x80000000) >> 5) - 1) );			
 			break;
 
 		case G_MW_SEGMENT:			                    

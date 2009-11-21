@@ -5,14 +5,7 @@
 //-----------------------------------------------------------------------------
 OpenGLManager::OpenGLManager()
 {
-#if 0
-	m_currentDC = NULL;              
-	m_rc        = NULL;   
 	m_forceDisableCulling = false;
-
-	//Save mode so we can switch back in destructor	
-	EnumDisplaySettings( NULL, ENUM_CURRENT_SETTINGS, &m_oldDevMode );
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -29,47 +22,13 @@ OpenGLManager::OpenGLManager()
 //! @param vSync		limits frame rate to the monitor's refresh frequency
 //! @param hideCursor	hides mouse coursor if true
 //-----------------------------------------------------------------------------
-bool OpenGLManager::initialize(HWND hWnd, HDC dc, bool fullscreen, int width, int height, int bitDepth, int refreshRate, bool vSync, bool hideCursor)
+bool OpenGLManager::initialize(bool fullscreen, int width, int height, int bitDepth, int refreshRate, bool vSync, bool hideCursor)
 {
-#if 0
-	this->_setPixelFormat(dc);
-
-	m_hWnd        = hWnd;
-    m_currentDC   = dc;
 	m_width       = width;
 	m_height      = height;
     m_bitDepth    = bitDepth;
     m_refreshRate = refreshRate;
 	m_fullscreen  = fullscreen;
-
-    //Set Special Display Settings if fullscreen
-	if ( fullscreen )
-	{
-		DEVMODE devModeScreen;
-		memset(&devModeScreen, 0, sizeof(devModeScreen));          // clear the DEVMODE structure
-		devModeScreen.dmSize             = sizeof(devModeScreen);  // size of the structure	
-		devModeScreen.dmPelsWidth        = width;                  // set the width
-		devModeScreen.dmPelsHeight       = height;                 // set the height	
-		devModeScreen.dmBitsPerPel       = bitDepth;               // screenBpp;                 
-        devModeScreen.dmDisplayFrequency = refreshRate;            // refresh rate
-		devModeScreen.dmFields = DM_PELSWIDTH | DM_PELSHEIGHT | DM_BITSPERPEL;
-
-		if ( ChangeDisplaySettings(&devModeScreen, CDS_FULLSCREEN) != DISP_CHANGE_SUCCESSFUL )
-		{		
-			return false;   //Unable to run in fullscreen
-		}
-	}
-
-    //Show cursor?
-	ShowCursor( !hideCursor );	   
-	
-    //Create and set render context	
-	if ( !(m_rc = wglCreateContext(m_currentDC))) {
-		return false;
-	}
-    if ( !wglMakeCurrent(m_currentDC, m_rc) ) {
-        return false;
-    }
 
 	//Set OpenGL Settings
     setClearColor(0.0f, 0.0f, 0.0f);
@@ -81,7 +40,7 @@ bool OpenGLManager::initialize(HWND hWnd, HDC dc, bool fullscreen, int width, in
 	setCullMode(false, true);
 	setTextureing2D(false);
 	setLighting(false);
-#endif
+
 	return true;
 }
 
@@ -117,32 +76,6 @@ void OpenGLManager::setScissor(int x, int y, int width, int height)
 	glScissor(x,y, width, height);
 }
 
-//-----------------------------------------------------------------------------
-// Make Current
-//-----------------------------------------------------------------------------
-bool OpenGLManager::makeCurrent(HDC dc)
-{
-#if 0
-    m_currentDC = dc;
-    if ( !wglMakeCurrent(m_currentDC, m_rc) ) {
-
-        LPVOID lpMsgBuf;
-        FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                       0,
-                       GetLastError(),
-                       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                       (LPTSTR) &lpMsgBuf,
-                       0,
-                       0);
-
-        MessageBox(GetActiveWindow(), (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION);
-
-        LocalFree( lpMsgBuf );
-		return false;
-    }
-#endif
-	return true;
-}
 
 //-----------------------------------------------------------------------------
 // Resize
@@ -151,7 +84,7 @@ void OpenGLManager::resize(int width, int height, int bitDepth, int refreshRate)
 {
 #if 0
 	dispose();
-	initialize(m_hWnd, GetWindowDC(m_hWnd), m_fullscreen, width, height, bitDepth, refreshRate, true, false);
+	initialize(m_fullscreen, width, height, bitDepth, refreshRate, true, false);
 #endif
 }
 
@@ -162,8 +95,9 @@ bool OpenGLManager::toggleFullscreen()
 {
 #if 0
 	dispose();
-	return initialize(m_hWnd, GetWindowDC(m_hWnd), !m_fullscreen, m_width, m_height, m_bitDepth, m_refreshRate,  true, !m_fullscreen);
+	return initialize(!m_fullscreen, m_width, m_height, m_bitDepth, m_refreshRate,  true, !m_fullscreen);
 #endif
+	return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -182,24 +116,8 @@ void OpenGLManager::beginRendering()
 //-----------------------------------------------------------------------------
 void OpenGLManager::endRendering()
 {
-#if 0
+	CoreVideo_GL_SwapBuffers();
     //glFlush();
-    if ( !SwapBuffers(m_currentDC) ) {
-
-        LPVOID lpMsgBuf;
-        FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                       0,
-                       GetLastError(),
-                       MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-                       (LPTSTR) &lpMsgBuf,
-                       0,
-                       0);
-
-        //MessageBox(0, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
-
-        LocalFree( lpMsgBuf );
-    }
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -375,27 +293,6 @@ void OpenGLManager::setCullMode(bool cullFront, bool cullBack)
 //-----------------------------------------------------------------------------
 void OpenGLManager::dispose()
 {
-#if 0
-	//Restore older settings
-	ChangeDisplaySettings( &m_oldDevMode, 0 );
-
-    //Delete Render Context
-	if( m_rc != 0 )
-	{		
-		//makeCurrent(m_dc, m_rc);
-		//wglMakeCurrent(0, 0);
-		wglMakeCurrent(0,0);
-		wglDeleteContext(m_rc);
-		m_rc = 0;        
-	}
-
-	//Release Device Context
-	if ( m_currentDC )
-	{
-		ReleaseDC(m_hWnd, m_currentDC);
-		m_currentDC = 0;
-	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -404,62 +301,6 @@ void OpenGLManager::dispose()
 OpenGLManager::~OpenGLManager()
 {
     dispose();
-}
-
-//-----------------------------------------------------------------------------
-//* Set Pixel Format
-//! Makes a device context combatible with OpenGL
-//! @param[in] dc The device context which will recive a pixel format.
-//-----------------------------------------------------------------------------
-bool OpenGLManager::_setPixelFormat(HDC dc)
-{
-#if 0
-	//
-	BYTE   colorBits      = 32;
-	BYTE   depthBits      = 24;
-	DWORD  flags          = PFD_DRAW_TO_WINDOW |     // support window
-		                    PFD_SUPPORT_OPENGL |     // support OpenGL
-		                    //PFD_GENERIC_ACCELERATED | PFD_SWAP_COPY | PFD_SWAP_EXCHANGE |
-		                    PFD_DOUBLEBUFFER |        // double buffered
-		                    PFD_TYPE_RGBA;
-
-    //Create a Pixel Format   
-    PIXELFORMATDESCRIPTOR pfd = { 
-        sizeof(PIXELFORMATDESCRIPTOR),    // size of this pfd 
-        1,                                // version number 
-        flags,                            // flags
-        PFD_TYPE_RGBA,                    // RGBA type 
-        colorBits,                        // color depth 
-        0, 0, 0, 0, 0, 0,                 // color bits ignored 
-        0,                                // no alpha buffer 
-        0,                                // shift bit ignored 
-        0,                                // no accumulation buffer 
-        0, 0, 0, 0,                       // accum bits ignored 
-        depthBits,                        // z-buffer 
-        0,                                // no stencil buffer 
-        0,                                // no auxiliary buffer 
-        PFD_MAIN_PLANE,                   // main layer 
-        0,                                // reserved 
-        0, 0, 0                           // layer masks ignored 
-    }; 
-
-    //Choose Pixel Format
-    int format;
-    if ( (format = ChoosePixelFormat(dc, &pfd))  == 0 )
-    {
-        return false;
-    }
-
-    //Set Pixel Format
-    if ( !SetPixelFormat(dc, format, &pfd) )
-    {
-        return false;
-    }
-
-	//! @todo Study this function
-    DescribePixelFormat(dc, format, sizeof(pfd), &pfd);
-#endif
-	return true;
 }
 
 //-----------------------------------------------------------------------------

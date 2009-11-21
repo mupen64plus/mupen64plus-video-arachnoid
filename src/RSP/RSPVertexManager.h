@@ -41,35 +41,35 @@ public:
 	bool initialize(OpenGLManager* openGLMgr, Memory* memory, RSPMatrixManager* matrixMgr, RSPLightManager* lightMgr);
 
 	//Vertices
-	void setVertices( unsigned long address, unsigned int numVertices, unsigned int firstVertexIndex);
-	void modifyVertex( unsigned long vtx, unsigned long where, unsigned long val );	
-	void setVertexColor(unsigned long vertexIndex, float r, float g, float b, float a);
-	void setVertexTextureCoord(unsigned long vertexIndex, float s, float t);
+	void setVertices( unsigned int address, unsigned int numVertices, unsigned int firstVertexIndex);
+	void modifyVertex( unsigned int vtx, unsigned int where, unsigned int val );	
+	void setVertexColor(unsigned int vertexIndex, float r, float g, float b, float a);
+	void setVertexTextureCoord(unsigned int vertexIndex, float s, float t);
 
-	void ciVertex(unsigned long segmentAddress, unsigned long n, unsigned long v0 );
+	void ciVertex(unsigned int segmentAddress, unsigned int n, unsigned int v0 );
 
-    void addConkerVertices(unsigned long segmentAddress, unsigned long n, unsigned long v0 );
+    void addConkerVertices(unsigned int segmentAddress, unsigned int n, unsigned int v0 );
 
-	void DMAVertex( unsigned long v, unsigned long n, unsigned long v0 );
-	void DMAOffsets( unsigned long mtxoffset, unsigned long vtxoffset );
-	void setVertexColorBase( unsigned long rdramAddress ) { m_colorBaseRDRAMAddress = rdramAddress; }
+	void DMAVertex( unsigned int v, unsigned int n, unsigned int v0 );
+	void DMAOffsets( unsigned int mtxoffset, unsigned int vtxoffset );
+	void setVertexColorBase( unsigned int rdramAddress ) { m_colorBaseRDRAMAddress = rdramAddress; }
 
-	bool add1Triangle( unsigned long v0, unsigned long v1, unsigned long v2);
-	void add2Triangles( long v00, long v01, long v02, long flag0, 
-						long v10, long v11, long v12, long flag1 );
-	void add4Triangles( long v00, long v01, long v02,
-						long v10, long v11, long v12,
-						long v20, long v21, long v22,
-						long v30, long v31, long v32 );
-	void addDMATriangles( unsigned long tris, unsigned long n );
-	void add1Quadrangle( long v0, long v1, long v2, long v4 );
+	bool add1Triangle( unsigned int v0, unsigned int v1, unsigned int v2);
+	void add2Triangles( int v00, int v01, int v02, int flag0, 
+						int v10, int v11, int v12, int flag1 );
+	void add4Triangles( int v00, int v01, int v02,
+						int v10, int v11, int v12,
+						int v20, int v21, int v22,
+						int v30, int v31, int v32 );
+	void addDMATriangles( unsigned int tris, unsigned int n );
+	void add1Quadrangle( int v0, int v1, int v2, int v4 );
 	void setTexCoordGenType(TexCoordGenType texCoordGenType) { m_texCoordGenType       = texCoordGenType; }
 	
-    void setRDRAMOffset(unsigned long offset) { m_rdramOffset = offset; }
-    void setBillboard(unsigned long billboard) { m_billboard = billboard; }
-    unsigned long getBillboard() { return m_billboard; }
+    void setRDRAMOffset(unsigned int offset) { m_rdramOffset = offset; }
+    void setBillboard(unsigned int billboard) { m_billboard = billboard; }
+    unsigned int getBillboard() { return m_billboard; }
 
-    void setConkerAddress(unsigned long segmentAddress);   
+    void setConkerAddress(unsigned int segmentAddress);   
 
 public:
 
@@ -77,7 +77,7 @@ public:
 
 private:
 
-	void _processVertex( unsigned long v );
+	void _processVertex( unsigned int v );
 
 private:
 
@@ -90,14 +90,14 @@ private:
 	static const int MAX_VERTICES = 300;
 	SPVertex m_vertices[MAX_VERTICES];
 
-	unsigned long m_colorBaseRDRAMAddress;  //!< Address in RDRAM where colors for vertices are located (used by Perfect Dark)
+	unsigned int m_colorBaseRDRAMAddress;  //!< Address in RDRAM where colors for vertices are located (used by Perfect Dark)
 
-     unsigned long m_rdramOffset;
+     unsigned int m_rdramOffset;
 
-     unsigned long m_billboard;
+     unsigned int m_billboard;
 	TexCoordGenType m_texCoordGenType;  //!< Texture Coordinate Generation Technique
 
-    unsigned long m_conkerRDRAMAddress;
+    unsigned int m_conkerRDRAMAddress;
 };
 
 #endif

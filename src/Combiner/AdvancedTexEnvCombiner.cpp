@@ -516,6 +516,6 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
 		combinedUnit = max( curUnit - 1, 0 );
 	}
 
-	envCombiner->usedUnits = max( (short)curUnit, envCombiner->usedUnits );
+	envCombiner->usedUnits = max( (unsigned short)curUnit, envCombiner->usedUnits );
 	return envCombiner;
 }

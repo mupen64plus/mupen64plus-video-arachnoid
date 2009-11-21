@@ -90,8 +90,8 @@ void UCode1::F3DEX_Load_uCode(MicrocodeArgument* ucode)
     Logger::getSingleton().printMsg("F3DEX_Load_uCode - experimental", M64MSG_WARNING);
     RSPUCodeLoadUCode* temp = (RSPUCodeLoadUCode*)ucode;
 
-    //unsigned long ucodeDataStart1 = m_memory->getRDRAMAddress( (*(unsigned long*)( m_memory->getRDRAM(pc-12))  );
-    unsigned long ucodeDataStart2 = m_rdp->getHalf1();
+    //unsigned int ucodeDataStart1 = m_memory->getRDRAMAddress( (*(unsigned int*)( m_memory->getRDRAM(pc-12))  );
+    unsigned int ucodeDataStart2 = m_rdp->getHalf1();
 
     //if ( ucodeDataStart1 != ucodeDataStart2 )
     //{
@@ -183,10 +183,10 @@ void UCode1::F3DEX_Quad( MicrocodeArgument* ucode )
     Logger::getSingleton().printMsg("F3DEX_Quad", M64MSG_VERBOSE);
 	RSPUCodeAddOneQuadF3DEX* temp = (RSPUCodeAddOneQuadF3DEX*)ucode;
 
-    unsigned long v0 = _SHIFTR( ucode->w1, 25, 7 );
-    unsigned long v1 = _SHIFTR( ucode->w1, 17, 7 );
-    unsigned long v2 = _SHIFTR( ucode->w1, 9, 7 );
-    unsigned long v3 = _SHIFTR( ucode->w1, 1, 7 );
+    unsigned int v0 = _SHIFTR( ucode->w1, 25, 7 );
+    unsigned int v1 = _SHIFTR( ucode->w1, 17, 7 );
+    unsigned int v2 = _SHIFTR( ucode->w1, 9, 7 );
+    unsigned int v3 = _SHIFTR( ucode->w1, 1, 7 );
 
 	//Add one Quad
 	m_rsp->RSP_1Quadrangle(temp->index0, temp->index1, temp->index2, temp->index3);
@@ -205,8 +205,8 @@ void UCode1::F3DEX_CullDL(MicrocodeArgument* ucode)
 	}
     RSPUCodeCullDisplayList* temp = (RSPUCodeCullDisplayList*)ucode;
 
-    unsigned long v0 = _SHIFTR( ucode->w0, 1, 15 );
-    unsigned long n  = _SHIFTR( ucode->w1, 1, 15 );
+    unsigned int v0 = _SHIFTR( ucode->w0, 1, 15 );
+    unsigned int n  = _SHIFTR( ucode->w1, 1, 15 );
 
     //Cull display list?
     m_rsp->RSP_CullDisplayList( temp->vertexIndex, temp->numVerticies  );
@@ -221,5 +221,5 @@ void UCode1::F3DEX_Branch_Z(MicrocodeArgument* ucode)
     RSPUCodeBranchZF3DEX* temp = (RSPUCodeBranchZF3DEX*)ucode;
 
     //Branch Display List?
-    m_rsp->RSP_BranchLessZ(m_rdp->getHalf1(), temp->vertex, (float)(long)temp->zvalue );
+    m_rsp->RSP_BranchLessZ(m_rdp->getHalf1(), temp->vertex, (float)(int)temp->zvalue );
 }

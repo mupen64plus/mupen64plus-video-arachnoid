@@ -10,13 +10,12 @@
 #include "Memory.h"
 #include "OpenGLManager.h"
 #include "OpenGL2DRenderer.h"
-#include "WindowManager.h"
 #include "AdvancedCombinerManager.h"
 #include "FogManager.h"
 #include "Logger.h"
 #include "MathLib.h"
-#include "ROMDetector.h"
-#include "platform.h"
+#include "RomDetector.h"
+#include "m64p.h"
 #include <GL/gl.h>
 #include <algorithm>
 using std::max;
@@ -62,12 +61,11 @@ RDP::~RDP()
 //* Initialize
 //! Sets pointers to managers and initializes objects
 //-----------------------------------------------------------------------------
-bool RDP::initialize(GFX_INFO* graphicsInfo, RSP* rsp, Memory* memory, GBI* gbi, TextureCache* textureCache, WindowManager* windowMgr, VI* vi, DisplayListParser* displayListParser, FogManager* fogMgr)
+bool RDP::initialize(GFX_INFO* graphicsInfo, RSP* rsp, Memory* memory, GBI* gbi, TextureCache* textureCache, VI* vi, DisplayListParser* displayListParser, FogManager* fogMgr)
 {
 	//Set pointers
 	m_graphicsInfo      = graphicsInfo;
 	m_rsp               = rsp;
-	m_windowMgr         = windowMgr;
 	m_vi                = vi;
 	m_memory            = memory;
 	m_displayListParser = displayListParser;
@@ -149,12 +147,12 @@ void RDP::updateStates()
 	{
 		if ( m_otherMode.cycleType == G_CYC_COPY)
 		{
-			m_combinerMgr->setMux(72057594037727865, m_otherMode.cycleType); //Only normal texturing			                      							      
+			m_combinerMgr->setMux(72057594037727865LL, m_otherMode.cycleType); //Only normal texturing			                      							      
             m_combinerMgr->selectCombine(m_otherMode.cycleType);
 		}
 		else if  ( m_otherMode.cycleType == G_CYC_FILL )
 		{
-			m_combinerMgr->setMux( 72057594037828926, m_otherMode.cycleType );
+			m_combinerMgr->setMux( 72057594037828926LL, m_otherMode.cycleType );
 			m_combinerMgr->selectCombine(m_otherMode.cycleType);
 		}
 		else
@@ -278,7 +276,7 @@ void RDP::triggerInterrupt()
 //-----------------------------------------------------------------------------
 //* Set Alpha Compare Mode
 //-----------------------------------------------------------------------------
-void RDP::setAlphaCompareMode(unsigned long mode)
+void RDP::setAlphaCompareMode(unsigned int mode)
 {
 	m_otherMode.alphaCompare = mode;
 	OpenGLManager::getSingleton().setAlphaTest( m_otherMode.alphaCompare != 0 );
@@ -287,10 +285,10 @@ void RDP::setAlphaCompareMode(unsigned long mode)
 //-----------------------------------------------------------------------------
 //* Set Render Mode
 //-----------------------------------------------------------------------------
-void RDP::setRenderMode(unsigned long w1)
+void RDP::setRenderMode(unsigned int w1)
 {
-	unsigned long mode1 = (w1 & 0xCCCCFFFF);
-	unsigned long mode2 = (w1 & 0x3333FFFF);
+	unsigned int mode1 = (w1 & 0xCCCCFFFF);
+	unsigned int mode2 = (w1 & 0x3333FFFF);
 
 	m_otherMode.l &= 0x00000007;
 	m_otherMode.l |= mode1 | mode2;
@@ -311,8 +309,8 @@ void RDP::setRenderMode(unsigned long w1)
 //-----------------------------------------------------------------------------
 void RDP::RDP_SetCombine(MicrocodeArgument* ucode)
 { 
-	long mux0 = _SHIFTR( ucode->w0, 0, 24 );
-	long mux1 = ucode->w1;
+	int mux0 = _SHIFTR( ucode->w0, 0, 24 );
+	int mux1 = ucode->w1;
 	m_combinerMgr->setMux(mux0, mux1, (G_CYCLE_TYPE)m_otherMode.cycleType);
 
 	m_updateCombiner = true;	
@@ -346,9 +344,9 @@ void RDP::RDP_SetEnvColor(float r, float g, float b, float a)
 //! @param primLodMin
 //! @param primLevel
 //-----------------------------------------------------------------------------
-void RDP::RDP_SetPrimColor(float r, float g, float b, float a, unsigned long primLodMin, unsigned long primLevel)
+void RDP::RDP_SetPrimColor(float r, float g, float b, float a, unsigned int primLodMin, unsigned int primLevel)
 { 
-	long primLodFrac = max(primLevel, primLodMin);
+	int primLodFrac = max(primLevel, primLodMin);
 	m_combinerMgr->setPrimLodMin(primLodMin);
 	m_combinerMgr->setPrimLodFrac(primLodFrac / 255.0f);
 	m_combinerMgr->setPrimColor(r, g, b, a);
@@ -405,8 +403,8 @@ void RDP::RDP_SetFogColor(float r, float g, float b, float a)
 //-----------------------------------------------------------------------------
 void RDP::RDP_SetOtherMode(MicrocodeArgument* ucode)
 {  		
-	unsigned long mode0 = _SHIFTR( ucode->w0, 0, 24 );	
-	unsigned long mode1 = ucode->w1;					
+	unsigned int mode0 = _SHIFTR( ucode->w0, 0, 24 );	
+	unsigned int mode1 = ucode->w1;					
 
 	m_otherMode.h = mode0;
 	m_otherMode.l = mode1;
@@ -415,7 +413,7 @@ void RDP::RDP_SetOtherMode(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 //! Set Prim Depth
 //-----------------------------------------------------------------------------
-void RDP::RDP_SetPrimDepth(unsigned long dwZ, unsigned long dwDZ)
+void RDP::RDP_SetPrimDepth(unsigned int dwZ, unsigned int dwDZ)
 {  
 	unsigned int primitiveDepth = dwZ & 0x7FFF;
 
@@ -433,7 +431,7 @@ void RDP::RDP_SetScissor(int x0, int y0, int x1, int y1, int mode)
     float vsy = OpenGLManager::getSingleton().getViewScaleY();
     
     //Get Offset
-    int offset = m_windowMgr->getHeightOffset();
+    int offset = 0; //TODO: height offset?
 
     //Set Scissor
     OpenGLManager::getSingleton().setScissor( 
@@ -461,7 +459,7 @@ void RDP::RDP_FullSync()
 //* Fill Rect
 //! Renders a rectangle
 //-----------------------------------------------------------------------------
-void RDP::RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, unsigned long y1)
+void RDP::RDP_FillRect(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1)
 { 
 	//Logger::getSingleton() << "RDP_FillRect: " << (int)x0 << " " << (int)y0 << " " << (int)x1 << " " << (int)y1 << "\n";
 
@@ -521,9 +519,9 @@ void RDP::RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, uns
     glDisable( GL_SCISSOR_TEST );
 
     //Set Viewport
-    int oldViewport[4];
-    glGetIntegerv(GL_VIEWPORT, oldViewport);
-    glViewport(0,m_windowMgr->getHeightOffset(), OpenGLManager::getSingleton().getWidth(), OpenGLManager::getSingleton().getHeight() ); 
+    //int oldViewport[4];
+    //glGetIntegerv(GL_VIEWPORT, oldViewport);
+    //glViewport(0, 0, OpenGLManager::getSingleton().getWidth(), OpenGLManager::getSingleton().getHeight() ); 
 	glDepthRange(0.0f, 1.0f);
 
     //Get depth and color
@@ -534,7 +532,7 @@ void RDP::RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, uns
     m_openGL2DRenderer->renderQuad(color, x0, y0, x1, y1, depth);
 
     //Reset viewport
-    glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);     
+    //glViewport(oldViewport[0], oldViewport[1], oldViewport[2], oldViewport[3]);     
 
     //Reset Scissor
     glEnable( GL_SCISSOR_TEST );
@@ -543,8 +541,8 @@ void RDP::RDP_FillRect(unsigned long x0, unsigned long y0, unsigned long x1, uns
 //-----------------------------------------------------------------------------
 // Texture Rectangle Flip
 //-----------------------------------------------------------------------------
-void RDP::RDP_TexRectFlip(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL, unsigned long dwYL, 
-                          unsigned long tileno, unsigned long dwS, unsigned long dwT, long nDSDX, long nDTDY)
+void RDP::RDP_TexRectFlip(unsigned int dwXH, unsigned int dwYH, unsigned int dwXL, unsigned int dwYL, 
+                          unsigned int tileno, unsigned int dwS, unsigned int dwT, int nDSDX, int nDTDY)
 {   
 	Logger::getSingleton().printMsg("RDP_TexRect");
 
@@ -579,8 +577,8 @@ void RDP::RDP_TexRectFlip(unsigned long dwXH, unsigned long dwYH, unsigned long 
 		m_rsp->setTile( m_textureLoader->getTile(tileno), 1);
 	}
 
-	m_texRectWidth = (unsigned long)fS1;
-	m_texRectHeight = (unsigned long)fT1;
+	m_texRectWidth = (unsigned int)fS1;
+	m_texRectHeight = (unsigned int)fT1;
 
 	//Update States
 	this->updateStates();
@@ -607,8 +605,8 @@ void RDP::RDP_TexRectFlip(unsigned long dwXH, unsigned long dwYH, unsigned long 
 //! Not this command use 128bits and not 64 bits wich could cause some
 //! problems with the program counter.
 //-----------------------------------------------------------------------------
-void RDP::RDP_TexRect(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL, unsigned long dwYL, 
-                      unsigned long tileno, unsigned short dwS, unsigned short dwT, unsigned short nDSDX, unsigned short nDTDY)
+void RDP::RDP_TexRect(unsigned int dwXH, unsigned int dwYH, unsigned int dwXL, unsigned int dwYL, 
+                      unsigned int tileno, unsigned short dwS, unsigned short dwT, unsigned short nDSDX, unsigned short nDTDY)
 { 
 	Logger::getSingleton().printMsg("RDP_TexRect");	
 
@@ -632,7 +630,7 @@ void RDP::RDP_TexRect(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL
     float lrx = (float)dwXL;
     float lry = (float)dwYL;
 
-    long tile = tileno;
+    int tile = tileno;
 
 	_textureRectangle(ulx, uly, lrx, lry, tile, s, t, dsdx, dtdy, false);
 }
@@ -645,7 +643,7 @@ void RDP::RDP_TexRect(unsigned long dwXH, unsigned long dwYH, unsigned long dwXL
 //* Set Color Image
 //! Sets information about color image
 //-----------------------------------------------------------------------------
-void RDP::RDP_SetCImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress)
+void RDP::RDP_SetCImg(unsigned int format, unsigned int size, unsigned int width, unsigned int segmentAddress)
 { 
 	m_colorImageInfo.rdramAddress = m_memory->getRDRAMAddress( segmentAddress );
 	m_colorImageInfo.format       = format;
@@ -658,7 +656,7 @@ void RDP::RDP_SetCImg(unsigned long format, unsigned long size, unsigned long wi
 //* Set Z Image
 //! Sets information about depth image
 //-----------------------------------------------------------------------------
-void RDP::RDP_SetZImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress)
+void RDP::RDP_SetZImg(unsigned int format, unsigned int size, unsigned int width, unsigned int segmentAddress)
 { 
 	m_depthImageInfo.rdramAddress = m_memory->getRDRAMAddress( segmentAddress );
 	m_depthImageInfo.format       = format;
@@ -671,7 +669,7 @@ void RDP::RDP_SetZImg(unsigned long format, unsigned long size, unsigned long wi
 //* Set Texture Image
 //! Sets information about texture image
 //-----------------------------------------------------------------------------
-void RDP::RDP_SetTImg(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress)
+void RDP::RDP_SetTImg(unsigned int format, unsigned int size, unsigned int width, unsigned int segmentAddress)
 { 
 	m_textureLoader->setTextureImage(format, size, width, segmentAddress);
 }
@@ -725,7 +723,7 @@ void RDP::RDP_LoadBlock(int tile, int s0, int t0, int s1, int t1)
 //! @param s1 Texture Coordinats for second vertex coordinate
 //! @param t1 Texture Coordinats for second vertex coordinate
 //-----------------------------------------------------------------------------
-void RDP::RDP_SetTileSize(int tile, unsigned long s0, unsigned long t0, unsigned long s1, unsigned long t1)
+void RDP::RDP_SetTileSize(int tile, unsigned int s0, unsigned int t0, unsigned int s1, unsigned int t1)
 {  
 	m_textureLoader->setTileSize( tile, s0, t0, s1, t1);
 
@@ -749,7 +747,7 @@ void RDP::RDP_LoadTLUT(int tile, int s0, int t0, int s1, int t1)
 //-----------------------------------------------------------------------------
 // Texture Rectangle
 //-----------------------------------------------------------------------------
-void RDP::_textureRectangle(float ulx, float uly, float lrx, float lry, long tile, float s, float t, float dsdx, float dtdy,bool flip)
+void RDP::_textureRectangle(float ulx, float uly, float lrx, float lry, int tile, float s, float t, float dsdx, float dtdy,bool flip)
 {
 	bool zEnabled = OpenGLManager::getSingleton().getZBufferEnabled();
 	OpenGLManager::getSingleton().setZBufferEnabled(false);
@@ -779,13 +777,13 @@ void RDP::_textureRectangle(float ulx, float uly, float lrx, float lry, long til
     if ( m_textureMode == TM_NORMAL )
         m_textureMode = TM_TEXRECT;
 
-	m_texRectWidth  = (unsigned long)(max( lrs, s ) + dsdx);
-	m_texRectHeight = (unsigned long)(max( lrt, t ) + dtdy);
+	m_texRectWidth  = (unsigned int)(max( lrs, s ) + dsdx);
+	m_texRectHeight = (unsigned int)(max( lrt, t ) + dtdy);
 
 	//Update States
 	this->updateStates();
 
-	glViewport( 0, m_windowMgr->getHeightOffset(), OpenGLManager::getSingleton().getWidth(), OpenGLManager::getSingleton().getHeight() );
+	//glViewport( 0, 0, OpenGLManager::getSingleton().getWidth(), OpenGLManager::getSingleton().getHeight() );
 
     glDisable(GL_SCISSOR_TEST);
 
@@ -819,7 +817,7 @@ void RDP::_textureRectangle(float ulx, float uly, float lrx, float lry, long til
 //* Texture Rectangle Flip
 //! @todo: Clamp Tile
 //-----------------------------------------------------------------------------
-void RDP::_textureRectangleFlip(long nX0, long nY0, long nX1, long nY1, float fS0, float fT0, float fS1, float fT1, long tile)
+void RDP::_textureRectangleFlip(int nX0, int nY0, int nX1, int nY1, float fS0, float fT0, float fS1, float fT1, int tile)
 {
 	//Disable z buffer
 	bool zEnabled = OpenGLManager::getSingleton().getZBufferEnabled();

@@ -5,9 +5,8 @@
 #include "CachedTexture.h"
 #include "MathLib.h"
 #include <algorithm>
-//TODO remove: #include <xutility>  //std::min
 	using std::min;
-#include "platform.h"
+#include "m64p.h"
 #include <GL/gl.h>
 #include "Memory.h"
 #include "OpenGLRenderer.h"
@@ -39,7 +38,7 @@ TextureCache::~TextureCache()
 //-----------------------------------------------------------------------------
 //* Initialize
 //-----------------------------------------------------------------------------
-bool TextureCache::initialize(RSP* rsp, RDP* rdp, Memory* memory, unsigned long textureBitDepth, unsigned long cacheSize)
+bool TextureCache::initialize(RSP* rsp, RDP* rdp, Memory* memory, unsigned int textureBitDepth, unsigned int cacheSize)
 {
 	m_rsp = rsp;
 	m_rdp = rdp;
@@ -53,7 +52,7 @@ bool TextureCache::initialize(RSP* rsp, RDP* rdp, Memory* memory, unsigned long 
 //-----------------------------------------------------------------------------
 //* Update
 //-----------------------------------------------------------------------------
-void TextureCache::update(unsigned long tile)
+void TextureCache::update(unsigned int tile)
 {
 	//if (cache.bitDepth != OGL.textureBitDepth)
 	//{
@@ -73,7 +72,7 @@ void TextureCache::update(unsigned long tile)
 
 
 	CachedTexture temp;	
-	unsigned long maskWidth = 0, maskHeight = 0;
+	unsigned int maskWidth = 0, maskHeight = 0;
 	_calculateTextureSize(tile, &temp, maskWidth, maskHeight);
 
     static int hits = 0;
@@ -290,7 +289,7 @@ void TextureCache::_loadTexture(CachedTexture* texture)
 	m_formatSelector.detectImageFormat(texture, m_bitDepth, getTexelFunc, internalFormat, imageType, m_rdp->getTextureLUT());
 
 	//Allocate memory
-	unsigned long* dest = new unsigned long[ texture->getTextureSize() ];
+	unsigned int* dest = new unsigned int[ texture->getTextureSize() ];
 
 	//Get Line Size
 	unsigned short line = (unsigned short)texture->line;
@@ -358,7 +357,7 @@ void TextureCache::_loadTexture(CachedTexture* texture)
 				tx ^= maskSMask;
 
 			if (internalFormat == GL_RGBA8)
-				((unsigned long*)dest)[j++] = getTexelFunc( src, tx, i, texture->palette );
+				((unsigned int*)dest)[j++] = getTexelFunc( src, tx, i, texture->palette );
 			else
 				((unsigned short*)dest)[j++] = getTexelFunc( src, tx, i, texture->palette );
 		}
@@ -372,34 +371,34 @@ void TextureCache::_loadTexture(CachedTexture* texture)
 }
 
 
-void TextureCache::_calculateTextureSize(unsigned long tile, CachedTexture* out, unsigned long& maskWidth, unsigned long& maskHeight )
+void TextureCache::_calculateTextureSize(unsigned int tile, CachedTexture* out, unsigned int& maskWidth, unsigned int& maskHeight )
 {
 	RDPTile* rspTile = m_rsp->getTile(tile);
 
 	//Calculate Tile Size
-	unsigned long tileWidth =  rspTile->getWidth();
-	unsigned long tileHeight = rspTile->getHeight();
+	unsigned int tileWidth =  rspTile->getWidth();
+	unsigned int tileHeight = rspTile->getHeight();
 
 	//Get Mask Size
 	maskWidth = 1 << rspTile->masks;
 	maskHeight = 1 << rspTile->maskt;
 
 	//Get Current Tile Size
-	unsigned long loadWidth = m_rdp->getCurrentTile()->getWidth();
-	unsigned long loadHeight = m_rdp->getCurrentTile()->getHeight();
+	unsigned int loadWidth = m_rdp->getCurrentTile()->getWidth();
+	unsigned int loadHeight = m_rdp->getCurrentTile()->getHeight();
 
-	unsigned long maxTexels = ImageFormatSelector::imageFormats[rspTile->size][rspTile->format].maxTexels;
+	unsigned int maxTexels = ImageFormatSelector::imageFormats[rspTile->size][rspTile->format].maxTexels;
 
 	//Get Line Width (depending on imageformat)
-	unsigned long lineWidth = rspTile->line << ImageFormatSelector::imageFormats[rspTile->size][rspTile->format].lineShift;
-	unsigned long lineHeight; 
+	unsigned int lineWidth = rspTile->line << ImageFormatSelector::imageFormats[rspTile->size][rspTile->format].lineShift;
+	unsigned int lineHeight; 
 	if ( lineWidth ) // Don't allow division by zero
 		lineHeight = min( maxTexels / lineWidth, tileHeight );
 	else
 		lineHeight = 0;
 
-	unsigned long width;
-	unsigned long height;
+	unsigned int width;
+	unsigned int height;
 
 	if ( m_rdp->getTextureMode() == TM_TEXRECT )
 	{
@@ -457,8 +456,8 @@ void TextureCache::_calculateTextureSize(unsigned long tile, CachedTexture* out,
 			height = lineHeight;
 	}
 
- 	unsigned long clampWidth = rspTile->clamps ? tileWidth : width;
-	unsigned long clampHeight = rspTile->clampt ? tileHeight : height;
+ 	unsigned int clampWidth = rspTile->clamps ? tileWidth : width;
+	unsigned int clampHeight = rspTile->clampt ? tileHeight : height;
 
 	if (clampWidth > 256)
 		rspTile->clamps = 0;
@@ -494,12 +493,12 @@ void TextureCache::_calculateTextureSize(unsigned long tile, CachedTexture* out,
     out->crc         = _calculateCRC(tile, width, height );
 }
 
-unsigned long TextureCache::_calculateCRC(unsigned long t, unsigned long width, unsigned long height)
+unsigned int TextureCache::_calculateCRC(unsigned int t, unsigned int width, unsigned int height)
 {
     RDPTile* tile = m_rsp->getTile(t);
 
-	unsigned long crc;
-	unsigned long y, bpl, lineBytes, line;
+	unsigned int crc;
+	unsigned int y, bpl, lineBytes, line;
 	unsigned long long *src;
 
     src = m_memory->getTextureMemory(tile->tmem);
@@ -528,7 +527,7 @@ unsigned long TextureCache::_calculateCRC(unsigned long t, unsigned long width, 
 	return crc;
 }
 
-void TextureCache::_activateTexture( unsigned long t, CachedTexture *texture )
+void TextureCache::_activateTexture( unsigned int t, CachedTexture *texture )
 {
 	// If multitexturing, set the appropriate texture
 	//if (OGL.ARB_multitexture)

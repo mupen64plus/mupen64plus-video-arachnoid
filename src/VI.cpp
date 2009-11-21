@@ -1,6 +1,6 @@
 #include "VI.h"
 #include "GBIDefs.h" //_FIXED2FLOAT, _SHIFTR
-#include "platform.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -26,10 +26,10 @@ VI::~VI()
 void VI::calcSize(GFX_INFO*  graphicsInfo)
 {
 	//Get video interface values
-	DWORD viScaleX          = *graphicsInfo->VI_X_SCALE_REG;
-	DWORD viScaleY          = *graphicsInfo->VI_X_SCALE_REG;
-	DWORD viStartHorizontal = *graphicsInfo->VI_H_START_REG;
-	DWORD viStartVertical   = *graphicsInfo->VI_V_START_REG;
+	unsigned int viScaleX          = *graphicsInfo->VI_X_SCALE_REG;
+	unsigned int viScaleY          = *graphicsInfo->VI_X_SCALE_REG;
+	unsigned int viStartHorizontal = *graphicsInfo->VI_H_START_REG;
+	unsigned int viStartVertical   = *graphicsInfo->VI_V_START_REG;
 
 	//Get Scale
 	float xScale = _FIXED2FLOAT(_SHIFTR(*graphicsInfo->VI_X_SCALE_REG, 0, 12), 10);

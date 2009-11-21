@@ -20,6 +20,7 @@ struct RSPUCodeAddMatrix0
 };
 
 //! Add matrix struct used for example ucode F3DEX2
+#pragma pack(push, 1)
 struct RSPUCodeAddMatrixF3DEX2 
 {
 	union 
@@ -41,7 +42,7 @@ struct RSPUCodeAddMatrixF3DEX2
 	unsigned int cmd:8;           //!< Command
 	unsigned int segmentAddress:32;  //!< Address to register where there is an RDRAM address used to retrieve matrix
 };
-
+#pragma pack(pop)
 //*****************************************************************************
 // Vertices
 //*****************************************************************************

@@ -2,7 +2,7 @@
 #define IMAGE_FORMAT_SELECTOR_H_
 
 //Function pointer for image decoding
-typedef unsigned long (*GetTexelFunc)( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette );
+typedef unsigned int (*GetTexelFunc)( unsigned long long *src, unsigned short x, unsigned short i, unsigned char palette );
 
 //Forward declarations
 class CachedTexture;
@@ -19,7 +19,7 @@ struct ImageFormat
 	GetTexelFunc	Get32;
 	unsigned int 	glType32;
 	int			    glInternalFormat32;
-	unsigned long   autoFormat, lineShift, maxTexels;
+	unsigned int   autoFormat, lineShift, maxTexels;
 };
 
 //*****************************************************************************
@@ -35,7 +35,7 @@ public:
 	~ImageFormatSelector();
 
 	//Detect image format
-	void detectImageFormat(CachedTexture* texture, unsigned long textureBitDepth, GetTexelFunc& getTexelFunc, unsigned int& internalFormat, int& imageType, unsigned int textureLUT);
+	void detectImageFormat(CachedTexture* texture, unsigned int textureBitDepth, GetTexelFunc& getTexelFunc, unsigned int& internalFormat, int& imageType, unsigned int textureLUT);
 
 public:
 

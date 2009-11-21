@@ -2,7 +2,7 @@
 #define ADVANCED_TEX_ENV_COMBINER_H_
 
 #include "CombinerBase.h"
-#include "combinerStructs.h"
+#include "CombinerStructs.h"
 
 struct TexEnvCombiner;
 

@@ -18,7 +18,7 @@ RSP*               UCode6::m_rsp = 0;                 // Pointer to Reality Sign
 RDP*               UCode6::m_rdp = 0;                 // Pointer to Reality Drawing Processor 
 DisplayListParser* UCode6::m_displayListParser = 0;
 Memory*            UCode6::m_memory = 0;
-unsigned long      UCode6::m_vertexIndex = 0;
+unsigned int      UCode6::m_vertexIndex = 0;
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -89,8 +89,8 @@ void UCode6::F3DDKR_DMA_Mtx(MicrocodeArgument* ucode)
 		return;
 	}
 
-    unsigned long index = _SHIFTR( ucode->w0, 16, 4 );
-	unsigned long multiply;
+    unsigned int index = _SHIFTR( ucode->w0, 16, 4 );
+	unsigned int multiply;
 
 	if (index == 0) // DKR
 	{
@@ -120,7 +120,7 @@ void UCode6::F3DDKR_DMA_Vtx(MicrocodeArgument* ucode)
 		m_vertexIndex = 0;
     }
 
-	unsigned long n = _SHIFTR( ucode->w0, 19, 5 ) + 1;
+	unsigned int n = _SHIFTR( ucode->w0, 19, 5 ) + 1;
 
     m_rsp->RSP_DMAVertex( ucode->w1, n, m_vertexIndex + _SHIFTR( ucode->w0, 9, 5 ) );
 

@@ -1,4 +1,3 @@
-
 #ifndef OPEN_GL_Manager_H_
 #define OPEN_GL_Manager_H_
 
@@ -7,7 +6,7 @@
 #pragma comment(lib,"glu32.lib")
 
 //OpenGL includes
-#include "platform.h"
+#include "m64p.h"
 #include <GL/gl.h> 
 #include <GL/glu.h>
 
@@ -30,13 +29,12 @@ public:
 	}
 
 	//Functions
-	bool initialize(HWND hWnd, HDC dc, bool fullscreen, int width, int height, int bitDepth, int refreshRate, bool vSync, bool hideCursor);
+	bool initialize(bool fullscreen, int width, int height, int bitDepth, int refreshRate, bool vSync, bool hideCursor);
     void dispose();
 	void resize(int width, int height, int bitDepth, int refreshRate);
     bool toggleFullscreen();
 	void beginRendering();
 	void endRendering();
-    bool makeCurrent(HDC dc);
 
 	//Fog
 	void setFogEnabled(bool fog);	
@@ -86,16 +84,10 @@ public:
 public:
 
 	//Gets
-    inline HDC& getCurrentDC() { return m_currentDC; }
-    inline HGLRC getRC() { return m_rc; }
 
 	int getWidth() { return m_width; }
 	int getHeight() { return m_height; }
     bool getFullscreen() { return m_fullscreen; }
-
-private:
-
-	bool _setPixelFormat(HDC dc);
 
 private:
 
@@ -104,7 +96,6 @@ private:
 
 private:
 
-	HWND m_hWnd;                 //!< Window to render in
 	bool m_wireframe;            //!< Wireframe mode enabled?
 	bool m_lighting;             //!< Lighting enabled?
 	int m_width;                 //!< Display widht
@@ -115,11 +106,6 @@ private:
 	float m_scaleY;              //!< DisplayHeight aka WindowHeight / viHeight (n64 specific)
 	bool m_fullscreen;           //!< Fullscreen mode or window mode?
 	bool m_forceDisableCulling;  //!< Culling cant be enabled if this is true
-
-    //Variables	
-	HGLRC m_rc;             //!< Render context
-    HDC m_currentDC;        //!< Device context     
-	DEVMODE m_oldDevMode;   //!< Previus device mode
 
 };
 

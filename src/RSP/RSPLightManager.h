@@ -41,9 +41,9 @@ public:
 
 	bool initialize(Memory* memory);
 
-	void setLight( unsigned long lightIndex, unsigned long rdramAddress  );
+	void setLight( unsigned int lightIndex, unsigned int rdramAddress  );
 	void setNumLights(int numLights);
-	void setLightColor( unsigned long lightIndex, unsigned long packedColor );	
+	void setLightColor( unsigned int lightIndex, unsigned int packedColor );	
 	const float* getAmbientLight() { return &m_lights[m_numLights].r; }
 
 	//Get

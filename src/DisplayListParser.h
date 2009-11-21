@@ -14,7 +14,7 @@ class GBI;
 //-----------------------------------------------------------------------------
 typedef struct 
 {
-	unsigned long pc;
+	unsigned int pc;
 	int countdown;
 } DListStack;
 
@@ -36,23 +36,23 @@ public:
 	void processDisplayList();
 
 	//Display list funcitons
-	void branchDisplayList(unsigned long dl);	
-	void displayList(unsigned long segmentAddress);
-    void DMADisplayList( unsigned long w0, unsigned long w1 );
+	void branchDisplayList(unsigned int dl);	
+	void displayList(unsigned int segmentAddress);
+    void DMADisplayList( unsigned int w0, unsigned int w1 );
 	//! End display list
 	void endDisplayList() { --m_DListStackPointer; }
 
 	//! Get Program Counter
-	unsigned long getPC()        { return m_DlistStack[m_DListStackPointer].pc;       }
+	unsigned int getPC()        { return m_DlistStack[m_DListStackPointer].pc;       }
 
 	//! Set Program Counter
-	void setPC(unsigned long pc) { m_DlistStack[m_DListStackPointer].pc = pc;         }
+	void setPC(unsigned int pc) { m_DlistStack[m_DListStackPointer].pc = pc;         }
 
 	//! Increase Program Counter
 	void increasePC(int increment)  { m_DlistStack[m_DListStackPointer].pc += increment; }
 
 	//Get Next Word
-	unsigned long getNextWord();
+	unsigned int getNextWord();
 
 	//! Get Current Display List
 	DListStack& getCurrentDlist() { return m_DlistStack[m_DListStackPointer]; }

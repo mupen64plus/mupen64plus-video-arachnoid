@@ -14,22 +14,22 @@
 //-----------------------------------------------------------------------------
 typedef struct 
 {
-	unsigned long type;
-	unsigned long flags;
-	unsigned long ucode_boot;
-	unsigned long ucode_boot_size;
-	unsigned long ucode;
-	unsigned long ucode_size;
-	unsigned long ucode_data;
-	unsigned long ucode_data_size;
-	unsigned long dram_stack;
-	unsigned long dram_stack_size;
-	unsigned long output_buff;
-	unsigned long output_buff_size;
-	unsigned long data_ptr;
-	unsigned long data_size;
-	unsigned long yield_data_ptr;
-	unsigned long yield_data_size;
+	unsigned int type;
+	unsigned int flags;
+	unsigned int ucode_boot;
+	unsigned int ucode_boot_size;
+	unsigned int ucode;
+	unsigned int ucode_size;
+	unsigned int ucode_data;
+	unsigned int ucode_data_size;
+	unsigned int dram_stack;
+	unsigned int dram_stack_size;
+	unsigned int output_buff;
+	unsigned int output_buff_size;
+	unsigned int data_ptr;
+	unsigned int data_size;
+	unsigned int yield_data_ptr;
+	unsigned int yield_data_size;
 } Task_t;
 
 typedef union {
@@ -86,15 +86,15 @@ void DisplayListParser::processDisplayList()
 
 	//Parse DList
 	m_DListStackPointer = 0;
-	m_DlistStack[m_DListStackPointer].pc = (unsigned long)task->t.data_ptr;
+	m_DlistStack[m_DListStackPointer].pc = (unsigned int)task->t.data_ptr;
 	m_DlistStack[m_DListStackPointer].countdown = MAX_DL_COUNT;
 
 	// The main loop
 	while( m_DListStackPointer >= 0 )
 	{
 		//Cast memory pointer
-		//uint32* RDRAMu32			= (unsigned long*)graphicsInfo.RDRAM;
-		unsigned long* RDRAMu32 = m_memory->getRDRAMint32();			
+		//uint32* RDRAMu32			= (unsigned int*)graphicsInfo.RDRAM;
+		unsigned int* RDRAMu32 = m_memory->getRDRAMint32();			
 
 		//Get ucode argument from memory (vertices, textures, matrices...)
 		MicrocodeArgument* ucodeArg = (MicrocodeArgument*)&RDRAMu32[(m_DlistStack[m_DListStackPointer].pc>>2)];
@@ -141,9 +141,9 @@ void DisplayListParser::processDisplayList()
 //-----------------------------------------------------------------------------
 //! Get next word
 //-----------------------------------------------------------------------------
-unsigned long DisplayListParser::getNextWord()
+unsigned int DisplayListParser::getNextWord()
 {
-	unsigned long word = *(unsigned long*)m_memory->getRDRAM( this->getPC() + 4 );
+	unsigned int word = *(unsigned int*)m_memory->getRDRAM( this->getPC() + 4 );
 	this->increasePC(8);
     return word;
 }
@@ -151,9 +151,9 @@ unsigned long DisplayListParser::getNextWord()
 //-----------------------------------------------------------------------------
 //!< @param segmentAddress Used to retrive RDRAM address witch is used to set program counter
 //-----------------------------------------------------------------------------
-void DisplayListParser::displayList(unsigned long segmentAddress)
+void DisplayListParser::displayList(unsigned int segmentAddress)
 {
-	unsigned long address = m_memory->getRDRAMAddress(segmentAddress);
+	unsigned int address = m_memory->getRDRAMAddress(segmentAddress);
 
 	if ( (address + 8) > m_memory->getRDRAMSize() ) {
 		return;
@@ -170,9 +170,9 @@ void DisplayListParser::displayList(unsigned long segmentAddress)
 //-----------------------------------------------------------------------------
 //! Branch Display List
 //-----------------------------------------------------------------------------
-void DisplayListParser::branchDisplayList(unsigned long dl)
+void DisplayListParser::branchDisplayList(unsigned int dl)
 {
-	unsigned long address = m_memory->getRDRAMAddress( dl );
+	unsigned int address = m_memory->getRDRAMAddress( dl );
 
 	if ( (address + 8) > m_memory->getRDRAMSize() ) {
 		return;
@@ -185,10 +185,10 @@ void DisplayListParser::branchDisplayList(unsigned long dl)
 //-----------------------------------------------------------------------------
 //! DMA Display List
 //-----------------------------------------------------------------------------
-void DisplayListParser::DMADisplayList( unsigned long w0, unsigned long w1 )
+void DisplayListParser::DMADisplayList( unsigned int w0, unsigned int w1 )
 {
-	//unsigned long dwAddr = (w1);//RSPSegmentAddr((gfx->words.w1));
-    unsigned long dwAddr = m_memory->getRDRAMAddress(w1);//RSPSegmentAddr((gfx->words.w1));
+	//unsigned int dwAddr = (w1);//RSPSegmentAddr((gfx->words.w1));
+    unsigned int dwAddr = m_memory->getRDRAMAddress(w1);//RSPSegmentAddr((gfx->words.w1));
 
     {
         m_DListStackPointer++;

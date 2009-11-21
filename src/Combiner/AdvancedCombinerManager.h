@@ -32,14 +32,14 @@ public:
     void dispose();
 
     //Set Mux
-	void setMux(unsigned long long muxs, unsigned long cycleType);
-	void setMux(unsigned long muxs0, unsigned long muxs1, unsigned long cycleType);
+	void setMux(unsigned long long muxs, unsigned int cycleType);
+	void setMux(unsigned int muxs0, unsigned int muxs1, unsigned int cycleType);
 
     //Select Combiner
-    void selectCombine(unsigned long cycleType);
+    void selectCombine(unsigned int cycleType);
 
     //Update
-	void update(unsigned long cycleType);       
+	void update(unsigned int cycleType);       
 	void updateCombineColors();                 
 
     //Begin / End Texture update
@@ -60,7 +60,7 @@ public:
     float* getPrimColor();
 
     //Set Prim LOD
-	void setPrimLodMin(unsigned long primLodMin);
+	void setPrimLodMin(unsigned int primLodMin);
 	void setPrimLodFrac(float primLodFrac);
 
 	//! @return True if combiner wish to use texture channel 0

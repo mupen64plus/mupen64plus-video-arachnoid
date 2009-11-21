@@ -24,6 +24,7 @@ PFNGLSECONDARYCOLORPOINTEREXTPROC glSecondaryColorPointerEXT;
 
 bool initializeSecondaryColorExtension()
 {
+	return false;
 	if ( isExtensionSupported( "GL_EXT_secondary_color" ))
 	{
 #ifdef WIN32

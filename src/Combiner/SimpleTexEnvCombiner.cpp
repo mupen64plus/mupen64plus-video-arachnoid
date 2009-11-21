@@ -2,7 +2,7 @@
 #include "CombinerStructs.h"
 #include "MultiTexturingExt.h"
 #include "ExtensionChecker.h"
-#include "platform.h"
+#include "m64p.h"
 #include <GL/gl.h>
 
 //-----------------------------------------------------------------------------
@@ -89,8 +89,8 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
 	bool m_usesTexture0 = false;
 	bool m_usesTexture1 = false;
 	int mode = GL_REPLACE;
-	WORD m_color = COMBINED;
-	WORD m_alpha = COMBINED;	
+	unsigned short m_color = COMBINED;
+	unsigned short m_alpha = COMBINED;	
 
 	//For each stage in alpha combiner
 	for (int i = 0; i < alphaCombiner->numStages; i++)

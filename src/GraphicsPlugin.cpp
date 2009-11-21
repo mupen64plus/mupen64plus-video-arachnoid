@@ -1,19 +1,16 @@
 #include "GraphicsPlugin.h"
-#include "ZilmarsPluginSpec.h"   //GFX_INFO
 #include "VI.h"                  //Video interface
 #include "Memory.h"              //Access to memory (RDRAM, Texture Memory)
 #include "OpenGLRenderer.h"      //Renderer
 #include "FrameBuffer.h"         //Framebuffer
 #include "DisplayListParser.h"   //Displaylist parser
-#include "WindowManager.h"       //Window manager
 #include "FogManager.h"          //Fog 
 #include "RSP.h"                 //Reality Signal Processor
 #include "RDP.h"                 //Reality Drawing Processor
 #include "GBI.h"                 //Graphics Binary Interface 
 #include "ConfigMap.h"           //Configuration
 #include "Logger.h"              //Debug logger
-#include "ROMDetector.h"
-
+#include "RomDetector.h"
 #include <ctime>
 
 //FrameBuffer framebuffer01;
@@ -56,7 +53,8 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 
 	//Start up the video
 	CoreVideo_Init();
-	CoreVideo_SetVideoMode(320, 240, 32, M64VIDEO_WINDOWED);
+	CoreVideo_SetVideoMode(m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth,
+	                       m_config->startFullscreen ? M64VIDEO_FULLSCREEN : M64VIDEO_WINDOWED);
 
 	//Initialize Video Interface
 	m_vi = new VI();
@@ -71,24 +69,13 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 	m_displayListParser = new DisplayListParser();
 	m_displayListParser->initialize(&m_rsp, &m_rdp, &m_gbi, m_memory);
 
-	//Get Device Context
-	/*
-	//TODO: replace with m64p window stuff
-    HDC dc = GetWindowDC(m_graphicsInfo->hWnd);
-
-    int width = m_config->windowWidth;
-    int height = m_config->windowHeight;
-
-	m_windowMgr = new WindowManager();
-	m_windowMgr->initialize(m_graphicsInfo->hWnd, m_graphicsInfo->hStatusBar);
-	m_windowMgr->resizeWindow(width, height);
-
     //Init OpenGL
-    if ( !m_openGLMgr.initialize(m_graphicsInfo->hWnd, dc, false, width, height, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate, true, false) ) {
+	if ( !m_openGLMgr.initialize(m_config->startFullscreen, m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate, true, false) ) {
 		Logger::getSingleton().printMsg("ERROR: Unable, to initialize OpenGL", M64MSG_ERROR);
 		return false;
     }
-	*/
+
+	
 	m_openGLMgr.calcViewScale(m_vi->getWidth(), m_vi->getHeight());
 
 	//Initialize Fog Manager
@@ -109,8 +96,8 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 	}
 
 	//Initialize Processors
-	m_rdp.initialize(m_graphicsInfo, &m_rsp, m_memory, &m_gbi, &m_textureCache, m_windowMgr, m_vi, m_displayListParser, m_fogManager);
-	m_rsp.initialize(m_graphicsInfo, &m_rdp, m_memory, m_windowMgr, m_vi, m_displayListParser, m_fogManager);
+	m_rdp.initialize(m_graphicsInfo, &m_rsp, m_memory, &m_gbi, &m_textureCache, m_vi, m_displayListParser, m_fogManager);
+	m_rsp.initialize(m_graphicsInfo, &m_rdp, m_memory, m_vi, m_displayListParser, m_fogManager);
 	m_gbi.initialize(&m_rsp, &m_rdp, m_memory, m_displayListParser);	
 		
 
@@ -141,7 +128,6 @@ void GraphicsPlugin::dispose()
 	if ( m_vi )                { delete m_vi;                m_vi = 0;                }
     if ( m_memory )            { delete m_memory;            m_memory = 0;            }
     if ( m_displayListParser ) { delete m_displayListParser; m_displayListParser = 0; }
-    if ( m_windowMgr )         { delete m_windowMgr;         m_windowMgr = 0;         }   
 	if ( m_fogManager )        { delete m_fogManager;        m_fogManager = 0;        }
 	
     m_gbi.dispose();
@@ -374,7 +360,7 @@ void GraphicsPlugin::processDisplayList()
     {        
 	    m_vi->calcSize(m_graphicsInfo);	
 	    m_openGLMgr.calcViewScale(m_vi->getWidth(), m_vi->getHeight());
-        OpenGLManager::getSingleton().setViewport(0,m_windowMgr->getHeightOffset(), m_config->windowWidth, m_config->windowHeight);
+        OpenGLManager::getSingleton().setViewport(0, 0, m_config->windowWidth, m_config->windowHeight);
         m_openGLMgr.setWireFrame( m_config->wireframe );
         _setTextureCacheSize( m_config->textureCacheSize );
         m_updateConfig = false;
@@ -430,15 +416,6 @@ void GraphicsPlugin::processDisplayList()
 	//OpenGLManager::getSingleton().endRendering();
 
     //Take screenshot?
-    if ( m_screenshotDirectory )
-    {
-        m_screenshotCreator.createScreenshot( m_screenshotDirectory, 
-			                                  m_romDetector->getRomName(),
-                                              0, m_windowMgr->getHeightOffset(), 
-                                              m_openGLMgr.getWidth(), m_openGLMgr.getHeight());
-        delete[] m_screenshotDirectory; 
-        m_screenshotDirectory = 0;
-    }
 }
 
 //-----------------------------------------------------------------------------
@@ -480,52 +457,20 @@ void GraphicsPlugin::toggleFullscreen()
 {
 	if ( m_initialized ) 
 	{   
-        if ( !OpenGLManager::getSingleton().getFullscreen() )
-        {
-            //Initialize framebuffer
-            //framebuffer01.dispose();
-            //framebuffer02.dispose();
-	        //framebuffer01.initialize(m_config->fullscreenWidth,  m_config->fullscreenHeight);
-            //framebuffer02.initialize(m_config->fullscreenWidth,  m_config->fullscreenHeight);
-
-            //Goto fullscreen
-            _setWindowMode(m_config->fullscreenWidth, m_config->fullscreenHeight);  
-            OpenGLManager::getSingleton().resize(m_config->fullscreenWidth,  m_config->fullscreenHeight, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate);
-            OpenGLManager::getSingleton().toggleFullscreen();
-	        m_openGLMgr.calcViewScale(m_vi->getWidth(), m_vi->getHeight());
-            OpenGLManager::getSingleton().setViewport(0,m_windowMgr->getHeightOffset(), m_config->windowWidth, m_config->windowHeight);        
-		    m_windowMgr->toggleFullscreen();
-        }
-        else
-        {
-            //Initialize framebuffer
-            //framebuffer01.dispose();
-          //  framebuffer02.dispose();
-	        //framebuffer01.initialize(m_config->windowWidth,  m_config->windowHeight);
-           // framebuffer02.initialize(m_config->windowWidth,  m_config->windowHeight);
-
-
-            //Goto Window Mode
-            _setWindowMode(m_config->windowWidth, m_config->windowHeight);  
-            OpenGLManager::getSingleton().resize(m_config->windowWidth,  m_config->windowHeight, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate);
-            OpenGLManager::getSingleton().toggleFullscreen();
-	        m_openGLMgr.calcViewScale(m_vi->getWidth(), m_vi->getHeight());
-            OpenGLManager::getSingleton().setViewport(0,m_windowMgr->getHeightOffset(), m_config->windowWidth, m_config->windowHeight);
-		    m_windowMgr->toggleFullscreen();
-        }
+		CoreVideo_ToggleFullScreen();
     }
 }
 
 //-----------------------------------------------------------------------------
 // Take Screenshot
 //-----------------------------------------------------------------------------
-void GraphicsPlugin::takeScreenshot(char* directory)
+void GraphicsPlugin::takeScreenshot(void **dest, int *width, int *height)
 {
-    //Copy string
-    size_t length = strlen(directory);
-    m_screenshotDirectory = new char[length+1];
-    strncpy(m_screenshotDirectory, directory, length);
-    m_screenshotDirectory[length] = '\0';
+	*width = m_config->windowWidth;
+	*height = m_config->windowHeight;
+	*dest = malloc(*width * *height * 3);
+	glReadBuffer(GL_FRONT);
+	glReadPixels(0, 0, *width, *height, GL_RGB, GL_UNSIGNED_BYTE, *dest);
 }
 
 //-----------------------------------------------------------------------------
@@ -553,7 +498,8 @@ void GraphicsPlugin::_setWindowMode(int width, int height)
 {
 	if ( m_initialized ) 
 	{
-		m_windowMgr->resizeWindow(width, height);			
+		//TODO: is this function needed?
+		//m_windowMgr->resizeWindow(width, height);			
 	}	
 }
 

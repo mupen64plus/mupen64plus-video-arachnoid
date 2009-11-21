@@ -28,7 +28,7 @@ public:
     void setEnvColor(float r, float g, float b, float a);
 
 	//Set prim LOD
-	void setPrimLodMin(unsigned long primLodMin) { m_primLodMin = primLodMin; };
+	void setPrimLodMin(unsigned int primLodMin) { m_primLodMin = primLodMin; };
 	void setPrimLodFrac(float primLodFrac) { m_primLodFrac = primLodFrac; };
 
 public:
@@ -100,7 +100,7 @@ protected:
 	float m_envColor[4];   //!< <r,g,b,a>
 
     //Prim
-	unsigned long m_primLodMin;
+	unsigned int m_primLodMin;
 	float m_primLodFrac;
 
 };

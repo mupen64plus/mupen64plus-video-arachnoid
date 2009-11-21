@@ -3,7 +3,6 @@
 
 #include "TextureCache.h"
 #include "OpenGLManager.h"         //Initializes OpenGL and handles OpenGL states
-#include "ScreenshotCreator.h"     //For taking and saving screenshots to disk
 #include "RSP.h"
 #include "RDP.h"
 
@@ -12,7 +11,6 @@
 class VI;
 class Memory;
 class DisplayListParser;
-class WindowManager;
 class FogManager;
 class ROMDetector;
 struct ConfigMap;
@@ -44,7 +42,7 @@ public:
 	void toggleFullscreen();
 
     //Take Screenshot
-    void takeScreenshot(char* directory);
+    void takeScreenshot(void **dest, int *width, int *height);
 
 	//Called when the video interface has been changed
 	void viStatusChanged();
@@ -72,10 +70,8 @@ private:
     ROMDetector*          m_romDetector;         //!< 
 	OpenGLManager&        m_openGLMgr;           //!< Handles initialization of OpenGL and OpenGL states.
 	DisplayListParser*	  m_displayListParser;   //!< Parses and performs instructions from emulator
-	WindowManager*        m_windowMgr;           //!< Handles render window and statusbars and toolbars.
     ConfigMap*            m_config;              //!< Settings from config dialog/file
 	FogManager*           m_fogManager;          //!< Handles fog extension
-    ScreenshotCreator     m_screenshotCreator;   //!< Takes screenshots and saves to disk
 	bool                  m_updateConfig;        //!< Does configuration need to be updated?
 	bool                  m_initialized;         //!< Have graphics plugin been initialized?
     char*                 m_screenshotDirectory; //!< Where do we want to save the next screenshot? 

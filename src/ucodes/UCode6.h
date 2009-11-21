@@ -47,7 +47,7 @@ private:
 	static Memory* m_memory;                         //!< Pointer to Memory Manager
 	static DisplayListParser* m_displayListParser;   //!< Pointer to Display list parser
 
-    static unsigned long m_vertexIndex;
+    static unsigned int m_vertexIndex;
 
 };
 

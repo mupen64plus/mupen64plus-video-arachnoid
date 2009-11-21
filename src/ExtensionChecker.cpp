@@ -1,4 +1,4 @@
-#include "platform.h"
+#include "m64p.h"
 #include <GL/gl.h>
 #include "ExtensionChecker.h"
 

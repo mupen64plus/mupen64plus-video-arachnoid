@@ -3,13 +3,13 @@
 
 #ifndef WIN32
 #include <cstring>
-#include <assert.h>
+#include <byteswap.h>
 #endif
 
 // Swap bytes from 80 37 12 40
 // to              40 12 37 80
 // dwLen must be a multiple of 4
-inline void swapRomHeaderBytes(void *v, unsigned long dwLen)
+inline void swapRomHeaderBytes(void *v, unsigned int dwLen)
 {
 #ifdef WIN32
 	__asm
@@ -36,7 +36,6 @@ top:
 		jne		top
 	}
 #else
-	assert(dwLen % 4 == 0);
 	char *c = (char*)v + dwLen;
 	while (c > v)
 	{
@@ -67,8 +66,7 @@ inline unsigned short swapword( unsigned short value )
 #endif
 }
 
-
-inline void UnswapCopy( void *src, void *dest, unsigned long numBytes )
+inline void UnswapCopy( void *src, void *dest, unsigned int numBytes )
 {
 #ifdef WIN32
 	__asm
@@ -134,18 +132,31 @@ TrailingLoop:
 Done:
 	}
 #else
-	char *d = (char*)dest;
-	char *s = (char*)src;
-	for (unsigned long i = 0; i < numBytes; ++i)
+	int *d = (int*)dest;
+	int *s = (int*)src;
+	int i = 0;
+	int mainBytes = numBytes / 4;
+	for (; i < mainBytes ; ++i)
 	{
-		unsigned long x1 = i / 4;
-		unsigned long x2 = i % 4;
-		d[i] = s[x1 * 4 + (3 - x2)];
+		//d[i] = __builtin_bswap32(s[i]);
+		d[i] = bswap_32(s[i]);
 	}
+	//TODO: check trailing loop
+	if (mainBytes * 4 < numBytes)
+	{
+		int last = bswap_32(s[i]);
+		char *lastBytes = (char*)&last;
+		char *cDest = (char*)dest;
+		for (i *= 4; i < numBytes; ++i)
+		{
+			cDest[i] = *(lastBytes++);
+		}
+	}
+
 #endif
 }
 
-inline void DWordInterleave( void *mem, unsigned long numDWords )
+inline void DWordInterleave( void *mem, unsigned int numDWords )
 {
 #ifdef WIN32
 	__asm {
@@ -164,7 +175,7 @@ DWordInterleaveLoop:
 	}
 #else
 	int *m = (int*)mem;
-	for (unsigned long i = 0; i < numDWords; ++i)
+	for (unsigned int i = 0; i < numDWords; ++i)
 	{
 		int tmp = m[2 * i];
 		m[2 * i] = m[2 * i + 1];
@@ -173,7 +184,7 @@ DWordInterleaveLoop:
 #endif
 }
 
-inline void QWordInterleave( void *mem, unsigned long numDWords )
+inline void QWordInterleave( void *mem, unsigned int numDWords )
 {
 #ifdef WIN32
 	__asm
@@ -201,7 +212,7 @@ QWordInterleaveLoop:
 	}
 #else
 	long long *m = (long long*)mem;
-	for (unsigned long i = 0; i < numDWords / 2; ++i)
+	for (unsigned int i = 0; i < numDWords / 2; ++i)
 	{
 		long long tmp = m[2 * i];
 		m[2 * i] = m[2 * i + 1];
@@ -309,7 +320,7 @@ const unsigned char One2Eight[2] =
 	255, // 1 = 11111111
 };
 
-inline unsigned short RGBA8888_RGBA4444( unsigned long color )
+inline unsigned short RGBA8888_RGBA4444( unsigned int color )
 {
 #ifdef WIN32
 	__asm
@@ -339,7 +350,7 @@ inline unsigned short RGBA8888_RGBA4444( unsigned long color )
 #endif
 }
 
-inline unsigned long RGBA5551_RGBA8888( unsigned short color )
+inline unsigned int RGBA5551_RGBA8888( unsigned short color )
 {
 #ifdef WIN32
 	__asm
@@ -396,7 +407,7 @@ inline unsigned short RGBA5551_RGBA5551( unsigned short color )
 #endif
 }
 
-inline unsigned long IA88_RGBA8888( unsigned short color )
+inline unsigned int IA88_RGBA8888( unsigned short color )
 {
 #ifdef WIN32
 	__asm
@@ -457,7 +468,7 @@ inline unsigned short IA44_RGBA4444( unsigned char color )
 #endif
 }
 
-inline unsigned long IA44_RGBA8888( unsigned char color )
+inline unsigned int IA44_RGBA8888( unsigned char color )
 {
 #ifdef WIN32
 	__asm
@@ -515,7 +526,7 @@ inline unsigned short IA31_RGBA4444( unsigned char color )
 #endif
 }
 
-inline unsigned long IA31_RGBA8888( unsigned char color )
+inline unsigned int IA31_RGBA8888( unsigned char color )
 {
 #ifdef WIN32
 	__asm
@@ -564,7 +575,7 @@ inline unsigned short I8_RGBA4444( unsigned char color )
 #endif
 }
 
-inline unsigned long I8_RGBA8888( unsigned char color )
+inline unsigned int I8_RGBA8888( unsigned char color )
 {
 #ifdef WIN32
 	__asm
@@ -599,7 +610,7 @@ inline unsigned short I4_RGBA4444( unsigned char color )
 #endif
 }
 
-inline unsigned long I4_RGBA8888( unsigned char color )
+inline unsigned int I4_RGBA8888( unsigned char color )
 {
 #ifdef WIN32
 	__asm

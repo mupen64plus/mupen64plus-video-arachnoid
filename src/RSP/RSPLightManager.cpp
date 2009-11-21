@@ -35,7 +35,7 @@ bool RSPLightManager::initialize(Memory* memory)
 //-----------------------------------------------------------------------------
 // Set Light
 //-----------------------------------------------------------------------------
-void RSPLightManager::setLight( unsigned long lightIndex, unsigned long rdramAddress  )
+void RSPLightManager::setLight( unsigned int lightIndex, unsigned int rdramAddress  )
 {
 	//Error control 
 	if ((rdramAddress + sizeof(RDRAMLight)) > m_memory->getRDRAMSize() ) {
@@ -73,7 +73,7 @@ void RSPLightManager::setNumLights(int numLights)
 //-----------------------------------------------------------------------------
 // Set Light Color
 //-----------------------------------------------------------------------------
-void RSPLightManager::setLightColor( unsigned long lightIndex, unsigned long packedColor )
+void RSPLightManager::setLightColor( unsigned int lightIndex, unsigned int packedColor )
 {
 	if (lightIndex < 8)
 	{

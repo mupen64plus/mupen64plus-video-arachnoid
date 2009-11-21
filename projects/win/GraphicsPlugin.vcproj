@@ -198,25 +198,9 @@
 				RelativePath="..\..\src\platform.h"
 				>
 			</File>
-			<File
-				RelativePath="..\..\src\ZilmarsPluginSpec.h"
-				>
-			</File>
 			<Filter
 				Name="Utils"
 				>
-				<Filter
-					Name="File Opener"
-					>
-					<File
-						RelativePath="..\..\src\utils\FileOpener.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\utils\FileOpener.h"
-						>
-					</File>
-				</Filter>
 				<Filter
 					Name="Memory Leak Detector"
 					>
@@ -237,42 +221,6 @@
 						>
 					</File>
 				</Filter>
-				<Filter
-					Name="Console"
-					>
-					<File
-						RelativePath="..\..\src\utils\ConsoleWindow.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\utils\ConsoleWindow.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="ScreenshotCreator"
-					>
-					<File
-						RelativePath="..\..\src\utils\ScreenshotCreator.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\utils\ScreenshotCreator.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="Script Parser"
-					>
-					<File
-						RelativePath="..\..\src\utils\SmartScriptParser.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\utils\SmartScriptParser.h"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="Config"
@@ -286,38 +234,8 @@
 					>
 				</File>
 				<Filter
-					Name="GUI"
-					>
-					<File
-						RelativePath="..\..\src\config\ConfigGUI.cpp"
-						FileType="25"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\config\ConfigGUI.h"
-						FileType="25"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\config\GraphicsPlugin.rc"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\config\resource.h"
-						>
-					</File>
-				</Filter>
-				<Filter
 					Name="File"
 					>
-					<File
-						RelativePath="..\..\src\config\ConfigFile.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\config\ConfigFile.h"
-						>
-					</File>
 					<File
 						RelativePath="..\..\src\config\StringValue.h"
 						>
@@ -325,14 +243,6 @@
 					<Filter
 						Name="Helper Functions"
 						>
-						<File
-							RelativePath="..\..\src\config\StreamFunctions.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\config\StreamFunctions.h"
-							>
-						</File>
 						<File
 							RelativePath="..\..\src\config\StringFunctions.cpp"
 							>
@@ -470,18 +380,6 @@
 							</File>
 						</Filter>
 					</Filter>
-				</Filter>
-				<Filter
-					Name="Window"
-					>
-					<File
-						RelativePath="..\..\src\WindowManager.cpp"
-						>
-					</File>
-					<File
-						RelativePath="..\..\src\WindowManager.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="Memory"

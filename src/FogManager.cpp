@@ -1,36 +1,43 @@
 #include "FogManager.h"
 #include "ExtensionChecker.h"
-#include "platform.h"
+#include "m64p.h"
+#ifndef WIN32
+	#define GL_GLEXT_PROTOTYPES
+#endif
 #include <GL/gl.h>
+#ifndef WIN32
+	#include <GL/glext.h>
+#else
+	//-----------------------------------------------------------------------------
+	// EXT_fog_coord functions
+	//-----------------------------------------------------------------------------
+	#ifndef GL_EXT_fog_coord
+	#define GL_EXT_fog_coord 1
+		#ifdef GL_GLEXT_PROTOTYPES
+			extern void APIENTRY glFogCoordfEXT (GLfloat);
+			extern void APIENTRY glFogCoordfvEXT (const GLfloat *);
+			extern void APIENTRY glFogCoorddEXT (GLdouble);
+			extern void APIENTRY glFogCoorddvEXT (const GLdouble *);
+			extern void APIENTRY glFogCoordPointerEXT (GLenum, GLsizei, const GLvoid *);
+		#endif 
 
-//-----------------------------------------------------------------------------
-// EXT_fog_coord functions
-//-----------------------------------------------------------------------------
-#ifndef GL_EXT_fog_coord
-#define GL_EXT_fog_coord 1
-	#ifdef GL_GLEXT_PROTOTYPES
-		extern void APIENTRY glFogCoordfEXT (GLfloat);
-		extern void APIENTRY glFogCoordfvEXT (const GLfloat *);
-		extern void APIENTRY glFogCoorddEXT (GLdouble);
-		extern void APIENTRY glFogCoorddvEXT (const GLdouble *);
-		extern void APIENTRY glFogCoordPointerEXT (GLenum, GLsizei, const GLvoid *);
-	#endif 
-#ifdef WIN32
-	typedef void (APIENTRY * PFNGLFOGCOORDFEXTPROC) (GLfloat coord);
-	typedef void (APIENTRY * PFNGLFOGCOORDFVEXTPROC) (const GLfloat *coord);
-	typedef void (APIENTRY * PFNGLFOGCOORDDEXTPROC) (GLdouble coord);
-	typedef void (APIENTRY * PFNGLFOGCOORDDVEXTPROC) (const GLdouble *coord);
-	typedef void (APIENTRY * PFNGLFOGCOORDPOINTEREXTPROC) (GLenum type, GLsizei stride, const GLvoid *pointer);
+		typedef void (APIENTRY * PFNGLFOGCOORDFEXTPROC) (GLfloat coord);
+		typedef void (APIENTRY * PFNGLFOGCOORDFVEXTPROC) (const GLfloat *coord);
+		typedef void (APIENTRY * PFNGLFOGCOORDDEXTPROC) (GLdouble coord);
+		typedef void (APIENTRY * PFNGLFOGCOORDDVEXTPROC) (const GLdouble *coord);
+		typedef void (APIENTRY * PFNGLFOGCOORDPOINTEREXTPROC) (GLenum type, GLsizei stride, const GLvoid *pointer);
+
+		#define GL_FOG_COORDINATE_SOURCE_EXT      0x8450
+		#define GL_FOG_COORDINATE_EXT             0x8451
+		#define GL_FOG_COORDINATE_ARRAY_EXT       0x8457
+	#endif
+
+	PFNGLFOGCOORDFEXTPROC glFogCoordfEXT;
+	PFNGLFOGCOORDFVEXTPROC glFogCoordfvEXT;
+	PFNGLFOGCOORDDEXTPROC glFogCoorddEXT;
+	PFNGLFOGCOORDDVEXTPROC glFogCoorddvEXT;
+	PFNGLFOGCOORDPOINTEREXTPROC glFogCoordPointerEXT;
 #endif
-	#define GL_FOG_COORDINATE_SOURCE_EXT      0x8450
-	#define GL_FOG_COORDINATE_EXT             0x8451
-	#define GL_FOG_COORDINATE_ARRAY_EXT       0x8457
-#endif
-PFNGLFOGCOORDFEXTPROC glFogCoordfEXT;
-PFNGLFOGCOORDFVEXTPROC glFogCoordfvEXT;
-PFNGLFOGCOORDDEXTPROC glFogCoorddEXT;
-PFNGLFOGCOORDDVEXTPROC glFogCoorddvEXT;
-PFNGLFOGCOORDPOINTEREXTPROC glFogCoordPointerEXT;
 
 //-----------------------------------------------------------------------------
 //! Static Variables

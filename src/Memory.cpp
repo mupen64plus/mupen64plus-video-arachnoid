@@ -74,7 +74,7 @@ void Memory::_calculateRDRAMSize()
 		}
 	
     #else
-        unsigned long testAddress;
+        unsigned int testAddress;
 
 		__try
 		{

@@ -1,9 +1,15 @@
-#include "OpenGLRenderer.h"
+#include "m64p.h"
+#ifndef WIN32
+	#define GL_GLEXT_PROTOTYPES
+#endif
+#include <GL/gl.h>
+#ifndef WIN32
+	#include <GL/glext.h>
+#endif
+
 #include <cmath>
 #include <algorithm>
-#include "platform.h"
-#include <GL/gl.h>
-#include <GL/glu.h>
+#include "OpenGLRenderer.h"
 #include "OpenGLManager.h"
 #include "RSP.h"
 #include "RDP.h"
@@ -16,6 +22,7 @@
 #include "ExtensionChecker.h"
 #include "MultiTexturingExt.h"
 #include "SecondaryColorExt.h"
+
 
 using std::max;
 
@@ -344,8 +351,9 @@ void OpenGLRenderer::renderTexRect( float ulx, float uly,   //Upper left vertex
 
 		glColor4f( rect[0].color.r, rect[0].color.g, rect[0].color.b, rect[0].color.a );
 
+		//TODO: uncomment glSecondaryColor3fEXT
 		//if (OGL.EXT_secondary_color)
-			glSecondaryColor3fEXT( rect[0].secondaryColor.r, rect[0].secondaryColor.g, rect[0].secondaryColor.b );
+			//glSecondaryColor3fEXT( rect[0].secondaryColor.r, rect[0].secondaryColor.g, rect[0].secondaryColor.b );
 
 		//if (OGL.ARB_multitexture)
 		//{

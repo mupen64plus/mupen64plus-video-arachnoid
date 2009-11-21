@@ -200,9 +200,9 @@ void UCode5::F3DEX2_Texture( MicrocodeArgument* ucode )
 
 	float scaleS  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 16, 16 ), 16 ); 
 	float scaleT  = _FIXED2FLOAT( _SHIFTR( ucode->w1, 0, 16 ), 16 ); 
-	long level    = _SHIFTR( ucode->w0, 11, 3 );
-	long tile     = _SHIFTR( ucode->w0, 8, 3 );
-	long on       = _SHIFTR( ucode->w0, 1, 7 );
+	int level    = _SHIFTR( ucode->w0, 11, 3 );
+	int tile     = _SHIFTR( ucode->w0, 8, 3 );
+	int on       = _SHIFTR( ucode->w0, 1, 7 );
 
 	m_rsp->RSP_Texture(scaleS, scaleT, level, tile, on);
 }
@@ -280,7 +280,7 @@ void UCode5::F3DEX2_MoveMem( MicrocodeArgument* ucode )
 			break;
 		case G_MV_LIGHT:
 			/*
-			unsigned long dwOffset2 = ((ucode->w0) >> 5) & 0x3FFF;
+			unsigned int dwOffset2 = ((ucode->w0) >> 5) & 0x3FFF;
 
 			switch (dwOffset2)
 			{
@@ -313,7 +313,7 @@ void UCode5::F3DEX2_MoveMem( MicrocodeArgument* ucode )
 			}
 			break;
 			*/
-			unsigned long offset = _SHIFTR( ucode->w0, 8, 8 ) << 3;
+			unsigned int offset = _SHIFTR( ucode->w0, 8, 8 ) << 3;
 
 			if (offset >= 48)
 			{
@@ -424,9 +424,9 @@ void UCode5::F3DEX2_SetOtherMode_H( MicrocodeArgument* ucode )
 		default:
 			Logger::getSingleton().printMsg("F3DEX2_SetOtherMode_L - Unknown type", M64MSG_WARNING);
 
-			unsigned long length = _SHIFTR( ucode->w0, 0, 8 ) + 1;
-			unsigned long shift = 32 - _SHIFTR( ucode->w0, 8, 8 ) - length;
-			unsigned long mask = ((1 << length) - 1) << shift;
+			unsigned int length = _SHIFTR( ucode->w0, 0, 8 ) + 1;
+			unsigned int shift = 32 - _SHIFTR( ucode->w0, 8, 8 ) - length;
+			unsigned int mask = ((1 << length) - 1) << shift;
 
 			m_rdp->m_otherMode.h &= ~mask;
 			m_rdp->m_otherMode.h |= ucode->w1 & mask;
@@ -455,9 +455,9 @@ void UCode5::F3DEX2_SetOtherMode_L( MicrocodeArgument* ucode )
 			m_rdp->setRenderMode(  ucode->w1 );
 			break;
 		default:
-			unsigned long length = _SHIFTR( ucode->w0, 0, 8 ) + 1;
-			unsigned long shift = 32 - _SHIFTR( ucode->w0, 8, 8 ) - length;
-			unsigned long mask = ((1 << length) - 1) << shift;
+			unsigned int length = _SHIFTR( ucode->w0, 0, 8 ) + 1;
+			unsigned int shift = 32 - _SHIFTR( ucode->w0, 8, 8 ) - length;
+			unsigned int mask = ((1 << length) - 1) << shift;
 			m_rdp->m_otherMode.l &= ~mask;
 			m_rdp->m_otherMode.l |= ucode->w1 & mask;
 			break;

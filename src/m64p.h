@@ -9,23 +9,6 @@
 #include <string.h>
 
 #define BOOL int
-#define HWND int
-#define HDC int
-#define HGLRC int
-#define BYTE unsigned char
-#define WORD short
-#define DWORD int
-#define UINT unsigned int
-#define WPARAM void*
-#define LPARAM int
-#define HINSTANCE int
-#define DEVMODE int
-#define DLGPROC int
-#define WINAPI
-#define LPVOID void*
-#define CALLBACK
-#define HMENU int
-#define RECT int
 #endif
 
 #include "m64p_types.h"
@@ -47,6 +30,7 @@ extern ptr_ConfigGetParamFloat    ConfigGetParamFloat;
 extern ptr_ConfigGetParamBool     ConfigGetParamBool;
 extern ptr_ConfigGetParamString   ConfigGetParamString;
 
+extern ptr_ConfigSaveFile			ConfigSaveFile;
 extern ptr_ConfigGetSharedDataFilepath ConfigGetSharedDataFilepath;
 extern ptr_ConfigGetUserConfigPath     ConfigGetUserConfigPath;
 extern ptr_ConfigGetUserDataPath       ConfigGetUserDataPath;

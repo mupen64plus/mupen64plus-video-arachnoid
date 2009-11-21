@@ -23,9 +23,9 @@
 //*****************************************************************************
 struct UcodeData
 {
-	unsigned long ucode;        //!< ID of ucode
-	unsigned long crc_size;     //!< Hash value used to identify ucode
-	unsigned long crc_800;      //!< Hash value used to identify ucode
+	unsigned int ucode;        //!< ID of ucode
+	unsigned int crc_size;     //!< Hash value used to identify ucode
+	unsigned int crc_800;      //!< Hash value used to identify ucode
 	const char* ucode_name;     //!< Name used to identify ucode
 	bool		non_nearclip;   //!< Does ucode support near clipping?
 	bool		reject;         //!< 

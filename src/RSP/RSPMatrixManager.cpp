@@ -39,7 +39,7 @@ bool RSPMatrixManager::initialize(Memory* memory)
 //-----------------------------------------------------------------------------
 void RSPMatrixManager::addMatrix(unsigned int segmentAddress, bool projectionMatrix, bool push, bool replace)
 {
-	unsigned long rdramAddress = m_memory->getRDRAMAddress(segmentAddress);
+	unsigned int rdramAddress = m_memory->getRDRAMAddress(segmentAddress);
 
 	if (rdramAddress + 64 > m_memory->getRDRAMSize() ) {
 		return;
@@ -63,7 +63,7 @@ void RSPMatrixManager::addMatrix(unsigned int segmentAddress, bool projectionMat
 //-----------------------------------------------------------------------------
 //! Insert Matrix
 //-----------------------------------------------------------------------------
-void RSPMatrixManager::insertMatrix(unsigned long where, unsigned long num) 
+void RSPMatrixManager::insertMatrix(unsigned int where, unsigned int num) 
 {
 	float fraction, integer;
 
@@ -105,7 +105,7 @@ void RSPMatrixManager::insertMatrix(unsigned long where, unsigned long num)
 		m_worldProject[0][((where - 0x20) >> 1) + 1] = newValue;
 	}
 }
-void RSPMatrixManager::ForceMatrix(unsigned long rdramAddress)
+void RSPMatrixManager::ForceMatrix(unsigned int rdramAddress)
 {
 	_loadMatrix(rdramAddress, m_worldProject);
 }
@@ -128,7 +128,7 @@ void RSPMatrixManager::popMatrix()
 //-----------------------------------------------------------------------------
 // Pop Matrix N
 //-----------------------------------------------------------------------------
-void RSPMatrixManager::popMatrixN(unsigned long num)
+void RSPMatrixManager::popMatrixN(unsigned int num)
 {
 	if ( m_modelViewMatrixTop > num - 1)
 	{
@@ -141,10 +141,10 @@ void RSPMatrixManager::popMatrixN(unsigned long num)
 //-----------------------------------------------------------------------------
 //! DMA Matrix
 //-----------------------------------------------------------------------------
-void RSPMatrixManager::DMAMatrix( unsigned long rdramAddress, unsigned char index, unsigned char multiply )
+void RSPMatrixManager::DMAMatrix( unsigned int rdramAddress, unsigned char index, unsigned char multiply )
 {
     //Get final address
-	unsigned long address = m_rdramOffset + rdramAddress;
+	unsigned int address = m_rdramOffset + rdramAddress;
 
     if (address + 64 > m_memory->getRDRAMSize())
 	{
@@ -193,7 +193,7 @@ void RSPMatrixManager::resetMatrices()
 //-----------------------------------------------------------------------------
 //! Load Matrix
 //-----------------------------------------------------------------------------
-void RSPMatrixManager::_loadMatrix(unsigned long addr, Matrix4& out)
+void RSPMatrixManager::_loadMatrix(unsigned int addr, Matrix4& out)
 {
 	if ( addr + 64 > m_memory->getRDRAMSize() ) {
 		return;

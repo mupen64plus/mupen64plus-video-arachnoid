@@ -22,17 +22,17 @@ public:
     CRCCalculator2();
 
     //Functions for calculating crc values
-    unsigned long calcCRC(unsigned long crc, void *buffer, unsigned long count);
-    unsigned long calcPaletteCRC(unsigned long crc, void *buffer, unsigned long count);
+    unsigned int calcCRC(unsigned int crc, void *buffer, unsigned int count);
+    unsigned int calcPaletteCRC(unsigned int crc, void *buffer, unsigned int count);
 
 private:
 
     //Help function used to build hash table
-    unsigned long _reflect(unsigned long ref, char ch);
+    unsigned int _reflect(unsigned int ref, char ch);
 
 private:   
 
-    static unsigned long m_crcTable[256];   //!< Hash table that associates keys with values
+    static unsigned int m_crcTable[256];   //!< Hash table that associates keys with values
 };
 
 #endif

@@ -35,13 +35,11 @@
 //*****************************************************************************
 
 //Includes
-#include "platform.h"
+#include "m64p.h"
 #include "GraphicsPlugin.h"        //Main class
-#include "PluginInfo.h"            //Tell emulator what type of plugin this is
-#include "config/Config.h"                //Configuration   
+#include "config/Config.h"         //Configuration   
 #include "Logger.h"                //Debug logger
 #include "MemoryLeakDetector.h"    //For detecting memory leaks
-#include "ConsoleWindow.h"         //Console Window for debuging
 
 #include "m64p_types.h"
 #include "m64p_plugin.h"
@@ -65,7 +63,6 @@ char              g_cfgFilename[] = "ConfigGraphicsPlugin.cfg";  //!< Name confi
 GFX_INFO          g_graphicsInfo;                                //!< Information about window, memory...
 GraphicsPlugin    g_graphicsPlugin;                              //!< Main class for application
 Config            g_config(&g_graphicsPlugin);                   //!< Handles configuration
-HINSTANCE         g_instance;                                    //!< DLL Instance
 
 void (*renderCallback)() = NULL;
 
@@ -84,6 +81,7 @@ ptr_ConfigGetParamFloat    ConfigGetParamFloat = NULL;
 ptr_ConfigGetParamBool     ConfigGetParamBool = NULL;
 ptr_ConfigGetParamString   ConfigGetParamString = NULL;
 
+ptr_ConfigSaveFile			ConfigSaveFile = NULL;
 ptr_ConfigGetSharedDataFilepath ConfigGetSharedDataFilepath = NULL;
 ptr_ConfigGetUserConfigPath     ConfigGetUserConfigPath = NULL;
 ptr_ConfigGetUserDataPath       ConfigGetUserDataPath = NULL;
@@ -109,6 +107,7 @@ extern "C" {
 EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context,
                                    void (*DebugCallback)(void *, int, const char *))
 {
+	Logger::getSingleton().initialize(DebugCallback, Context);
 	fprintf(stderr, "PluginStartup\n");
 	/* Get the core config function pointers from the library handle */
     ConfigOpenSection = (ptr_ConfigOpenSection) osal_dynlib_getproc(CoreLibHandle, "ConfigOpenSection");
@@ -123,6 +122,7 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
     ConfigGetParamBool = (ptr_ConfigGetParamBool) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamBool");
     ConfigGetParamString = (ptr_ConfigGetParamString) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamString");
 
+	ConfigSaveFile = (ptr_ConfigSaveFile) osal_dynlib_getproc(CoreLibHandle, "ConfigSaveFile");
     ConfigGetSharedDataFilepath = (ptr_ConfigGetSharedDataFilepath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetSharedDataFilepath");
     ConfigGetUserConfigPath = (ptr_ConfigGetUserConfigPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserConfigPath");
     ConfigGetUserDataPath = (ptr_ConfigGetUserDataPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserDataPath");
@@ -158,8 +158,11 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
     }
 
 	//Read configuration
-	//TODO: get values from core
-	g_graphicsPlugin.setConfig(g_config.getConfig());
+	if (g_config.initialize())
+	{
+		g_config.load();
+		g_graphicsPlugin.setConfig(g_config.getConfig());
+	}
 
     return M64ERR_SUCCESS;
 }
@@ -374,7 +377,7 @@ EXPORT void CALL ChangeWindow()
 //-----------------------------------------------------------------------------
 EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
 {
-	//TODO
+	g_graphicsPlugin.takeScreenshot(dest, width, height);
 }
 
 //-----------------------------------------------------------------------------
@@ -417,47 +420,3 @@ EXPORT void FBGetFrameBufferInfo(void *p)
 #ifdef __cplusplus
 }
 #endif
-
-
-
-
-
-
-
-//TODO: remove these
-//-----------------------------------------------------------------------------
-// Main
-//-----------------------------------------------------------------------------
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
-{
-#ifdef WIN32
-	g_instance = hinstDLL;
-
-    switch ( dwReason )
-    {
-        case DLL_PROCESS_ATTACH:
-            g_graphicsPlugin.setConfig(g_config.getConfig());
-            g_config.loadFromFile(g_cfgFilename);		
-            break;
-        case DLL_PROCESS_DETACH:
-			#ifdef _DEBUG
-				//Close Console
-				terminateConsole();
-			#endif
-            break;
-    }
-#endif
-	return true;
-}
-
-//-----------------------------------------------------------------------------
-// Handle Cofig Dialog Process
-//-----------------------------------------------------------------------------
-#ifdef WIN32
-BOOL CALLBACK g_configDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LPARAM lParam) 
-{ 
-	//g_config.handleWindowMsg(hWndDlg, message, wParam, lParam);
-    return false; 
-}
-#endif
-

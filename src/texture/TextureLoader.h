@@ -13,11 +13,11 @@ class RDP;
 //*****************************************************************************
 struct TextureImage
 {
-	unsigned long format;
-	unsigned long size;
-	unsigned long width;
-	unsigned long bpl;
-	unsigned long address;
+	unsigned int format;
+	unsigned int size;
+	unsigned int width;
+	unsigned int bpl;
+	unsigned int address;
 
 	//! Constructor
 	TextureImage()
@@ -87,7 +87,7 @@ public:
 	bool initialize(RDP* rdp, Memory* memory);
 
 	//Set Texture Image
-	void setTextureImage(unsigned long format, unsigned long size, unsigned long width, unsigned long segmentAddress);
+	void setTextureImage(unsigned int format, unsigned int size, unsigned int width, unsigned int segmentAddress);
 
 	//Set Tile
 	void setTile(int format, int size, int line, int tmem, int tile, int palette, 
@@ -95,7 +95,7 @@ public:
 						  int maskT, int shiftS, int shiftT);
 
 	//Set Tile Size
-	void setTileSize(int tile, unsigned long s0, unsigned long t0, unsigned long s1, unsigned long t1);
+	void setTileSize(int tile, unsigned int s0, unsigned int t0, unsigned int s1, unsigned int t1);
 
 	//Load Tile
 	void loadTile(int tile, int s0, int t0, int s1, int t1);

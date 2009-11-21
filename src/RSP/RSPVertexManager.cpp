@@ -85,7 +85,7 @@ bool RSPVertexManager::initialize(OpenGLManager* openGLMgr, Memory* memory, RSPM
 //-----------------------------------------------------------------------------
 // Set Vertices
 //-----------------------------------------------------------------------------
-void RSPVertexManager::setVertices( unsigned long address, unsigned int numVertices, unsigned int firstVertexIndex)
+void RSPVertexManager::setVertices( unsigned int address, unsigned int numVertices, unsigned int firstVertexIndex)
 {
 	//Make sure address is valid
 	if ((address + sizeof( Vertex ) * numVertices) > m_memory->getRDRAMSize()) {
@@ -134,7 +134,7 @@ void RSPVertexManager::setVertices( unsigned long address, unsigned int numVerti
 //-----------------------------------------------------------------------------
 // Modify Vertex
 //-----------------------------------------------------------------------------
-void RSPVertexManager::modifyVertex( unsigned long vtx, unsigned long where, unsigned long val )
+void RSPVertexManager::modifyVertex( unsigned int vtx, unsigned int where, unsigned int val )
 {
 	switch (where)
 	{
@@ -155,7 +155,7 @@ void RSPVertexManager::modifyVertex( unsigned long vtx, unsigned long where, uns
 	}
 }
 
-void RSPVertexManager::setVertexColor(unsigned long vertexIndex, float r, float g, float b, float a)
+void RSPVertexManager::setVertexColor(unsigned int vertexIndex, float r, float g, float b, float a)
 {
 	m_vertices[vertexIndex].r = r;
 	m_vertices[vertexIndex].g = g;
@@ -163,7 +163,7 @@ void RSPVertexManager::setVertexColor(unsigned long vertexIndex, float r, float 
 	m_vertices[vertexIndex].a = a;
 }
 
-void RSPVertexManager::setVertexTextureCoord(unsigned long vertexIndex, float s, float t)
+void RSPVertexManager::setVertexTextureCoord(unsigned int vertexIndex, float s, float t)
 {
 	m_vertices[vertexIndex].s = s;
 	m_vertices[vertexIndex].t = t;
@@ -173,9 +173,9 @@ void RSPVertexManager::setVertexTextureCoord(unsigned long vertexIndex, float s,
 //-----------------------------------------------------------------------------
 // ?
 //-----------------------------------------------------------------------------
-void RSPVertexManager::ciVertex(unsigned long segmentAddress, unsigned long numVertices, unsigned long firstVertexIndex)
+void RSPVertexManager::ciVertex(unsigned int segmentAddress, unsigned int numVertices, unsigned int firstVertexIndex)
 {
-	unsigned long rdramAddress = m_memory->getRDRAMAddress(segmentAddress);
+	unsigned int rdramAddress = m_memory->getRDRAMAddress(segmentAddress);
 
 	if ((rdramAddress + sizeof(PerfectDarkVertex) * numVertices) > m_memory->getRDRAMSize())
 	{
@@ -227,9 +227,9 @@ void RSPVertexManager::ciVertex(unsigned long segmentAddress, unsigned long numV
 //-----------------------------------------------------------------------------
 // ?
 //-----------------------------------------------------------------------------
-void RSPVertexManager::DMAVertex( unsigned long v, unsigned long numVertices, unsigned long firstVertexIndex)
+void RSPVertexManager::DMAVertex( unsigned int v, unsigned int numVertices, unsigned int firstVertexIndex)
 {
-    unsigned long address = m_rdramOffset + m_memory->getRDRAMAddress( v );
+    unsigned int address = m_rdramOffset + m_memory->getRDRAMAddress( v );
 
     if ((address + 10 * numVertices) > m_memory->getRDRAMSize())
 	{
@@ -271,7 +271,7 @@ void RSPVertexManager::DMAVertex( unsigned long v, unsigned long numVertices, un
 //-----------------------------------------------------------------------------
 // ?
 //-----------------------------------------------------------------------------
-void RSPVertexManager::DMAOffsets( unsigned long mtxoffset, unsigned long vtxoffset )
+void RSPVertexManager::DMAOffsets( unsigned int mtxoffset, unsigned int vtxoffset )
 {
 	static bool warned = false;
 	if ( !warned ) {
@@ -285,7 +285,7 @@ void RSPVertexManager::DMAOffsets( unsigned long mtxoffset, unsigned long vtxoff
 //! @param v1 Index of second vertex in triangle
 //! @param v2 Index of third vertex in triangle
 //-----------------------------------------------------------------------------
-bool RSPVertexManager::add1Triangle(unsigned long v0, unsigned long v1, unsigned long v2 )
+bool RSPVertexManager::add1Triangle(unsigned int v0, unsigned int v1, unsigned int v2 )
 {
 	bool triangleAdded = false;
 
@@ -315,8 +315,8 @@ bool RSPVertexManager::add1Triangle(unsigned long v0, unsigned long v1, unsigned
 	return triangleAdded;
 }
 
-void RSPVertexManager::add2Triangles( long v00, long v01, long v02, long flag0,
-					                  long v10, long v11, long v12, long flag1 )
+void RSPVertexManager::add2Triangles( int v00, int v01, int v02, int flag0,
+					                  int v10, int v11, int v12, int flag1 )
 {
 	//implemented by calling add1Triangle multiple times
 
@@ -327,10 +327,10 @@ void RSPVertexManager::add2Triangles( long v00, long v01, long v02, long flag0,
 	}
 }
 
-void RSPVertexManager::add4Triangles( long v00, long v01, long v02,
-					long v10, long v11, long v12,
-					long v20, long v21, long v22,
-					long v30, long v31, long v32 )
+void RSPVertexManager::add4Triangles( int v00, int v01, int v02,
+					int v10, int v11, int v12,
+					int v20, int v21, int v22,
+					int v30, int v31, int v32 )
 {
 	//implemented by calling add1Triangle multiple times
 
@@ -343,9 +343,9 @@ void RSPVertexManager::add4Triangles( long v00, long v01, long v02,
 }
 
 //! @todo Set culling
-void RSPVertexManager::addDMATriangles( unsigned long tris, unsigned long n )
+void RSPVertexManager::addDMATriangles( unsigned int tris, unsigned int n )
 {
-    unsigned long address = m_memory->getRDRAMAddress(tris);
+    unsigned int address = m_memory->getRDRAMAddress(tris);
 
 	if (address + sizeof( DKRTriangle ) * n > m_memory->getRDRAMSize() )
 	{
@@ -354,7 +354,7 @@ void RSPVertexManager::addDMATriangles( unsigned long tris, unsigned long n )
 
     DKRTriangle *triangles = (DKRTriangle*)m_memory->getRDRAM(address);
 
-	for (unsigned long i = 0; i < n; i++)
+	for (unsigned int i = 0; i < n; i++)
 	{
         //TODO Set culling
 		//gSP.geometryMode &= ~G_CULL_BOTH;
@@ -382,13 +382,13 @@ void RSPVertexManager::addDMATriangles( unsigned long tris, unsigned long n )
 }
 
 
-void RSPVertexManager::setConkerAddress(unsigned long segmentAddress)
+void RSPVertexManager::setConkerAddress(unsigned int segmentAddress)
 {
     m_conkerRDRAMAddress = m_memory->getRDRAMAddress(segmentAddress);
 }
     
 
-void RSPVertexManager::add1Quadrangle( long v0, long v1, long v2, long v4 )
+void RSPVertexManager::add1Quadrangle( int v0, int v1, int v2, int v4 )
 {
 	//implemented by calling add1Triangle multiple times
 
@@ -426,7 +426,7 @@ inline float DotProduct( float* v0, float* v1 )
 }
 
 
-void RSPVertexManager::_processVertex( unsigned long v )
+void RSPVertexManager::_processVertex( unsigned int v )
 {
 //	float intensity;
 //	float r, g, b;
@@ -529,11 +529,11 @@ void RSPVertexManager::_processVertex( unsigned long v )
 }
 
 
-void RSPVertexManager::addConkerVertices(unsigned long segmentAddress, unsigned long n, unsigned long v0 )
+void RSPVertexManager::addConkerVertices(unsigned int segmentAddress, unsigned int n, unsigned int v0 )
 {
-    unsigned long numVertices = n;
-    unsigned long firstVertexIndex = v0;
-    unsigned long address = m_memory->getRDRAMAddress( segmentAddress );
+    unsigned int numVertices = n;
+    unsigned int firstVertexIndex = v0;
+    unsigned int address = m_memory->getRDRAMAddress( segmentAddress );
 
 	//Make sure address is valid
 	if ((address + sizeof( Vertex ) * numVertices) > m_memory->getRDRAMSize()) {

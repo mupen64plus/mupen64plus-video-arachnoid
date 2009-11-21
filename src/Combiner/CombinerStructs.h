@@ -2,7 +2,7 @@
 #ifndef COMBINER_STRUCTS_H_
 #define COMBINER_STRUCTS_H_
 
-#include "platform.h"
+#include "m64p.h"
 #include <GL/gl.h>
 
 // Internal combiner commands
@@ -66,7 +66,7 @@ struct CombineData
 
 		struct
 		{
-			unsigned long	muxs1, muxs0;
+			unsigned int	muxs1, muxs0;
 		};
 
 		unsigned long long	mux;
@@ -178,11 +178,11 @@ struct TexEnvCombinerArg
 //*****************************************************************************
 struct TexEnvCombinerStage
 {
-	WORD constant;
+	unsigned short constant;
 	bool used;
 	GLenum combine;
 	TexEnvCombinerArg arg0, arg1, arg2;
-	WORD outputTexture;
+	unsigned short outputTexture;
 };
 
 //*****************************************************************************
@@ -196,11 +196,11 @@ struct TexEnvCombiner
 
     GLint mode;
 
-	WORD usedUnits;
+	unsigned short usedUnits;
 	
 	struct
 	{
-		WORD color, secondaryColor, alpha;
+		unsigned short color, secondaryColor, alpha;
 	} vertex;
 
 	TexEnvCombinerStage color[8];

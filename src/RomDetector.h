@@ -7,18 +7,18 @@
 //* ROM Header
 //! Stored in each rom, gives us information about rom.
 //*****************************************************************************
-#pragma pack(push, 1)
+//#pragma pack(push, 1)
 struct ROMHeader
 {
  	unsigned char    x1, x2, x3, x4;
-	unsigned long    clockRate;
-	unsigned long    bootAddressOffset;
-	unsigned long    release;
-	unsigned long    CRC1;              //!< Hash value
-	unsigned long    CRC2;              //!< Hash value
+	unsigned int    clockRate;
+	unsigned int    bootAddressOffset;
+	unsigned int    release;
+	unsigned int    CRC1;              //!< Hash value
+	unsigned int    CRC2;              //!< Hash value
 	unsigned long long unknown0; 
 	char             romName[20];       //!< Name of rom, used to identify what rom it is.
-	unsigned long    unknown1;
+	unsigned int    unknown1;
 	unsigned short   unknown2;
 	unsigned char    unknown3;
 	unsigned char    nManufacturer;
@@ -26,7 +26,7 @@ struct ROMHeader
 	signed char      countryID;
 	unsigned char    unknown4;
 };
-#pragma pack(pop)
+//#pragma pack(pop)
 //*****************************************************************************
 //* COMBINER TYPE
 //! What kind of combiner to use

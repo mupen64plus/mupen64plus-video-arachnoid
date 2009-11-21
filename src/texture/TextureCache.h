@@ -25,8 +25,8 @@ public:
 	~TextureCache();
 
 	//Functions
-	bool initialize(RSP* rsp, RDP* rdp, Memory* memory, unsigned long textureBitDepth, unsigned long cacheSize=(32 * 1048576));
-	void update(unsigned long tile);
+	bool initialize(RSP* rsp, RDP* rdp, Memory* memory, unsigned int textureBitDepth, unsigned int cacheSize=(32 * 1048576));
+	void update(unsigned int tile);
     void dispose();
 
 	//Add and Remove
@@ -43,9 +43,9 @@ public:
 private:
 
 	void _loadTexture(CachedTexture* texture);
-	void _calculateTextureSize(unsigned long tile, CachedTexture* out, unsigned long& maskWidth, unsigned long& maskHeight);
-	void _activateTexture( unsigned long t, CachedTexture *texture );
-    unsigned long _calculateCRC(unsigned long t, unsigned long width, unsigned long height);
+	void _calculateTextureSize(unsigned int tile, CachedTexture* out, unsigned int& maskWidth, unsigned int& maskHeight);
+	void _activateTexture( unsigned int t, CachedTexture *texture );
+    unsigned int _calculateCRC(unsigned int t, unsigned int width, unsigned int height);
 
 private:
 //public:
@@ -57,9 +57,9 @@ private:
 	ImageFormatSelector m_formatSelector;  //!< Image Format Selector used when decoding textures
     CRCCalculator2      m_crcCalculator;   //!< Hash value calculator for textures
 
-	unsigned long m_maxBytes;              //!< Maximum number of bytes this cache have
-	unsigned long m_cachedBytes;           //!< Current number of bytes in cache
-	unsigned long m_bitDepth;              //!<
+	unsigned int m_maxBytes;              //!< Maximum number of bytes this cache have
+	unsigned int m_cachedBytes;           //!< Current number of bytes in cache
+	unsigned int m_bitDepth;              //!<
 
 	//Cached textures
 	typedef std::list<CachedTexture*> TextureList;

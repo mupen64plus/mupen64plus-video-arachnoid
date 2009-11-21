@@ -168,14 +168,14 @@ void RDPInstructions::RDP_TexRectFlip(MicrocodeArgument* ucode)
     RDPUCodeTextureRectangle* temp = (RDPUCodeTextureRectangle*)ucode;
 
     //Get Extra Words
-	unsigned long w2 = m_displayListParser->getNextWord();
-	unsigned long w3 = m_displayListParser->getNextWord();
+	unsigned int w2 = m_displayListParser->getNextWord();
+	unsigned int w3 = m_displayListParser->getNextWord();
 
     //Extract Data
-	unsigned long dwS		= (  w2>>16)&0xFFFF;
-	unsigned long dwT		= (  w2    )&0xFFFF;
-	long nDSDX               	= (long)(short)((  w3>>16)&0xFFFF);
-	long nDTDY          	    = (long)(short)((  w3    )&0xFFFF);
+	unsigned int dwS		= (  w2>>16)&0xFFFF;
+	unsigned int dwT		= (  w2    )&0xFFFF;
+	int nDSDX               	= (int)(short)((  w3>>16)&0xFFFF);
+	int nDTDY          	    = (int)(short)((  w3    )&0xFFFF);
 
 	//Render Texture Rectangle Flipped
     m_rdp->RDP_TexRectFlip(temp->x1 / 4, temp->y1 / 4, 
@@ -197,8 +197,8 @@ void RDPInstructions::RDP_TexRect(MicrocodeArgument* ucode)
 	Logger::getSingleton().printMsg("RDP_TexRect");	
     RDPUCodeTextureRectangle* temp = (RDPUCodeTextureRectangle*)ucode;
 
-	unsigned long w2 = m_displayListParser->getNextWord();
-	unsigned long w3 = m_displayListParser->getNextWord();
+	unsigned int w2 = m_displayListParser->getNextWord();
+	unsigned int w3 = m_displayListParser->getNextWord();
 
     //Extract Data
 	unsigned short uS	 = (unsigned short)(  w2>>16)&0xFFFF;

@@ -21,19 +21,19 @@ public:
 
 	//Add Matrices
 	void addMatrix(unsigned int segmentAddress, bool projectionMatrix, bool push, bool replace);
-	void insertMatrix(unsigned long where, unsigned long num);
+	void insertMatrix(unsigned int where, unsigned int num);
 
 	//Remove Matrices
 	void popMatrix();
-	void popMatrixN(unsigned long num);
-	void ForceMatrix( unsigned long segmentAddress );
+	void popMatrixN(unsigned int num);
+	void ForceMatrix( unsigned int segmentAddress );
     void selectViewMatrix(unsigned int index) { m_modelViewMatrixTop = index; _updateCombinedMatrix(); }	
-	void DMAMatrix(unsigned long segmentAddress, unsigned char index, unsigned char multiply );
-	//void RSP_ForceMatrix( unsigned long mptr );
-	//void RSP_LookAt( unsigned long l );
+	void DMAMatrix(unsigned int segmentAddress, unsigned char index, unsigned char multiply );
+	//void RSP_ForceMatrix( unsigned int mptr );
+	//void RSP_LookAt( unsigned int l );
 	//void RSP_PerspNormalize( unsigned short scale );	
 
-    void setRDRAMOffset(unsigned long offset) { m_rdramOffset = offset; }
+    void setRDRAMOffset(unsigned int offset) { m_rdramOffset = offset; }
 
 	void resetMatrices();
 
@@ -45,7 +45,7 @@ public:
 
 private:
 
-	void _loadMatrix(unsigned long addr, Matrix4& out);
+	void _loadMatrix(unsigned int addr, Matrix4& out);
 	void _setProjection(const Matrix4& mat, bool push, bool replace);
 	void _setWorldView(const Matrix4 & mat, bool push, bool replace);
 	void _updateCombinedMatrix();
@@ -56,7 +56,7 @@ private:
 
 	static const int NUM_STACK_MATRICES = 60;
 
-    unsigned long m_rdramOffset;
+    unsigned int m_rdramOffset;
 
 	//Stack indices
 	unsigned int m_modelViewMatrixTop;
