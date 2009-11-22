@@ -1,0 +1,8 @@
+Arachnoid Graphics Plugin for Mupen64Plus
+http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+
+Derived from the Project64/1964 version of Arachnoid, available from:
+http://sourceforge.net/projects/arachnoid/
+
+To build, enter the projects/unix directory and type "make".
+To build a debugging version, use "make DEBUG=1" instead.
