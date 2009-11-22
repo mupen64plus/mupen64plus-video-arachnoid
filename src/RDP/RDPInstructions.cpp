@@ -1,3 +1,24 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #include "RDPInstructions.h"
 #include "RDPUCodeStructs.h"
 #include "RDP.h"
@@ -30,9 +51,9 @@ RDPInstructions::~RDPInstructions()
 //-----------------------------------------------------------------------------
 bool RDPInstructions::initialize(RDP* rdp, DisplayListParser* displayListParser)
 {
-	m_rdp = rdp;
+    m_rdp = rdp;
     m_displayListParser = displayListParser;
-	return true;
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -41,11 +62,11 @@ bool RDPInstructions::initialize(RDP* rdp, DisplayListParser* displayListParser)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetCImg(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetCImg");
-	RDPUCodeSetImage* temp = (RDPUCodeSetImage*)ucode;
+    Logger::getSingleton().printMsg("RDP_SetCImg");
+    RDPUCodeSetImage* temp = (RDPUCodeSetImage*)ucode;
 
-	//Set Color Image
-	m_rdp->RDP_SetCImg(temp->format, temp->size, temp->width, temp->segmentAddress);
+    //Set Color Image
+    m_rdp->RDP_SetCImg(temp->format, temp->size, temp->width, temp->segmentAddress);
 }
 
 //-----------------------------------------------------------------------------
@@ -54,11 +75,11 @@ void RDPInstructions::RDP_SetCImg(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetZImg(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetZImg");
-	RDPUCodeSetImage* temp = (RDPUCodeSetImage*)ucode;
+    Logger::getSingleton().printMsg("RDP_SetZImg");
+    RDPUCodeSetImage* temp = (RDPUCodeSetImage*)ucode;
 
-	//Set Depth Image
-	m_rdp->RDP_SetZImg(temp->format, temp->size, temp->width, temp->segmentAddress);
+    //Set Depth Image
+    m_rdp->RDP_SetZImg(temp->format, temp->size, temp->width, temp->segmentAddress);
 }
 
 //-----------------------------------------------------------------------------
@@ -67,11 +88,11 @@ void RDPInstructions::RDP_SetZImg(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetTImg(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetTImg");
-	RDPUCodeSetImage* temp = (RDPUCodeSetImage*)ucode;
+    Logger::getSingleton().printMsg("RDP_SetTImg");
+    RDPUCodeSetImage* temp = (RDPUCodeSetImage*)ucode;
 
-	//Set Texture Image
-	m_rdp->RDP_SetTImg(temp->format, temp->size, temp->width, temp->segmentAddress);
+    //Set Texture Image
+    m_rdp->RDP_SetTImg(temp->format, temp->size, temp->width, temp->segmentAddress);
 }
 
 //-----------------------------------------------------------------------------
@@ -80,14 +101,14 @@ void RDPInstructions::RDP_SetTImg(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetTile(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetTile");
-	RDPUCodeSetTile* temp = (RDPUCodeSetTile*)ucode;
+    Logger::getSingleton().printMsg("RDP_SetTile");
+    RDPUCodeSetTile* temp = (RDPUCodeSetTile*)ucode;
 
-	//Set Tile
-	m_rdp->RDP_SetTile( temp->format, temp->size, temp->line, temp->tmem, temp->tile, 
-		temp->palette, temp->clampS, temp->clampT, temp->mirrorS, temp->mirrorT, 
-		temp->maskS, temp->maskT, temp->shiftS, temp->shiftT
-	);
+    //Set Tile
+    m_rdp->RDP_SetTile( temp->format, temp->size, temp->line, temp->tmem, temp->tile, 
+        temp->palette, temp->clampS, temp->clampT, temp->mirrorS, temp->mirrorT, 
+        temp->maskS, temp->maskT, temp->shiftS, temp->shiftT
+    );
 }
 
 //-----------------------------------------------------------------------------
@@ -96,11 +117,11 @@ void RDPInstructions::RDP_SetTile(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_LoadTile(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_LoadTile");
-	RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
+    Logger::getSingleton().printMsg("RDP_LoadTile");
+    RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
 
-	//Load Tile
-	m_rdp->RDP_LoadTile(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
+    //Load Tile
+    m_rdp->RDP_LoadTile(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
 }
 
 //-----------------------------------------------------------------------------
@@ -109,11 +130,11 @@ void RDPInstructions::RDP_LoadTile(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_LoadBlock(MicrocodeArgument* ucode)
 {  
-	Logger::getSingleton().printMsg("RDP_LoadBlock");
-	RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
+    Logger::getSingleton().printMsg("RDP_LoadBlock");
+    RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
 
-	//Load Block
-	m_rdp->RDP_LoadBlock(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
+    //Load Block
+    m_rdp->RDP_LoadBlock(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
 }
 
 //-----------------------------------------------------------------------------
@@ -122,11 +143,11 @@ void RDPInstructions::RDP_LoadBlock(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetTileSize(MicrocodeArgument* ucode)
 {  
-	Logger::getSingleton().printMsg("RDP_SetTileSize");
-	RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
+    Logger::getSingleton().printMsg("RDP_SetTileSize");
+    RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
 
-	//Set Tile Size
-	m_rdp->RDP_SetTileSize(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
+    //Set Tile Size
+    m_rdp->RDP_SetTileSize(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
 }
 
 //-----------------------------------------------------------------------------
@@ -135,11 +156,11 @@ void RDPInstructions::RDP_SetTileSize(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_LoadTLUT(MicrocodeArgument* ucode)
 {   
-	Logger::getSingleton().printMsg("RDP_LoadTLUT");
-	RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
+    Logger::getSingleton().printMsg("RDP_LoadTLUT");
+    RDPUCodeTileSize* temp = (RDPUCodeTileSize*)ucode;
 
-	//Load Texture Look Up Table
-	m_rdp->RDP_LoadTLUT(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
+    //Load Texture Look Up Table
+    m_rdp->RDP_LoadTLUT(temp->tile, temp->s0, temp->t0, temp->s1, temp->t1);
 }
 
 //-----------------------------------------------------------------------------
@@ -149,11 +170,11 @@ void RDPInstructions::RDP_LoadTLUT(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_FillRect(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_FillRect");
+    Logger::getSingleton().printMsg("RDP_FillRect");
     RDPUCodeRectangle* temp = (RDPUCodeRectangle*)ucode;
 
-	//Render a Rectangle
-	m_rdp->RDP_FillRect(temp->x0, temp->y0, temp->x1, temp->y1);
+    //Render a Rectangle
+    m_rdp->RDP_FillRect(temp->x0, temp->y0, temp->x1, temp->y1);
 }
 
 //-----------------------------------------------------------------------------
@@ -164,20 +185,20 @@ void RDPInstructions::RDP_FillRect(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_TexRectFlip(MicrocodeArgument* ucode)
 {   
-	Logger::getSingleton().printMsg("RDP_TexRectFlip");
+    Logger::getSingleton().printMsg("RDP_TexRectFlip");
     RDPUCodeTextureRectangle* temp = (RDPUCodeTextureRectangle*)ucode;
 
     //Get Extra Words
-	unsigned int w2 = m_displayListParser->getNextWord();
-	unsigned int w3 = m_displayListParser->getNextWord();
+    unsigned int w2 = m_displayListParser->getNextWord();
+    unsigned int w3 = m_displayListParser->getNextWord();
 
     //Extract Data
-	unsigned int dwS		= (  w2>>16)&0xFFFF;
-	unsigned int dwT		= (  w2    )&0xFFFF;
-	int nDSDX               	= (int)(short)((  w3>>16)&0xFFFF);
-	int nDTDY          	    = (int)(short)((  w3    )&0xFFFF);
+    unsigned int dwS        = (  w2>>16)&0xFFFF;
+    unsigned int dwT        = (  w2    )&0xFFFF;
+    int nDSDX                   = (int)(short)((  w3>>16)&0xFFFF);
+    int nDTDY                  = (int)(short)((  w3    )&0xFFFF);
 
-	//Render Texture Rectangle Flipped
+    //Render Texture Rectangle Flipped
     m_rdp->RDP_TexRectFlip(temp->x1 / 4, temp->y1 / 4, 
                            temp->x0 / 4, temp->y0 / 4,
                            temp->tile,                            
@@ -194,20 +215,20 @@ void RDPInstructions::RDP_TexRectFlip(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_TexRect(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_TexRect");	
+    Logger::getSingleton().printMsg("RDP_TexRect");    
     RDPUCodeTextureRectangle* temp = (RDPUCodeTextureRectangle*)ucode;
 
-	unsigned int w2 = m_displayListParser->getNextWord();
-	unsigned int w3 = m_displayListParser->getNextWord();
+    unsigned int w2 = m_displayListParser->getNextWord();
+    unsigned int w3 = m_displayListParser->getNextWord();
 
     //Extract Data
-	unsigned short uS	 = (unsigned short)(  w2>>16)&0xFFFF;
-	unsigned short uT	 = (unsigned short)(  w2    )&0xFFFF;
-	unsigned short uDSDX = (unsigned short)((  w3>>16)&0xFFFF);
+    unsigned short uS     = (unsigned short)(  w2>>16)&0xFFFF;
+    unsigned short uT     = (unsigned short)(  w2    )&0xFFFF;
+    unsigned short uDSDX = (unsigned short)((  w3>>16)&0xFFFF);
     unsigned short uDTDY = (unsigned short)((  w3    )&0xFFFF);
 
-	//Render Texture Rectangle
-	m_rdp->RDP_TexRect( temp->x0 / 4, temp->y0 / 4, 
+    //Render Texture Rectangle
+    m_rdp->RDP_TexRect( temp->x0 / 4, temp->y0 / 4, 
                         temp->x1 / 4, temp->y1 / 4, 
                         temp->tile, 
                         uS, uT, 
@@ -220,11 +241,11 @@ void RDPInstructions::RDP_TexRect(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetEnvColor(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetEnvColor");
-	RDPUCodeSetColor* temp = (RDPUCodeSetColor*)ucode;
+    Logger::getSingleton().printMsg("RDP_SetEnvColor");
+    RDPUCodeSetColor* temp = (RDPUCodeSetColor*)ucode;
 
-	//Set enviorment color
-	m_rdp->RDP_SetEnvColor(temp->r / 255.0f, temp->g / 255.0f, temp->b / 255.0f, temp->a / 255.0f);
+    //Set enviorment color
+    m_rdp->RDP_SetEnvColor(temp->r / 255.0f, temp->g / 255.0f, temp->b / 255.0f, temp->a / 255.0f);
 }
 
 //-----------------------------------------------------------------------------
@@ -233,11 +254,11 @@ void RDPInstructions::RDP_SetEnvColor(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetBlendColor(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetBlendColor");
+    Logger::getSingleton().printMsg("RDP_SetBlendColor");
     RDPUCodeSetColor* temp = (RDPUCodeSetColor*)ucode;
 
-	//Set blend color
-	m_rdp->RDP_SetBlendColor(temp->r / 255.0f, temp->g / 255.0f, temp->b / 255.0f, temp->a / 255.0f);
+    //Set blend color
+    m_rdp->RDP_SetBlendColor(temp->r / 255.0f, temp->g / 255.0f, temp->b / 255.0f, temp->a / 255.0f);
 }
 
 //-----------------------------------------------------------------------------
@@ -246,11 +267,11 @@ void RDPInstructions::RDP_SetBlendColor(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetPrimColor(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetPrimColor");
+    Logger::getSingleton().printMsg("RDP_SetPrimColor");
     RDPUCodeSetColor* temp = (RDPUCodeSetColor*)ucode;
 
-	//Set primitive color
-	m_rdp->RDP_SetPrimColor( temp->r / 255.0f,    //red
+    //Set primitive color
+    m_rdp->RDP_SetPrimColor( temp->r / 255.0f,    //red
                              temp->g / 255.0f,    //green 
                              temp->b / 255.0f,    //blue
                              temp->a / 255.0f,    //alpha
@@ -264,11 +285,11 @@ void RDPInstructions::RDP_SetPrimColor(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetFogColor(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDPInstructions_SetFogColor");
-	RDPUCodeSetColor* temp = (RDPUCodeSetColor*)ucode;
+    Logger::getSingleton().printMsg("RDPInstructions_SetFogColor");
+    RDPUCodeSetColor* temp = (RDPUCodeSetColor*)ucode;
 
-	//Set fog color
-	m_rdp->RDP_SetFogColor(temp->r / 255.0f, temp->g / 255.0f, temp->b / 255.0f, temp->a / 255.0f);
+    //Set fog color
+    m_rdp->RDP_SetFogColor(temp->r / 255.0f, temp->g / 255.0f, temp->b / 255.0f, temp->a / 255.0f);
 }
 
 //-----------------------------------------------------------------------------
@@ -278,11 +299,11 @@ void RDPInstructions::RDP_SetFogColor(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetFillColor(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetFillColor");
+    Logger::getSingleton().printMsg("RDP_SetFillColor");
     RDPUCodeSetFillColor* temp = (RDPUCodeSetFillColor*)ucode;
 
     //Set fill color (Note: alpha is 0.0 or 1.0) FIXME: 32 or 31? 31 seems to work better with Super Mario 64
-	m_rdp->RDP_SetFillColor(temp->r / 31.0f, temp->g / 31.0f, temp->b / 31.0f, (float)temp->a);  
+    m_rdp->RDP_SetFillColor(temp->r / 31.0f, temp->g / 31.0f, temp->b / 31.0f, (float)temp->a);  
 }
 
 //-----------------------------------------------------------------------------
@@ -292,8 +313,8 @@ void RDPInstructions::RDP_SetFillColor(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetCombine(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_SetCombine");
-	m_rdp->RDP_SetCombine(ucode);
+    Logger::getSingleton().printMsg("RDP_SetCombine");
+    m_rdp->RDP_SetCombine(ucode);
 }
 
 //-----------------------------------------------------------------------------
@@ -303,8 +324,8 @@ void RDPInstructions::RDP_SetCombine(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetOtherMode(MicrocodeArgument* ucode)
 {  
-	Logger::getSingleton().printMsg("RDP_SetOtherMode");
-	m_rdp->RDP_SetOtherMode(ucode);
+    Logger::getSingleton().printMsg("RDP_SetOtherMode");
+    m_rdp->RDP_SetOtherMode(ucode);
 }
 
 //-----------------------------------------------------------------------------
@@ -317,7 +338,7 @@ void RDPInstructions::RDP_SetPrimDepth(MicrocodeArgument* ucode)
     RDPUCodeSetPrimDepth* temp = (RDPUCodeSetPrimDepth*)ucode;
 
     //Set Prim Depth
-	m_rdp->RDP_SetPrimDepth(temp->z, temp->dz);
+    m_rdp->RDP_SetPrimDepth(temp->z, temp->dz);
 }
 
 //-----------------------------------------------------------------------------
@@ -326,7 +347,7 @@ void RDPInstructions::RDP_SetPrimDepth(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetScissor(MicrocodeArgument* ucode)
 {  
-	Logger::getSingleton().printMsg("RDP_SetScissor");
+    Logger::getSingleton().printMsg("RDP_SetScissor");
     RDPUCodeScissor* temp = (RDPUCodeScissor*)ucode;
 
     //Set Scissor
@@ -339,8 +360,8 @@ void RDPInstructions::RDP_SetScissor(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_FullSync(MicrocodeArgument* ucode)
 { 
-	Logger::getSingleton().printMsg("RDP_FullSync");
-	m_rdp->RDP_FullSync();
+    Logger::getSingleton().printMsg("RDP_FullSync");
+    m_rdp->RDP_FullSync();
 }
 
 //-----------------------------------------------------------------------------
@@ -349,13 +370,13 @@ void RDPInstructions::RDP_FullSync(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_TileSync(MicrocodeArgument* ucode)
 {   
-	//Ignore
+    //Ignore
 
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_TileSync - Ignored", M64MSG_WARNING);
-		warned = true;
-	}
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_TileSync - Ignored", M64MSG_WARNING);
+        warned = true;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -364,13 +385,13 @@ void RDPInstructions::RDP_TileSync(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_PipeSync(MicrocodeArgument* ucode)
 {   
-	//Ignore
+    //Ignore
 
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_PipeSync - Ignored", M64MSG_WARNING);
-		warned = true;
-	}	
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_PipeSync - Ignored", M64MSG_WARNING);
+        warned = true;
+    }    
 }
 
 //-----------------------------------------------------------------------------
@@ -379,13 +400,13 @@ void RDPInstructions::RDP_PipeSync(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_LoadSync(MicrocodeArgument* ucode)
 {   
-	//Ignored
+    //Ignored
 
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_LoadSync - Ignored", M64MSG_WARNING);
-		warned = true;
-	}   
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_LoadSync - Ignored", M64MSG_WARNING);
+        warned = true;
+    }   
 }
 
 //-----------------------------------------------------------------------------
@@ -394,11 +415,11 @@ void RDPInstructions::RDP_LoadSync(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetConvert(MicrocodeArgument* ucode)
 {   
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_SetConvert - Unimplemented", M64MSG_WARNING);
-		warned = true;
-	}
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_SetConvert - Unimplemented", M64MSG_WARNING);
+        warned = true;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -407,13 +428,13 @@ void RDPInstructions::RDP_SetConvert(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetKeyR(MicrocodeArgument* ucode)
 {   
-	Logger::getSingleton().printMsg("RDP_SetKeyR");
+    Logger::getSingleton().printMsg("RDP_SetKeyR");
 
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_SetKeyR - Unimplemented", M64MSG_WARNING);
-		warned = true;
-	}
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_SetKeyR - Unimplemented", M64MSG_WARNING);
+        warned = true;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -422,11 +443,11 @@ void RDPInstructions::RDP_SetKeyR(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_SetKeyGB(MicrocodeArgument* ucode)
 {
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_SetKeyGB - Unimplemented", M64MSG_WARNING);
-		warned = true;
-	}
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_SetKeyGB - Unimplemented", M64MSG_WARNING);
+        warned = true;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -435,13 +456,13 @@ void RDPInstructions::RDP_SetKeyGB(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_Unknown(MicrocodeArgument* ucode)
 { 
-	//Ignore
+    //Ignore
 
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_Unknown - Ignored", M64MSG_WARNING);
-		warned = true;
-	}
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_Unknown - Ignored", M64MSG_WARNING);
+        warned = true;
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -450,11 +471,11 @@ void RDPInstructions::RDP_Unknown(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void RDPInstructions::RDP_NoOp(MicrocodeArgument* ucode)
 { 
-	//Ignore
+    //Ignore
 
-	static bool warned = false;
-	if ( warned ) {
-		Logger::getSingleton().printMsg("RDP_NoOp - Ignored", M64MSG_WARNING);
-		warned = true;
-	}
+    static bool warned = false;
+    if ( warned ) {
+        Logger::getSingleton().printMsg("RDP_NoOp - Ignored", M64MSG_WARNING);
+        warned = true;
+    }
 }

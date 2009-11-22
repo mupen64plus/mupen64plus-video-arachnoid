@@ -1,3 +1,24 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #ifndef DISPLAYLIST_PARSER_H_
 #define DISPLAYLIST_PARSER_H_
 
@@ -14,8 +35,8 @@ class GBI;
 //-----------------------------------------------------------------------------
 typedef struct 
 {
-	unsigned int pc;
-	int countdown;
+    unsigned int pc;
+    int countdown;
 } DListStack;
 
 //*****************************************************************************
@@ -25,50 +46,50 @@ typedef struct
 class DisplayListParser
 {
 public:
-	//Constructor / Destructor
-	DisplayListParser();
-	~DisplayListParser();
+    //Constructor / Destructor
+    DisplayListParser();
+    ~DisplayListParser();
 
-	//Initialize
-	bool initialize(RSP* rsp, RDP* rdp, GBI* gbi, Memory* memory);
+    //Initialize
+    bool initialize(RSP* rsp, RDP* rdp, GBI* gbi, Memory* memory);
 
-	//Process/Parse the display list
-	void processDisplayList();
+    //Process/Parse the display list
+    void processDisplayList();
 
-	//Display list funcitons
-	void branchDisplayList(unsigned int dl);	
-	void displayList(unsigned int segmentAddress);
+    //Display list funcitons
+    void branchDisplayList(unsigned int dl);    
+    void displayList(unsigned int segmentAddress);
     void DMADisplayList( unsigned int w0, unsigned int w1 );
-	//! End display list
-	void endDisplayList() { --m_DListStackPointer; }
+    //! End display list
+    void endDisplayList() { --m_DListStackPointer; }
 
-	//! Get Program Counter
-	unsigned int getPC()        { return m_DlistStack[m_DListStackPointer].pc;       }
+    //! Get Program Counter
+    unsigned int getPC()        { return m_DlistStack[m_DListStackPointer].pc;       }
 
-	//! Set Program Counter
-	void setPC(unsigned int pc) { m_DlistStack[m_DListStackPointer].pc = pc;         }
+    //! Set Program Counter
+    void setPC(unsigned int pc) { m_DlistStack[m_DListStackPointer].pc = pc;         }
 
-	//! Increase Program Counter
-	void increasePC(int increment)  { m_DlistStack[m_DListStackPointer].pc += increment; }
+    //! Increase Program Counter
+    void increasePC(int increment)  { m_DlistStack[m_DListStackPointer].pc += increment; }
 
-	//Get Next Word
-	unsigned int getNextWord();
+    //Get Next Word
+    unsigned int getNextWord();
 
-	//! Get Current Display List
-	DListStack& getCurrentDlist() { return m_DlistStack[m_DListStackPointer]; }
+    //! Get Current Display List
+    DListStack& getCurrentDlist() { return m_DlistStack[m_DListStackPointer]; }
 
 private:
 
-	//Pointers
-	RSP*    m_rsp;     //! Pointer to Reality Signal Processor
-	RDP*    m_rdp;     //! Pointer to Reality Drawing Processor
-	GBI*    m_gbi;     //! Pointer to Graphics Binary Interface
-	Memory* m_memory;  //! Pointer to Memory
-	
-	//Stack used for processing the Display List
-	int m_DListStackPointer;                      //!< Current size of Display List stack 
-	static const int MAX_DL_STACK_SIZE = 32;      //!< Maximum size of Display List stack 
-	DListStack m_DlistStack[MAX_DL_STACK_SIZE];   //!< Stack used for processing the Display List
+    //Pointers
+    RSP*    m_rsp;     //! Pointer to Reality Signal Processor
+    RDP*    m_rdp;     //! Pointer to Reality Drawing Processor
+    GBI*    m_gbi;     //! Pointer to Graphics Binary Interface
+    Memory* m_memory;  //! Pointer to Memory
+    
+    //Stack used for processing the Display List
+    int m_DListStackPointer;                      //!< Current size of Display List stack 
+    static const int MAX_DL_STACK_SIZE = 32;      //!< Maximum size of Display List stack 
+    DListStack m_DlistStack[MAX_DL_STACK_SIZE];   //!< Stack used for processing the Display List
 };
 
 #endif

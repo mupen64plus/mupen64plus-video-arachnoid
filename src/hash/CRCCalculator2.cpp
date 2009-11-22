@@ -1,3 +1,23 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
 
 #include "CRCCalculator2.h"
 
@@ -26,18 +46,18 @@ CRCCalculator2::CRCCalculator2()
 
         //For each value 
         for (int i=0; i<256; i++)
-	    {
+        {
             crc = _reflect( i, 8 ) << 24;
 
             for (int j = 0; j < 8; j++) 
             {
-			    crc = (crc << 1) ^ (crc & (1 << 31) ? CRC32_POLYNOMIAL : 0);
+                crc = (crc << 1) ^ (crc & (1 << 31) ? CRC32_POLYNOMIAL : 0);
             }
             
             m_crcTable[i] = _reflect( crc, 32 );
         }
 
-		hashTableInitialized = true;
+        hashTableInitialized = true;
     }
 }
 
@@ -47,12 +67,12 @@ CRCCalculator2::CRCCalculator2()
 unsigned int CRCCalculator2::calcCRC(unsigned int crc, void *buffer, unsigned int count)
 {
     byte* p = (byte*) buffer; 
-	unsigned int orig = crc;
+    unsigned int orig = crc;
 
     p = (byte*) buffer;
     while (count--) 
     {
-		crc = (crc >> 8) ^ m_crcTable[(crc & 0xFF) ^ *p++];
+        crc = (crc >> 8) ^ m_crcTable[(crc & 0xFF) ^ *p++];
     }
 
     return crc ^ orig;
@@ -64,16 +84,16 @@ unsigned int CRCCalculator2::calcCRC(unsigned int crc, void *buffer, unsigned in
 unsigned int CRCCalculator2::calcPaletteCRC(unsigned int crc, void *buffer, unsigned int count)
 {
     byte *p;
-	unsigned int orig = crc;
+    unsigned int orig = crc;
 
     p = (byte*) buffer;
     while (count--)
-	{
-		crc = (crc >> 8) ^ m_crcTable[(crc & 0xFF) ^ *p++];
-		crc = (crc >> 8) ^ m_crcTable[(crc & 0xFF) ^ *p++];
+    {
+        crc = (crc >> 8) ^ m_crcTable[(crc & 0xFF) ^ *p++];
+        crc = (crc >> 8) ^ m_crcTable[(crc & 0xFF) ^ *p++];
 
-		p += 6;
-	}
+        p += 6;
+    }
 
     return crc ^ orig;
 }

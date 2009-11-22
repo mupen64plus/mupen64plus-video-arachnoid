@@ -1,3 +1,24 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #include "CombinerBase.h"
 #include "CombinerStructs.h"
 
@@ -31,10 +52,10 @@ CombinerBase::~CombinerBase()
 //-----------------------------------------------------------------------------
 void CombinerBase::setFillColor (float r, float g, float b, float a)
 {
-	m_fillColor[0] = r;
-	m_fillColor[1] = g;
-	m_fillColor[2] = b;
-	m_fillColor[3] = a;
+    m_fillColor[0] = r;
+    m_fillColor[1] = g;
+    m_fillColor[2] = b;
+    m_fillColor[3] = a;
 }
 
 //-----------------------------------------------------------------------------
@@ -46,10 +67,10 @@ void CombinerBase::setFillColor (float r, float g, float b, float a)
 //-----------------------------------------------------------------------------
 void CombinerBase::setBlendColor(float r, float g, float b, float a)
 {
-	m_blendColor[0] = r;
-	m_blendColor[1] = g;
-	m_blendColor[2] = b;
-	m_blendColor[3] = a;
+    m_blendColor[0] = r;
+    m_blendColor[1] = g;
+    m_blendColor[2] = b;
+    m_blendColor[3] = a;
 }
 
 //-----------------------------------------------------------------------------
@@ -61,10 +82,10 @@ void CombinerBase::setBlendColor(float r, float g, float b, float a)
 //-----------------------------------------------------------------------------
 void CombinerBase::setPrimColor (float r, float g, float b, float a)
 {
-	m_primColor[0] = r;
-	m_primColor[1] = g;
-	m_primColor[2] = b;
-	m_primColor[3] = a;
+    m_primColor[0] = r;
+    m_primColor[1] = g;
+    m_primColor[2] = b;
+    m_primColor[3] = a;
 }
 
 //-----------------------------------------------------------------------------
@@ -76,10 +97,10 @@ void CombinerBase::setPrimColor (float r, float g, float b, float a)
 //-----------------------------------------------------------------------------
 void CombinerBase::setEnvColor(float r, float g, float b, float a)
 {
-	m_envColor[0] = r;
-	m_envColor[1] = g;
-	m_envColor[2] = b;
-	m_envColor[3] = a;
+    m_envColor[0] = r;
+    m_envColor[1] = g;
+    m_envColor[2] = b;
+    m_envColor[3] = a;
 }
 
 //-----------------------------------------------------------------------------
@@ -102,63 +123,63 @@ void CombinerBase::setEnvColor(float r, float g, float b, float a)
 //-----------------------------------------------------------------------------
 void CombinerBase::getCombinerColor(float out[4], short colorSrc, short alphaSrc)
 {
-	//Set color values
-	switch ( colorSrc ) 
-	{ 
-		case PRIMITIVE: 
-			out[0] = m_primColor[0]; 
-			out[1] = m_primColor[1]; 
-			out[2] = m_primColor[2]; 
-			break; 
-		case ENVIRONMENT: 
-			out[0] = m_envColor[0]; 
-			out[1] = m_envColor[1]; 
-			out[2] = m_envColor[2]; 
-			break; 
-		case PRIMITIVE_ALPHA: 
-			out[0] = m_primColor[3]; 
-			out[1] = m_primColor[3]; 
-			out[2] = m_primColor[3]; 
-			break; 
-		case ENV_ALPHA: 
-			out[0] = m_envColor[3]; 
-			out[1] = m_envColor[3]; 
-			out[2] = m_envColor[3]; 
-			break; 
-		case PRIM_LOD_FRAC: 
-			out[0] = m_primLodFrac; 
-			out[1] = m_primLodFrac; 
-			out[2] = m_primLodFrac; 
-			break; 
-		case ONE: 
-			out[0] = 1.0f; 
-			out[1] = 1.0f; 
-			out[2] = 1.0f; 
-			break; 
-		case ZERO: 
-			out[0] = 0.0f; 
-			out[1] = 0.0f; 
-			out[2] = 0.0f; 
-			break; 
-	} 
+    //Set color values
+    switch ( colorSrc ) 
+    { 
+        case PRIMITIVE: 
+            out[0] = m_primColor[0]; 
+            out[1] = m_primColor[1]; 
+            out[2] = m_primColor[2]; 
+            break; 
+        case ENVIRONMENT: 
+            out[0] = m_envColor[0]; 
+            out[1] = m_envColor[1]; 
+            out[2] = m_envColor[2]; 
+            break; 
+        case PRIMITIVE_ALPHA: 
+            out[0] = m_primColor[3]; 
+            out[1] = m_primColor[3]; 
+            out[2] = m_primColor[3]; 
+            break; 
+        case ENV_ALPHA: 
+            out[0] = m_envColor[3]; 
+            out[1] = m_envColor[3]; 
+            out[2] = m_envColor[3]; 
+            break; 
+        case PRIM_LOD_FRAC: 
+            out[0] = m_primLodFrac; 
+            out[1] = m_primLodFrac; 
+            out[2] = m_primLodFrac; 
+            break; 
+        case ONE: 
+            out[0] = 1.0f; 
+            out[1] = 1.0f; 
+            out[2] = 1.0f; 
+            break; 
+        case ZERO: 
+            out[0] = 0.0f; 
+            out[1] = 0.0f; 
+            out[2] = 0.0f; 
+            break; 
+    } 
 
-	//Set alpha value
-	switch ( alphaSrc ) 
-	{ 
-		case PRIMITIVE_ALPHA: 
-			out[3] = m_primColor[3]; 
-			break; 
-		case ENV_ALPHA: 
-			out[3] = m_envColor[3]; 
-			break; 
-		case PRIM_LOD_FRAC: 
-			out[3] = m_primLodFrac; 
-			break; 
-		case ONE: 
-			out[3] = 1.0f; 
-			break; 
-		case ZERO: 
-			out[3] = 0.0f; 
-			break; 
-	} 
+    //Set alpha value
+    switch ( alphaSrc ) 
+    { 
+        case PRIMITIVE_ALPHA: 
+            out[3] = m_primColor[3]; 
+            break; 
+        case ENV_ALPHA: 
+            out[3] = m_envColor[3]; 
+            break; 
+        case PRIM_LOD_FRAC: 
+            out[3] = m_primLodFrac; 
+            break; 
+        case ONE: 
+            out[3] = 1.0f; 
+            break; 
+        case ZERO: 
+            out[3] = 0.0f; 
+            break; 
+    } 
 }

@@ -1,3 +1,24 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #include "UCode10.h"
 #include "UCode5.h"
 
@@ -14,19 +35,19 @@
 
 #define CONKER_BFD_ADD_VERTICES 1   /*F3DEX2_VTX ?*/ 
 
-#define RSP_MOVE_WORD_MATRIX		0x00	// NOTE: also used by movemem 
-#define RSP_MOVE_WORD_NUMLIGHT	0x02
-#define RSP_MOVE_WORD_CLIP		0x04
-#define RSP_MOVE_WORD_SEGMENT	0x06
-#define RSP_MOVE_WORD_FOG		0x08
-#define RSP_MOVE_WORD_LIGHTCOL	0x0a
-#define	RSP_MOVE_WORD_POINTS		0x0c
-#define	RSP_MOVE_WORD_PERSPNORM	0x0e
+#define RSP_MOVE_WORD_MATRIX        0x00    // NOTE: also used by movemem 
+#define RSP_MOVE_WORD_NUMLIGHT      0x02
+#define RSP_MOVE_WORD_CLIP          0x04
+#define RSP_MOVE_WORD_SEGMENT       0x06
+#define RSP_MOVE_WORD_FOG           0x08
+#define RSP_MOVE_WORD_LIGHTCOL      0x0a
+#define RSP_MOVE_WORD_POINTS        0x0c
+#define RSP_MOVE_WORD_PERSPNORM     0x0e
 
-# define RSP_GBI2_MV_MEM__VIEWPORT	8
-# define RSP_GBI2_MV_MEM__LIGHT		10
-# define RSP_GBI2_MV_MEM__POINT		12
-# define RSP_GBI2_MV_MEM__MATRIX	14		/* NOTE: this is in moveword table */
+#define RSP_GBI2_MV_MEM__VIEWPORT   8
+#define RSP_GBI2_MV_MEM__LIGHT      10
+#define RSP_GBI2_MV_MEM__POINT      12
+#define RSP_GBI2_MV_MEM__MATRIX     14    /* NOTE: this is in moveword table */
 
 //-----------------------------------------------------------------------------
 // Static Variables
@@ -56,10 +77,10 @@ UCode10::~UCode10()
 //-----------------------------------------------------------------------------
 void UCode10::initialize(GBI* gbi, RSP* rsp, RDP* rdp, Memory* mem, DisplayListParser* dlp)
 {
-	m_gbi = gbi;
+    m_gbi = gbi;
     m_rsp = rsp;
-	m_rdp = rdp;
-	m_memory = mem;
+    m_rdp = rdp;
+    m_memory = mem;
     m_displayListParser = dlp;
 }
 
@@ -71,25 +92,25 @@ void UCode10::initializeGBI()
     //Load F3DEX
     UCode5::initializeGBI();
 
-    GBI_SetGBI( GBI::G_VTX,	     CONKER_BFD_ADD_VERTICES,    m_gbi->m_cmds,	   ConkerBFD_Vertex );
-    GBI_SetGBI( GBI::G_TRI4,	 0x10,	                     m_gbi->m_cmds,	   ConkerBFD_Vertex );
-    GBI_SetGBI( GBI::G_TRI4,	 0x11,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x12,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x13,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x14,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x15,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x16,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x17,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x18,	                     m_gbi->m_cmds,    ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x19,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x1a,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x1b,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x1c,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x1d,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x1e,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_TRI4,	 0x1f,	                     m_gbi->m_cmds,	   ConkerBFD_Add4Triangles );
-    GBI_SetGBI( GBI::G_MOVEWORD, F3DEX2_MOVEWORD,	         m_gbi->m_cmds,	   ConkerBFD_MoveWord );
-    GBI_SetGBI( GBI::G_MOVEMEM,	 F3DEX2_MOVEMEM,	         m_gbi->m_cmds,	   ConkerBFD_MoveMem );
+    GBI_SetGBI( GBI::G_VTX,      CONKER_BFD_ADD_VERTICES,      m_gbi->m_cmds,       ConkerBFD_Vertex );
+    GBI_SetGBI( GBI::G_TRI4,     0x10,                         m_gbi->m_cmds,       ConkerBFD_Vertex );
+    GBI_SetGBI( GBI::G_TRI4,     0x11,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x12,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x13,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x14,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x15,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x16,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x17,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x18,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x19,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x1a,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x1b,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x1c,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x1d,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x1e,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_TRI4,     0x1f,                         m_gbi->m_cmds,       ConkerBFD_Add4Triangles );
+    GBI_SetGBI( GBI::G_MOVEWORD, F3DEX2_MOVEWORD,              m_gbi->m_cmds,       ConkerBFD_MoveWord );
+    GBI_SetGBI( GBI::G_MOVEMEM,  F3DEX2_MOVEMEM,               m_gbi->m_cmds,       ConkerBFD_MoveMem );
 }
 
 //-----------------------------------------------------------------------------
@@ -97,8 +118,8 @@ void UCode10::initializeGBI()
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_Vertex(MicrocodeArgument* ucode)
 {
-	unsigned int vertexEnd   = (((ucode->w0)   )&0xFFF)/2;
-	unsigned int numVertices = (((ucode->w0)>>12)&0xFFF);
+    unsigned int vertexEnd   = (((ucode->w0)   )&0xFFF)/2;
+    unsigned int numVertices = (((ucode->w0)>>12)&0xFFF);
 
     //Add Vertices
     m_rsp->getVertexMgr()->addConkerVertices( ucode->w1, numVertices, vertexEnd - numVertices );
@@ -110,22 +131,22 @@ void UCode10::ConkerBFD_Vertex(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_Add4Triangles(MicrocodeArgument* ucode)
 {
-	unsigned int w0 = ucode->w0;
-	unsigned int w1 = ucode->w1;
+    unsigned int w0 = ucode->w0;
+    unsigned int w1 = ucode->w1;
 
-	unsigned int idx[12];
-	idx[0]  = (w1   )&0x1F;    //Tri1
-	idx[1]  = (w1>> 5)&0x1F;
-	idx[2]  = (w1>>10)&0x1F;
-	idx[3]  = (w1>>15)&0x1F;   //Tri2
-	idx[4]  = (w1>>20)&0x1F;
-	idx[5]  = (w1>>25)&0x1F;
-	idx[6]  = (w0    )&0x1F;   //Tri3
-	idx[7]  = (w0>> 5)&0x1F;
-	idx[8]  = (w0>>10)&0x1F;
-	idx[9]  = (((w0>>15)&0x7)<<2)|(w1>>30);  //Tri4
-	idx[10] = (w0>>18)&0x1F;
-	idx[11] = (w0>>23)&0x1F;
+    unsigned int idx[12];
+    idx[0]  = (w1   )&0x1F;    //Tri1
+    idx[1]  = (w1>> 5)&0x1F;
+    idx[2]  = (w1>>10)&0x1F;
+    idx[3]  = (w1>>15)&0x1F;   //Tri2
+    idx[4]  = (w1>>20)&0x1F;
+    idx[5]  = (w1>>25)&0x1F;
+    idx[6]  = (w0    )&0x1F;   //Tri3
+    idx[7]  = (w0>> 5)&0x1F;
+    idx[8]  = (w0>>10)&0x1F;
+    idx[9]  = (((w0>>15)&0x7)<<2)|(w1>>30);  //Tri4
+    idx[10] = (w0>>18)&0x1F;
+    idx[11] = (w0>>23)&0x1F;
 
     //Add Triagles
     m_rsp->RSP_1Triangle(idx[0], idx[1], idx[2]);
@@ -135,7 +156,7 @@ void UCode10::ConkerBFD_Add4Triangles(MicrocodeArgument* ucode)
 
     unsigned int* RDRAMu32 = m_memory->getRDRAMint32();
 
-	//Get next command		
+    //Get next command        
     MicrocodeArgument* ucodeNext =  (MicrocodeArgument*)&RDRAMu32[(m_displayListParser->getPC()>>2)];
 
     //Conker Bad Fur Day Render Fix (because conker has multiple Tri4)
@@ -151,16 +172,16 @@ void UCode10::ConkerBFD_Add4Triangles(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_MoveWord(MicrocodeArgument* ucode)
 {
-	unsigned int dwType   = ((ucode->w0) >> 16) & 0xFF;
+    unsigned int dwType   = ((ucode->w0) >> 16) & 0xFF;
 
-	if( dwType == RSP_MOVE_WORD_NUMLIGHT )
-	{
+    if( dwType == RSP_MOVE_WORD_NUMLIGHT )
+    {
         m_rsp->RSP_NumLights( ((ucode->w1)/48) );
-	}
-	else
-	{
+    }
+    else
+    {
         UCode5::F3DEX2_MoveWord(ucode);
-	}
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -168,8 +189,8 @@ void UCode10::ConkerBFD_MoveWord(MicrocodeArgument* ucode)
 //-----------------------------------------------------------------------------
 void UCode10::ConkerBFD_MoveMem(MicrocodeArgument* ucode)
 {
-	unsigned int dwType = ((ucode->w0)     ) & 0xFE;
-	unsigned int dwAddr =  ucode->w1;     //RSPSegmentAddr((gfx->words.w1));
+    unsigned int dwType = ((ucode->w0)     ) & 0xFE;
+    unsigned int dwAddr =  ucode->w1;     //RSPSegmentAddr((gfx->words.w1));
 
     switch ( dwType )
     {
@@ -178,21 +199,21 @@ void UCode10::ConkerBFD_MoveMem(MicrocodeArgument* ucode)
             break;
 
         case RSP_GBI2_MV_MEM__LIGHT:
-	        {
-		        unsigned int dwOffset2 = ((ucode->w0) >> 5) & 0x3FFF;
-		        if( dwOffset2 >= 0x30 )
-		        {
+            {
+                unsigned int dwOffset2 = ((ucode->w0) >> 5) & 0x3FFF;
+                if( dwOffset2 >= 0x30 )
+                {
                     m_rsp->RSP_Light(((dwOffset2 - 0x30)/0x30), dwAddr);
-		        }
-		        else
-		        {
+                }
+                else
+                {
                     //FIX ME
-		        }
-	        }
+                }
+            }
             break;
 
         default:
             UCode5::F3DEX2_MoveMem(ucode);
             break;
-	}
+    }
 }

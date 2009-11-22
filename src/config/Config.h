@@ -1,3 +1,25 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2009 Jon Ring
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
@@ -21,17 +43,17 @@ class Config
 {
 public:
 
-	//Constructor / Destructor
-	Config(GraphicsPlugin* graphicsPlugin);
-	~Config();
+    //Constructor / Destructor
+    Config(GraphicsPlugin* graphicsPlugin);
+    ~Config();
 
-	bool initialize();
+    bool initialize();
 
     //Loads settings from core
-	void load();
+    void load();
 
     //Tell Graphics plugin that config has changed
-	void updateGraphics();
+    void updateGraphics();
 
 public:
 
@@ -40,11 +62,11 @@ public:
 
 private:
 
-	ConfigMap m_cfg;                     //!< Config map with all settings
+    ConfigMap m_cfg;                     //!< Config map with all settings
     GraphicsPlugin* m_graphicsPlugin;    //!< Pointer to graphics plugin
 
-	m64p_handle m_videoGeneralSection;
-	m64p_handle m_videoArachnoidSection;
+    m64p_handle m_videoGeneralSection;
+    m64p_handle m_videoArachnoidSection;
 };
 
 #endif

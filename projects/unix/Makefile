@@ -1,7 +1,7 @@
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-# *   Mupen64plus - Makefile                                                *
-# *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
-# *   Copyright (C) 2009 Richard42                                          *
+# *   Arachnoid - Makefile                                                  *
+# *   http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/            *
+# *   Copyright (C) 2009 Richard42, Jon Ring                                *
 # *                                                                         *
 # *   This program is free software; you can redistribute it and/or modify  *
 # *   it under the terms of the GNU General Public License as published by  *
@@ -18,7 +18,7 @@
 # *   Free Software Foundation, Inc.,                                       *
 # *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.          *
 # * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-# Makefile for Mupen64plus-ui-console
+# Makefile for mupen64plus-video-arachnoid
 
 # detect operation system
 UNAME = $(shell uname -s)

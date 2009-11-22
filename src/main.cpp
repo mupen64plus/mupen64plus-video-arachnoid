@@ -1,38 +1,24 @@
-//*****************************************************************************
-//* Arachnoid Graphics Plugin for Nintendo 64 Emulation.
-//* ----------------------------------------------------
-//*
-//! @file main.cpp
-//! @brief Arachnoid Graphics Plugin for Nintendo 64 Emulation.
-//! @author Kristofer Karlsson 
-//! @author Rickard Niklasson
-//! @version v1.0
-//! @date    2007
-//!
-//! Should be compatible following emulators:
-//!   * Project 64 
-//!   * 1964
-//!
-//*****************************************************************************
-//
-// Arachnoid Graphics Plugin for Nintendo 64 Emulation.
-// Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with this program; if not, write to the Free Software
-// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-//
-//*****************************************************************************
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2009 Jon Ring
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
 
 //Includes
 #include "m64p.h"
@@ -81,7 +67,6 @@ ptr_ConfigGetParamFloat    ConfigGetParamFloat = NULL;
 ptr_ConfigGetParamBool     ConfigGetParamBool = NULL;
 ptr_ConfigGetParamString   ConfigGetParamString = NULL;
 
-ptr_ConfigSaveFile			ConfigSaveFile = NULL;
 ptr_ConfigGetSharedDataFilepath ConfigGetSharedDataFilepath = NULL;
 ptr_ConfigGetUserConfigPath     ConfigGetUserConfigPath = NULL;
 ptr_ConfigGetUserDataPath       ConfigGetUserDataPath = NULL;
@@ -107,9 +92,9 @@ extern "C" {
 EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context,
                                    void (*DebugCallback)(void *, int, const char *))
 {
-	Logger::getSingleton().initialize(DebugCallback, Context);
-	fprintf(stderr, "PluginStartup\n");
-	/* Get the core config function pointers from the library handle */
+    Logger::getSingleton().initialize(DebugCallback, Context);
+    Logger::getSingleton().printMsg("PluginStartup");
+    /* Get the core config function pointers from the library handle */
     ConfigOpenSection = (ptr_ConfigOpenSection) osal_dynlib_getproc(CoreLibHandle, "ConfigOpenSection");
     ConfigSetParameter = (ptr_ConfigSetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigSetParameter");
     ConfigGetParameter = (ptr_ConfigGetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParameter");
@@ -127,12 +112,12 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
     ConfigGetUserDataPath = (ptr_ConfigGetUserDataPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserDataPath");
     ConfigGetUserCachePath = (ptr_ConfigGetUserCachePath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserCachePath");
 
-    if (!ConfigOpenSection || !ConfigSetParameter || !ConfigGetParameter ||
+    if (!ConfigOpenSection   || !ConfigSetParameter    || !ConfigGetParameter ||
         !ConfigSetDefaultInt || !ConfigSetDefaultFloat || !ConfigSetDefaultBool || !ConfigSetDefaultString ||
         !ConfigGetParamInt   || !ConfigGetParamFloat   || !ConfigGetParamBool   || !ConfigGetParamString ||
         !ConfigGetSharedDataFilepath || !ConfigGetUserConfigPath || !ConfigGetUserDataPath || !ConfigGetUserCachePath)
     {
-		Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
+        Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
         return M64ERR_INCOMPATIBLE;
     }
 
@@ -151,28 +136,28 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
         !CoreVideo_SetCaption || !CoreVideo_ToggleFullScreen || !CoreVideo_GL_GetProcAddress ||
         !CoreVideo_GL_SetAttribute || !CoreVideo_GL_SwapBuffers)
     {
-		Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
+        Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
         return M64ERR_INCOMPATIBLE;
     }
 
-	//Read configuration
-	if (g_config.initialize())
-	{
-		g_config.load();
-		g_graphicsPlugin.setConfig(g_config.getConfig());
-	}
+    //Read configuration
+    if (g_config.initialize())
+    {
+        g_config.load();
+        g_graphicsPlugin.setConfig(g_config.getConfig());
+    }
 
     return M64ERR_SUCCESS;
 }
 
 EXPORT m64p_error CALL PluginShutdown(void)
 {
-	//Close Logger
+    //Close Logger
     Logger::getSingleton().printMsg("CloseDLL\n");
     Logger::getSingleton().dispose();   
 
-	//g_graphicsPlugin.dispose();  
-	return M64ERR_SUCCESS;
+    //g_graphicsPlugin.dispose();  
+    return M64ERR_SUCCESS;
 }
 
 EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
@@ -209,7 +194,7 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
 //* InitiateGFX
 //! This function is called when the DLL is started to give
 //! information from the emulator that the n64 graphics
-//!	uses. This is not called from the emulation thread.
+//!    uses. This is not called from the emulation thread.
 //! @param[in] Gfx_Info Information about rom and emulator
 //! @return true on success, FALSE on failure to initialise
 //!           
@@ -222,11 +207,11 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 {
     Logger::getSingleton().printMsg("InitiateGFX");
 
-	//Save Graphics Info
-	memcpy(&g_graphicsInfo, &Gfx_Info, sizeof(GFX_INFO));
+    //Save Graphics Info
+    memcpy(&g_graphicsInfo, &Gfx_Info, sizeof(GFX_INFO));
 
-	//Initialize Graphics Plugin	        
-	return g_graphicsPlugin.initialize(&g_graphicsInfo); 
+    //Initialize Graphics Plugin            
+    return g_graphicsPlugin.initialize(&g_graphicsInfo); 
 }
 
 //-----------------------------------------------------------------------------
@@ -234,9 +219,8 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 //! This function is called when a rom is open. (from the emulation thread)
 //-----------------------------------------------------------------------------
 EXPORT void CALL RomOpen()
-{	
-    Logger::getSingleton().printMsg("RomOpen\n");    
-    
+{    
+    Logger::getSingleton().printMsg("RomOpen\n");
 }
 
 //-----------------------------------------------------------------------------
@@ -246,10 +230,8 @@ EXPORT void CALL RomOpen()
 EXPORT void CALL RomClosed()
 {
     //Logger::getSingleton().printMsg("RomClosed\n");
-
-
-	//Destroy 
-	g_graphicsPlugin.dispose();
+    //Destroy 
+    g_graphicsPlugin.dispose();
 }
 
 //-----------------------------------------------------------------------------
@@ -259,8 +241,8 @@ EXPORT void CALL RomClosed()
 //-----------------------------------------------------------------------------
 EXPORT void CALL UpdateScreen()
 {
-    //logger.printMsg("UpdateScreen");	
-	g_graphicsPlugin.drawScreen();	
+    //logger.printMsg("UpdateScreen");    
+    g_graphicsPlugin.drawScreen();    
 }
 
 
@@ -270,27 +252,27 @@ EXPORT void CALL UpdateScreen()
 //-----------------------------------------------------------------------------
 EXPORT void CALL ProcessDList()
 {
-	Logger::getSingleton().printMsg("ProcessDList\n");
+    Logger::getSingleton().printMsg("ProcessDList\n");
 
-	try
-	{
-		g_graphicsPlugin.viStatusChanged();
-		g_graphicsPlugin.processDisplayList();
-	}
-	catch (...)
-	{
-		Logger::getSingleton().printMsg("Unknown Error processing DisplayList", M64MSG_WARNING); 
-		//MessageBox(0, "Unknown Error processing DisplayList", "Arachnoid Graphics Plugin", MB_OK|MB_SETFOREGROUND); 
+    try
+    {
+        g_graphicsPlugin.viStatusChanged();
+        g_graphicsPlugin.processDisplayList();
+    }
+    catch (...)
+    {
+        Logger::getSingleton().printMsg("Unknown Error processing DisplayList", M64MSG_WARNING); 
+        //MessageBox(0, "Unknown Error processing DisplayList", "Arachnoid Graphics Plugin", MB_OK|MB_SETFOREGROUND); 
 
-		g_graphicsPlugin.dispose();
-		g_graphicsPlugin.initialize(&g_graphicsInfo);
+        g_graphicsPlugin.dispose();
+        g_graphicsPlugin.initialize(&g_graphicsInfo);
 
-		//Trigger Interupts
-		*(g_graphicsInfo.MI_INTR_REG) |= MI_INTR_DP;
-		g_graphicsInfo.CheckInterrupts();
-		*(g_graphicsInfo.MI_INTR_REG) |= MI_INTR_SP;
-		g_graphicsInfo.CheckInterrupts();	
-	}
+        //Trigger Interupts
+        *(g_graphicsInfo.MI_INTR_REG) |= MI_INTR_DP;
+        g_graphicsInfo.CheckInterrupts();
+        *(g_graphicsInfo.MI_INTR_REG) |= MI_INTR_SP;
+        g_graphicsInfo.CheckInterrupts();    
+    }
 }
 
 
@@ -301,7 +283,7 @@ EXPORT void CALL ProcessDList()
 //-----------------------------------------------------------------------------
 EXPORT void CALL ProcessRDPList()
 {
-	Logger::getSingleton().printMsg("ProcessRDPList\n");
+    Logger::getSingleton().printMsg("ProcessRDPList\n");
     //TODO
 }
 
@@ -325,7 +307,7 @@ EXPORT void CALL ViStatusChanged()
 {
     Logger::getSingleton().printMsg("ViStatusChanged");
 
-	//g_graphicsPlugin.viStatusChanged();
+    //g_graphicsPlugin.viStatusChanged();
 }
 
 //-----------------------------------------------------------------------------
@@ -334,10 +316,9 @@ EXPORT void CALL ViStatusChanged()
 //! ViWidth registers value has been changed.
 //-----------------------------------------------------------------------------
 EXPORT void CALL ViWidthChanged()
-{	
+{    
     Logger::getSingleton().printMsg("ViWidthChanged");
-
-	//g_graphicsPlugin.viStatusChanged();
+    //g_graphicsPlugin.viStatusChanged();
 }
 
 //-----------------------------------------------------------------------------
@@ -364,9 +345,8 @@ EXPORT void CALL MoveScreen(int xpos, int ypos)
 EXPORT void CALL ChangeWindow()
 {
     Logger::getSingleton().printMsg("ChangeWindow\n");
-
-	//Toggle Fullscreen
-	g_graphicsPlugin.toggleFullscreen();
+    //Toggle Fullscreen
+    g_graphicsPlugin.toggleFullscreen();
 }
 
 //-----------------------------------------------------------------------------
@@ -375,7 +355,7 @@ EXPORT void CALL ChangeWindow()
 //-----------------------------------------------------------------------------
 EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
 {
-	g_graphicsPlugin.takeScreenshot(dest, width, height);
+    g_graphicsPlugin.takeScreenshot(dest, width, height);
 }
 
 //-----------------------------------------------------------------------------
@@ -385,7 +365,7 @@ EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
 //-----------------------------------------------------------------------------
 EXPORT void CALL SetRenderingCallback(void (*callback)())
 {
-	g_graphicsPlugin.setRenderingCallback(callback);
+    g_graphicsPlugin.setRenderingCallback(callback);
 }
 
 //-----------------------------------------------------------------------------
@@ -394,7 +374,7 @@ EXPORT void CALL SetRenderingCallback(void (*callback)())
 //-----------------------------------------------------------------------------
 EXPORT void CALL FBRead(unsigned int addr)
 {
-	//TODO
+    //TODO
 }
 
 //-----------------------------------------------------------------------------
@@ -403,7 +383,7 @@ EXPORT void CALL FBRead(unsigned int addr)
 //-----------------------------------------------------------------------------
 EXPORT void CALL FBWrite(unsigned int addr, unsigned int size)
 {
-	//TODO
+    //TODO
 }
 
 //-----------------------------------------------------------------------------
@@ -412,7 +392,7 @@ EXPORT void CALL FBWrite(unsigned int addr, unsigned int size)
 //-----------------------------------------------------------------------------
 EXPORT void FBGetFrameBufferInfo(void *p)
 {
-	//TODO
+    //TODO
 }
 
 #ifdef __cplusplus

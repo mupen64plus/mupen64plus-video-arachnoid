@@ -1,3 +1,25 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2009 Jon Ring
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #include "OpenGLManager.h"
 
 //-----------------------------------------------------------------------------
@@ -5,43 +27,41 @@
 //-----------------------------------------------------------------------------
 OpenGLManager::OpenGLManager()
 {
-	m_forceDisableCulling = false;
+    m_forceDisableCulling = false;
 }
 
 //-----------------------------------------------------------------------------
 //* Initialize 
 //! Initializes OpenGL. 
 //
-//! @param hWnd			window handle to render in
-//! @param dc			device context to render to
-//! @param fullscreen	will render scene in fullscreen if true
-//! @param width		width of window or width of screen resolution
-//! @param height		height of window or height of screen resolution
-//! @param bitDepth		bitDepth to use
-//! @param refreshRate	refresh frequency to use
-//! @param vSync		limits frame rate to the monitor's refresh frequency
-//! @param hideCursor	hides mouse coursor if true
+//! @param fullscreen   will render scene in fullscreen if true
+//! @param width        width of window or width of screen resolution
+//! @param height       height of window or height of screen resolution
+//! @param bitDepth     bitDepth to use
+//! @param refreshRate  refresh frequency to use
+//! @param vSync        limits frame rate to the monitor's refresh frequency
+//! @param hideCursor   hides mouse coursor if true
 //-----------------------------------------------------------------------------
 bool OpenGLManager::initialize(bool fullscreen, int width, int height, int bitDepth, int refreshRate, bool vSync, bool hideCursor)
 {
-	m_width       = width;
-	m_height      = height;
+    m_width       = width;
+    m_height      = height;
     m_bitDepth    = bitDepth;
     m_refreshRate = refreshRate;
-	m_fullscreen  = fullscreen;
+    m_fullscreen  = fullscreen;
 
-	//Set OpenGL Settings
+    //Set OpenGL Settings
     setClearColor(0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
 
-	//Set render states
-	setCullMode(false, true);
-	setTextureing2D(false);
-	setLighting(false);
+    //Set render states
+    setCullMode(false, true);
+    setTextureing2D(false);
+    setLighting(false);
 
-	return true;
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -49,16 +69,16 @@ bool OpenGLManager::initialize(bool fullscreen, int width, int height, int bitDe
 //-----------------------------------------------------------------------------
 void OpenGLManager::setViewport( int x, int y, int width, int height, float zNear, float zFar )
 {
-	glViewport(x, y, width, height); 
+    glViewport(x, y, width, height); 
 
-	//glViewport( gSP.viewport.x * OGL.scaleX, 
-	//	       (VI.height - (gSP.viewport.y + gSP.viewport.height)) * OGL.scaleY + OGL.heightOffset, 
-	//	        gSP.viewport.width * OGL.scaleX, 
-	//			gSP.viewport.height * OGL.scaleY 
-	//		 ); 
+    //glViewport( gSP.viewport.x * OGL.scaleX, 
+    //           (VI.height - (gSP.viewport.y + gSP.viewport.height)) * OGL.scaleY + OGL.heightOffset, 
+    //            gSP.viewport.width * OGL.scaleX, 
+    //            gSP.viewport.height * OGL.scaleY 
+    //         ); 
 
-	//glDepthRange( 0.0f, 1.0f );//gSP.viewport.nearz, gSP.viewport.farz );
-	glDepthRange( zNear, zFar );
+    //glDepthRange( 0.0f, 1.0f );//gSP.viewport.nearz, gSP.viewport.farz );
+    glDepthRange( zNear, zFar );
 }
 
 //-----------------------------------------------------------------------------
@@ -73,7 +93,7 @@ void OpenGLManager::setViewport( int x, int y, int width, int height, float zNea
 //-----------------------------------------------------------------------------
 void OpenGLManager::setScissor(int x, int y, int width, int height)
 {
-	glScissor(x,y, width, height);
+    glScissor(x,y, width, height);
 }
 
 
@@ -83,8 +103,8 @@ void OpenGLManager::setScissor(int x, int y, int width, int height)
 void OpenGLManager::resize(int width, int height, int bitDepth, int refreshRate)
 {
 #if 0
-	dispose();
-	initialize(m_fullscreen, width, height, bitDepth, refreshRate, true, false);
+    dispose();
+    initialize(m_fullscreen, width, height, bitDepth, refreshRate, true, false);
 #endif
 }
 
@@ -94,10 +114,10 @@ void OpenGLManager::resize(int width, int height, int bitDepth, int refreshRate)
 bool OpenGLManager::toggleFullscreen()
 {
 #if 0
-	dispose();
-	return initialize(!m_fullscreen, m_width, m_height, m_bitDepth, m_refreshRate,  true, !m_fullscreen);
+    dispose();
+    return initialize(!m_fullscreen, m_width, m_height, m_bitDepth, m_refreshRate,  true, !m_fullscreen);
 #endif
-	return false;
+    return false;
 }
 
 //-----------------------------------------------------------------------------
@@ -106,8 +126,8 @@ bool OpenGLManager::toggleFullscreen()
 //-----------------------------------------------------------------------------
 void OpenGLManager::beginRendering()
 {
-	glDepthMask( true );
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    glDepthMask( true );
+    //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
 //-----------------------------------------------------------------------------
@@ -116,7 +136,7 @@ void OpenGLManager::beginRendering()
 //-----------------------------------------------------------------------------
 void OpenGLManager::endRendering()
 {
-	CoreVideo_GL_SwapBuffers();
+    CoreVideo_GL_SwapBuffers();
     //glFlush();
 }
 
@@ -125,15 +145,15 @@ void OpenGLManager::endRendering()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setWireFrame(bool wireframe)
 {
-	m_wireframe = wireframe;
-	if ( wireframe )
-	{
-		glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-	}
-	else
-	{
-		glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-	}
+    m_wireframe = wireframe;
+    if ( wireframe )
+    {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+    }
+    else
+    {
+        glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -141,14 +161,14 @@ void OpenGLManager::setWireFrame(bool wireframe)
 //-----------------------------------------------------------------------------
 void OpenGLManager::setZBufferEnabled(bool enable)
 {
-	if ( enable ) 
-	{
-		glEnable( GL_DEPTH_TEST );
-	}
-	else 
-	{
-		glDisable( GL_DEPTH_TEST );
-	}
+    if ( enable ) 
+    {
+        glEnable( GL_DEPTH_TEST );
+    }
+    else 
+    {
+        glDisable( GL_DEPTH_TEST );
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -164,12 +184,12 @@ bool OpenGLManager::getZBufferEnabled()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setLighting(bool lighting)
 {
-	m_lighting = lighting;
+    m_lighting = lighting;
     if ( lighting ) {
-		//glEnable(GL_LIGHTING);  We dont use this type of lighting (Nintendo 64 specific)
+        //glEnable(GL_LIGHTING);  We dont use this type of lighting (Nintendo 64 specific)
     }
     else {
-		glDisable(GL_LIGHTING);
+        glDisable(GL_LIGHTING);
     }
 }
 
@@ -187,10 +207,10 @@ bool OpenGLManager::getLightingEnabled()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setFogEnabled(bool fog)
 {
-	if ( fog ) 
-		glEnable(GL_FOG);
-	else 
-		glDisable(GL_FOG);
+    if ( fog ) 
+        glEnable(GL_FOG);
+    else 
+        glDisable(GL_FOG);
 }
 
 //-----------------------------------------------------------------------------
@@ -198,7 +218,7 @@ void OpenGLManager::setFogEnabled(bool fog)
 //-----------------------------------------------------------------------------
 bool OpenGLManager::getFogEnabled()
 {
-	return (glIsEnabled(GL_FOG) == GL_TRUE);
+    return (glIsEnabled(GL_FOG) == GL_TRUE);
 }
 
 //-----------------------------------------------------------------------------
@@ -206,10 +226,10 @@ bool OpenGLManager::getFogEnabled()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setTextureing2D(bool textureing)
 {
-	if ( textureing ) 
-		glEnable(GL_TEXTURE_2D);
-	else
-		glDisable(GL_TEXTURE_2D);
+    if ( textureing ) 
+        glEnable(GL_TEXTURE_2D);
+    else
+        glDisable(GL_TEXTURE_2D);
 }
 
 //-----------------------------------------------------------------------------
@@ -225,10 +245,10 @@ bool getTextureing2DEnabled()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setAlphaTest(bool alphaTestEnable)
 {
-	if ( alphaTestEnable )
-		glEnable(GL_ALPHA_TEST);
-	else
-		glDisable(GL_ALPHA_TEST);
+    if ( alphaTestEnable )
+        glEnable(GL_ALPHA_TEST);
+    else
+        glDisable(GL_ALPHA_TEST);
 }
 
 //-----------------------------------------------------------------------------
@@ -244,15 +264,15 @@ bool getAlphaTestEnabled()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setScissorEnabled(bool enable)
 {
-	if ( enable )
-		glEnable(GL_SCISSOR_TEST);
-	else
-		glDisable(GL_SCISSOR_TEST);
+    if ( enable )
+        glEnable(GL_SCISSOR_TEST);
+    else
+        glDisable(GL_SCISSOR_TEST);
 }
 
 bool OpenGLManager::getScissorEnabled()
 {
-	return (glIsEnabled(GL_SCISSOR_TEST) == GL_TRUE); 
+    return (glIsEnabled(GL_SCISSOR_TEST) == GL_TRUE); 
 }
 
 //-----------------------------------------------------------------------------
@@ -260,31 +280,31 @@ bool OpenGLManager::getScissorEnabled()
 //-----------------------------------------------------------------------------
 void OpenGLManager::setCullMode(bool cullFront, bool cullBack)
 {
-	if( cullFront && cullBack )
-	{
-		glEnable(GL_CULL_FACE);
-        glCullFace(GL_FRONT_AND_BACK);		
-	}
-	else if( cullFront )
-	{
-		glEnable(GL_CULL_FACE);
-        glCullFace(GL_FRONT);		
-	}
-	else if( cullBack )
-	{
-		glEnable(GL_CULL_FACE);
-        glCullFace(GL_BACK);		
-	}
-	else
-	{
-		glDisable(GL_CULL_FACE);
-	}
+    if( cullFront && cullBack )
+    {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT_AND_BACK);        
+    }
+    else if( cullFront )
+    {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);        
+    }
+    else if( cullBack )
+    {
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);        
+    }
+    else
+    {
+        glDisable(GL_CULL_FACE);
+    }
 
-	//Override Face Culling?
-	if ( m_forceDisableCulling )
-	{		
-		glDisable(GL_CULL_FACE);
-	}
+    //Override Face Culling?
+    if ( m_forceDisableCulling )
+    {        
+        glDisable(GL_CULL_FACE);
+    }
 }
 
 //-----------------------------------------------------------------------------
@@ -312,7 +332,6 @@ OpenGLManager::~OpenGLManager()
 //-----------------------------------------------------------------------------
 void OpenGLManager::calcViewScale(int viWidth, int viHeight)
 {
-	m_scaleX = m_width / (float)viWidth;
-	m_scaleY = m_height / (float)viHeight;
+    m_scaleX = m_width / (float)viWidth;
+    m_scaleY = m_height / (float)viHeight;
 }
-

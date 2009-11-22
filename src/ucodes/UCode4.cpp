@@ -1,3 +1,24 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #include "UCode4.h"
 #include "UCode0.h"
 #include "GBI.h"
@@ -6,7 +27,7 @@
 #include "GBIDefs.h"
 #include "Logger.h"
 
-#define F3DWRUS_TRI2		0xB1
+#define F3DWRUS_TRI2        0xB1
 
 //-----------------------------------------------------------------------------
 // Static Variables
@@ -34,7 +55,7 @@ UCode4::~UCode4()
 void UCode4::initialize(GBI* gbi, RSP* rsp)
 {
     m_gbi = gbi;
-	m_rsp = rsp;
+    m_rsp = rsp;
 }
 
 //-----------------------------------------------------------------------------
@@ -45,10 +66,10 @@ void UCode4::initializeGBI()
     UCode0::initializeGBI(m_gbi);
 
     //Init special Wave Race functions
-    GBI_SetGBI( GBI::G_VTX,					F3D_VTX,				m_gbi->m_cmds,	WaveRace64_Vertex );
-    GBI_SetGBI( GBI::G_TRI1,				F3D_TRI1,				m_gbi->m_cmds,	WaveRace64_Tri1 );
-    GBI_SetGBI( GBI::G_QUAD,				F3D_QUAD,				m_gbi->m_cmds,	WaveRace64_Quad );
-    GBI_SetGBI( GBI::G_TRI2,				F3DWRUS_TRI2,			m_gbi->m_cmds,	WaveRace64_Tri2 );
+    GBI_SetGBI( GBI::G_VTX,                 F3D_VTX,                 m_gbi->m_cmds,    WaveRace64_Vertex );
+    GBI_SetGBI( GBI::G_TRI1,                F3D_TRI1,                m_gbi->m_cmds,    WaveRace64_Tri1 );
+    GBI_SetGBI( GBI::G_QUAD,                F3D_QUAD,                m_gbi->m_cmds,    WaveRace64_Quad );
+    GBI_SetGBI( GBI::G_TRI2,                F3DWRUS_TRI2,            m_gbi->m_cmds,    WaveRace64_Tri2 );
 }
 
 //-----------------------------------------------------------------------------
@@ -103,4 +124,3 @@ void UCode4::WaveRace64_Quad(MicrocodeArgument* ucode)
     //Add Quad
     m_rsp->RSP_1Quadrangle(temp->index0/5, temp->index1/5, temp->index2/5, temp->index3/5);
 }
-

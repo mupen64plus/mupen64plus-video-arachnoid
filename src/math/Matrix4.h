@@ -1,3 +1,24 @@
+/******************************************************************************
+ * Arachnoid Graphics Plugin for Mupen64Plus
+ * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ *
+ * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *****************************************************************************/
+
 #ifndef MATRIX_4_H_
 #define MATRIX_4_H_
 
@@ -13,7 +34,7 @@ class Matrix4
 {
 public:
     
-	//! The matrix entries, indexed by [row][col].
+    //! The matrix entries, indexed by [row][col].
     union {
         float m[4][4];
         float _m[16];
@@ -74,10 +95,10 @@ public:
         return r;
     }
 
-	//Access operators
-	inline float* operator [] ( size_t iRow ) { return m[iRow]; }
+    //Access operators
+    inline float* operator [] ( size_t iRow ) { return m[iRow]; }
 
-	inline const float* const operator [] ( size_t iRow ) const { return m[iRow]; }
+    inline const float* const operator [] ( size_t iRow ) const { return m[iRow]; }
 
     //! Matrix addition.
     inline Matrix4 operator + ( const Matrix4 &m2 ) const
@@ -158,13 +179,13 @@ public:
         return false;
     }
 
-	//!Transpose Matrix (Switch columns with rows)
+    //!Transpose Matrix (Switch columns with rows)
     inline Matrix4 transpose() const
     {
         return Matrix4(m[0][0], m[1][0], m[2][0], m[3][0],
-                        m[0][1], m[1][1], m[2][1], m[3][1],
-                        m[0][2], m[1][2], m[2][2], m[3][2],
-                        m[0][3], m[1][3], m[2][3], m[3][3]);
+                       m[0][1], m[1][1], m[2][1], m[3][1],
+                       m[0][2], m[1][2], m[2][2], m[3][2],
+                       m[0][3], m[1][3], m[2][3], m[3][3]);
     }
 
     //! Set Translation Part of the matrix
@@ -210,7 +231,7 @@ public:
     inline friend std::ostream& operator << ( std::ostream& o, const Matrix4& m )
     {
         o << "Matrix4(";
-		for (size_t i = 0; i < 4; ++i)
+        for (size_t i = 0; i < 4; ++i)
         {
             o << " row" << (unsigned)i << "{";
             for(size_t j = 0; j < 4; ++j)
@@ -222,13 +243,10 @@ public:
         o << ")";
         return o;
     }
-	
-	float determinant() const;
-	Matrix4 inverse() const;
+    
+    float determinant() const;
+    Matrix4 inverse() const;
 
 };
-
-
-
 
 #endif
