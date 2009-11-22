@@ -836,12 +836,12 @@ void RDP::_textureRectangleFlip(int nX0, int nY0, int nX1, int nY1, float fS0, f
 	if( t0u0 >= 0 && t0u1 <= 1 && t0u1 >= t0u0 ) 
 	{
 		//TODO: Clamp Tile
-		Logger::getSingleton().printMsg("_textureRectangleFlip - unimplemented");
+		Logger::getSingleton().printMsg("_textureRectangleFlip - unimplemented", M64MSG_WARNING);
 	}
 	if( t0v0 >= 0 && t0v1 <= 1 && t0v1 >= t0v0 ) 
 	{
         //TODO: Clamp tile
-		Logger::getSingleton().printMsg("_textureRectangleFlip - unimplemented");
+		Logger::getSingleton().printMsg("_textureRectangleFlip - unimplemented", M64MSG_WARNING);
 	}
 
 	//HACK 

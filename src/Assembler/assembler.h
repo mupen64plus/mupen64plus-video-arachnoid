@@ -36,18 +36,11 @@ top:
 		jne		top
 	}
 #else
-	char *c = (char*)v + dwLen;
-	while (c > v)
+	int *b = (int*)v;
+	dwLen /= 4;
+	for (int i = 0; i < dwLen; ++i)
 	{
-		c -= 4;
-		char t1 = c[0];
-		char t2 = c[1];
-		char t3 = c[2];
-		char t4 = c[3];
-		c[0] = t4;
-		c[1] = t3;
-		c[2] = t2;
-		c[3] = t1;
+		b[i] = bswap_32(b[i]);
 	}
 #endif
 }

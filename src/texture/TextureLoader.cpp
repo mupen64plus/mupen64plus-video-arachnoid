@@ -182,33 +182,24 @@ void TextureLoader::loadBlock(int tile, int s0, int t0, int s1, int t1)
 
 	if (dxt > 0)
 	{
+		void (*Interleave)( void *mem, unsigned int numDWords );
+
         line = (2047 + dxt) / dxt;
 		unsigned int bpl = line << 3;
 		unsigned int height = bytes / bpl;
 
 		if (m_currentTile->size == G_IM_SIZ_32b)
-		{
-			for (unsigned int y = 0; y < height; y++)
-			{
-				UnswapCopy( src, dest, bpl );
-				if (y & 1) 
-					QWordInterleave( dest, line );
-
-				src += line;
-				dest += line;
-			}
-		}
+			Interleave = QWordInterleave;
 		else
-		{
-			for (unsigned int y = 0; y < height; y++)
-			{
-				UnswapCopy( src, dest, bpl );
-				if (y & 1) 
-					DWordInterleave( dest, line );
+			Interleave = DWordInterleave;
 
-				src += line;
-				dest += line;
-			}
+		for (unsigned int y = 0; y < height; y++)
+		{
+			UnswapCopy( src, dest, bpl );
+			if (y & 1) Interleave( dest, line );
+
+			src += line;
+			dest += line;
 		}
 	}
 	else

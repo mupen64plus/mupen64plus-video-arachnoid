@@ -1,8 +1,5 @@
 #include "Config.h"
 #include <cstdio> 
-#include <iostream> //std::endl
-#include <fstream> 
-    using std::ofstream;       //for reading files 
 #include "GraphicsPlugin.h"
 #include "Logger.h"
 
@@ -38,7 +35,6 @@ bool Config::initialize()
 	ConfigSetDefaultInt(m_videoArachnoidSection, "TextureCacheSize", 15 * (1024 * 1024), "Size of texture cache used to store textures");
 	ConfigSetDefaultBool(m_videoArachnoidSection, "Wireframe", false, "Render in wireframe?");
 	ConfigSetDefaultBool(m_videoArachnoidSection, "Fog", false, "Render fog?");
-	ConfigSaveFile();
 	return true;
 }
 

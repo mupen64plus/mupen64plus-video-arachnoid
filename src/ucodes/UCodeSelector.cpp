@@ -83,7 +83,7 @@ unsigned int UCodeSelector::checkUCode( unsigned int ucStart,
 	else
 	{
 		sprintf(logMsg, "Selected UCode %d Could not find UCode String ", ucode);
-		Logger::getSingleton().printMsg(logMsg);
+		Logger::getSingleton().printMsg(logMsg, M64MSG_WARNING);
 	}
 
 	return ucode;

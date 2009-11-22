@@ -25,7 +25,6 @@ GraphicsPlugin::GraphicsPlugin()
 	m_vi = 0;
 	m_initialized = false;
     m_updateConfig = false;
-    m_screenshotDirectory = 0;
 	m_fogManager = 0;
 }
 
@@ -53,9 +52,14 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 
 	//Start up the video
 	CoreVideo_Init();
+	
+	CoreVideo_GL_SetAttribute(M64P_GL_DOUBLEBUFFER, 1);
+    CoreVideo_GL_SetAttribute(M64P_GL_BUFFER_SIZE, 32);
+    CoreVideo_GL_SetAttribute(M64P_GL_DEPTH_SIZE, 24);
+
 	CoreVideo_SetVideoMode(m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth,
 	                       m_config->startFullscreen ? M64VIDEO_FULLSCREEN : M64VIDEO_WINDOWED);
-
+	CoreVideo_SetCaption("Arachnoid");
 	//Initialize Video Interface
 	m_vi = new VI();
 	m_vi->calcSize(m_graphicsInfo);
@@ -139,7 +143,8 @@ void GraphicsPlugin::dispose()
    // framebuffer02.dispose();
 	m_openGLMgr.dispose();
 
-	CoreVideo_Quit();
+	if (m_initialized)
+		CoreVideo_Quit();
 
 	m_initialized = false;
 }
@@ -432,10 +437,20 @@ void GraphicsPlugin::drawScreen()
 	}
 	OpenGLManager::getSingleton().endRendering();
 	*/
-	OpenGLManager::getSingleton().endRendering();
 
-	
+	if (m_renderingCallback)
+		m_renderingCallback();
+
+	OpenGLManager::getSingleton().endRendering();
 	glFinish();
+}
+
+//-----------------------------------------------------------------------------
+// Set Rendering Callback from M64P Core
+//-----------------------------------------------------------------------------
+void GraphicsPlugin::setRenderingCallback(void(*callback)())
+{
+	m_renderingCallback = callback;
 }
 
 //-----------------------------------------------------------------------------

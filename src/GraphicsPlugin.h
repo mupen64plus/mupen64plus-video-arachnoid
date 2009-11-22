@@ -37,6 +37,9 @@ public:
 	//Render
 	void processDisplayList();
 	void drawScreen();
+	
+	//Set callback from the M64P core
+	void setRenderingCallback(void(*callback)());
 
 	//Toggle Fullscreen
 	void toggleFullscreen();
@@ -74,8 +77,9 @@ private:
 	FogManager*           m_fogManager;          //!< Handles fog extension
 	bool                  m_updateConfig;        //!< Does configuration need to be updated?
 	bool                  m_initialized;         //!< Have graphics plugin been initialized?
-    char*                 m_screenshotDirectory; //!< Where do we want to save the next screenshot? 
 	int                   m_numDListProcessed; 
+	
+	void (*m_renderingCallback)();
 
 };
 

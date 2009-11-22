@@ -122,7 +122,6 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
     ConfigGetParamBool = (ptr_ConfigGetParamBool) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamBool");
     ConfigGetParamString = (ptr_ConfigGetParamString) osal_dynlib_getproc(CoreLibHandle, "ConfigGetParamString");
 
-	ConfigSaveFile = (ptr_ConfigSaveFile) osal_dynlib_getproc(CoreLibHandle, "ConfigSaveFile");
     ConfigGetSharedDataFilepath = (ptr_ConfigGetSharedDataFilepath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetSharedDataFilepath");
     ConfigGetUserConfigPath = (ptr_ConfigGetUserConfigPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserConfigPath");
     ConfigGetUserDataPath = (ptr_ConfigGetUserDataPath) osal_dynlib_getproc(CoreLibHandle, "ConfigGetUserDataPath");
@@ -152,7 +151,6 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
         !CoreVideo_SetCaption || !CoreVideo_ToggleFullScreen || !CoreVideo_GL_GetProcAddress ||
         !CoreVideo_GL_SetAttribute || !CoreVideo_GL_SwapBuffers)
     {
-		printf("eek!\n");
 		Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
         return M64ERR_INCOMPATIBLE;
     }
@@ -226,7 +224,9 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 
 	//Save Graphics Info
 	memcpy(&g_graphicsInfo, &Gfx_Info, sizeof(GFX_INFO));
-	return true;
+
+	//Initialize Graphics Plugin	        
+	return g_graphicsPlugin.initialize(&g_graphicsInfo); 
 }
 
 //-----------------------------------------------------------------------------
@@ -237,8 +237,6 @@ EXPORT void CALL RomOpen()
 {	
     Logger::getSingleton().printMsg("RomOpen\n");    
     
-	//Initialize Graphics Plugin	        
-	g_graphicsPlugin.initialize(&g_graphicsInfo);    
 }
 
 //-----------------------------------------------------------------------------
@@ -387,7 +385,7 @@ EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
 //-----------------------------------------------------------------------------
 EXPORT void CALL SetRenderingCallback(void (*callback)())
 {
-	//TODO
+	g_graphicsPlugin.setRenderingCallback(callback);
 }
 
 //-----------------------------------------------------------------------------

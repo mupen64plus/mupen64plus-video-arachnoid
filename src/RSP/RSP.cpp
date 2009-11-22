@@ -152,7 +152,7 @@ void RSP::moveMemViewport(unsigned int segmentAddress)
 	//Error controll
 	if ( rdramAddress + 16 > m_memory->getRDRAMSize() )
 	{
-		Logger::getSingleton().printMsg("ERROR: MoveMem Viewport, accessed invalid memory");
+		Logger::getSingleton().printMsg("MoveMem Viewport, accessed invalid memory", M64MSG_ERROR);
 		return;
 	}
 

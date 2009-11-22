@@ -27,7 +27,7 @@ public:
     void dispose();
 
     //Message
-    void printMsg(const char* msg, m64p_msg_level lml=M64MSG_INFO);
+	void printMsg(const char* msg, m64p_msg_level lml=M64MSG_VERBOSE);
 
 protected:
 	//! Constructor

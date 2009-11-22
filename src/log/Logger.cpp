@@ -38,7 +38,7 @@ void Logger::dispose()
 //-----------------------------------------------------------------------------
 void Logger::printMsg(const char* msg, m64p_msg_level lml)
 {
-	if (m_debugCallback != NULL && lml < M64MSG_INFO)
+	if (m_debugCallback != NULL)
 	{
 		(*m_debugCallback)(m_debugCallContext, lml, msg);
     }	
