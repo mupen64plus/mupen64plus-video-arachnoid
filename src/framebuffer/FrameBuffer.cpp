@@ -20,17 +20,22 @@
  *****************************************************************************/
 
 #include "FrameBuffer.h"
-
 #include "m64p.h"
-#include <GL/gl.h>
-
-//-----------------------------------------------------------------------------
-//OpenGL Texture Definitions
-//-----------------------------------------------------------------------------
-#ifdef WIN32
-typedef GLvoid (APIENTRY *PFNGLACTIVETEXTUREPROC) (GLenum texture);
-PFNGLACTIVETEXTUREPROC      glActiveTexture = NULL;
+#define GL_GLEXT_PROTOTYPES
+#ifndef WIN32
+    #define GL_GLEXT_PROTOTYPES
 #endif
+#include <GL/gl.h>
+#ifndef WIN32
+    #include <GL/glext.h>
+#else
+    //-----------------------------------------------------------------------------
+    //OpenGL Texture Definitions
+    //-----------------------------------------------------------------------------
+    typedef GLvoid (APIENTRY *PFNGLACTIVETEXTUREPROC) (GLenum texture);
+    PFNGLACTIVETEXTUREPROC      glActiveTexture = NULL;
+#endif
+
 #ifndef GL_TEXTURE0
     #define GL_TEXTURE0     0x84C0
 #endif
