@@ -28,10 +28,10 @@
 #include <algorithm>
     using std::min;
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 #include "Memory.h"
 #include "OpenGLRenderer.h"
-    
+#include "MultiTexturingExt.h"    
     //gSPBgRect1Cyc
 //gSPBgRectCopy
 #define GL_CLAMP_TO_EDGE                  0x812F
@@ -350,6 +350,16 @@ void TextureCache::_loadTexture(CachedTexture* texture)
         mirrorTBit = 0x0000;
     }
 
+    // Hack for Zelda warp texture
+    if (((texture->tMem << 3) + (texture->width * texture->height << texture->size >> 1)) > 4096)
+        texture->tMem = 0;
+
+    // limit clamp values to min-0 (Perfect Dark has height=0 textures, making negative clamps)
+    if (clampTClamp & 0x8000)
+        clampTClamp = 0;
+    if (clampSClamp & 0x8000)
+        clampSClamp = 0;
+
     //
     //Retrive texture from source (TMEM) and copy it to dest
     //
@@ -367,7 +377,10 @@ void TextureCache::_loadTexture(CachedTexture* texture)
             ty ^= maskTMask;
         }
 
-        src = m_memory->getTextureMemory(texture->tMem) + line * ty;
+        //TODO: remove old if new works
+        //src = m_memory->getTextureMemory(texture->tMem) + line * ty;
+        src = m_memory->getTextureMemory((texture->tMem + line * ty) & 511);
+        
 
         i = (ty & 1) << 1;
         for (x = 0; x < texture->realWidth; x++)
@@ -522,7 +535,8 @@ unsigned int TextureCache::_calculateCRC(unsigned int t, unsigned int width, uns
     unsigned int y, bpl, lineBytes, line;
     unsigned long long *src;
 
-    src = m_memory->getTextureMemory(tile->tmem);
+    //TODO: remove if new works
+    //src = m_memory->getTextureMemory(tile->tmem);
     bpl = width << tile->size >> 1;
     lineBytes = tile->line << 3;
 
@@ -533,9 +547,10 @@ unsigned int TextureCache::_calculateCRC(unsigned int t, unsigned int width, uns
     crc = 0xFFFFFFFF;
      for (y=0; y<height; ++y)
     {
+        src = m_memory->getTextureMemory((tile->tmem + (y * line)) & 511);
         crc = m_crcCalculator.calcCRC( crc, src, bpl );
-
-        src += line;
+        //TODO: remove if new works
+        //src += line;
     }
 
        if ( tile->format == G_IM_FMT_CI )

@@ -23,7 +23,7 @@
 #define OPEN_GL_RENDERER_H_
 
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 
 //Forward Declarations
 struct SPVertex;

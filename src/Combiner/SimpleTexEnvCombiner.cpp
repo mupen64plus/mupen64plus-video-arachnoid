@@ -24,7 +24,7 @@
 #include "MultiTexturingExt.h"
 #include "ExtensionChecker.h"
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

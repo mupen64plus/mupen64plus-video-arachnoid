@@ -29,7 +29,7 @@
 
 //OpenGL includes
 #include "m64p.h"
-#include <GL/gl.h> 
+#include "OpenGL.h"
 #include <GL/glu.h>
 
 //*****************************************************************************

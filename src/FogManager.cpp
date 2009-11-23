@@ -23,13 +23,9 @@
 #include "FogManager.h"
 #include "ExtensionChecker.h"
 #include "m64p.h"
-#ifndef WIN32
-    #define GL_GLEXT_PROTOTYPES
-#endif
-#include <GL/gl.h>
-#ifndef WIN32
-    #include <GL/glext.h>
-#else
+#include "OpenGL.h"
+
+#ifndef GL_GLEXT_VERSION
     //-----------------------------------------------------------------------------
     // EXT_fog_coord functions
     //-----------------------------------------------------------------------------
@@ -98,7 +94,7 @@ void FogManager::initialize()
     {
         if ( m_fogExtensionsSupported = isExtensionSupported("GL_EXT_fog_coord") )
         {
-#ifdef WIN32
+#ifndef GL_GLEXT_VERSION
             glFogCoordfEXT       = (PFNGLFOGCOORDFEXTPROC)wglGetProcAddress( "glFogCoordfEXT" );
             glFogCoordfvEXT      = (PFNGLFOGCOORDFVEXTPROC)wglGetProcAddress( "glFogCoordfvEXT" );
             glFogCoorddEXT       = (PFNGLFOGCOORDDEXTPROC)wglGetProcAddress( "glFogCoorddEXT" );

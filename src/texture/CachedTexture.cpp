@@ -22,7 +22,7 @@
 #include "CachedTexture.h"
 
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

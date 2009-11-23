@@ -30,7 +30,7 @@
 #include "CombinerStageCreator.h"
 #include "RomDetector.h"
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

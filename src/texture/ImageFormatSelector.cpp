@@ -31,7 +31,7 @@
 #include "assembler.h"
 #include "GBIDefs.h"
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 #include <GL/glu.h>
 #include "Memory.h"
 

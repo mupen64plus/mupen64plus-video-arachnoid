@@ -24,13 +24,9 @@
 #define MULTI_TEXTURING_EXTENSION_H_
 
 #include "m64p.h"
-#ifndef WIN32
-    #define GL_GLEXT_PROTOTYPES
-#endif
-#include <GL/gl.h>
-#ifndef WIN32
-    #include <GL/glext.h>
-#else
+#include "OpenGL.h"
+
+#ifndef GL_GLEXT_VERSION
     //Multi Texturing Definitions
     #ifndef GL_ARB_multitexture
         #define GL_TEXTURE0_ARB                   0x84C0
@@ -151,7 +147,7 @@
 #endif
 extern bool g_MultiTextureARBSupport;
 
-//Function for initializeing multitextureing extensions
+//Function for initializing multitexturing extensions
 bool initializeMultiTexturingExtensions();
 
 #endif

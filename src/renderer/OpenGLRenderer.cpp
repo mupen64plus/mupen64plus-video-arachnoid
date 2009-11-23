@@ -21,13 +21,6 @@
  *****************************************************************************/
 
 #include "m64p.h"
-#ifndef WIN32
-    #define GL_GLEXT_PROTOTYPES
-#endif
-#include <GL/gl.h>
-#ifndef WIN32
-    #include <GL/glext.h>
-#endif
 
 #include <cmath>
 #include <algorithm>

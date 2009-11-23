@@ -23,7 +23,7 @@
 #define COMBINER_STRUCTS_H_
 
 #include "m64p.h"
-#include <GL/gl.h>
+#include "OpenGL.h"
 
 // Internal combiner commands
 #define LOAD        0

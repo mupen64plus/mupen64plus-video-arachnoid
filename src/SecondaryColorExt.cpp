@@ -23,7 +23,7 @@
 #include "ExtensionChecker.h"
 
 // EXT_secondary_color functions
-#ifdef WIN32
+#ifndef GL_GLEXT_VERSION
 PFNGLSECONDARYCOLOR3BEXTPROC glSecondaryColor3bEXT;
 PFNGLSECONDARYCOLOR3BVEXTPROC glSecondaryColor3bvEXT;
 PFNGLSECONDARYCOLOR3DEXTPROC glSecondaryColor3dEXT;
@@ -48,7 +48,7 @@ bool initializeSecondaryColorExtension()
     return false;
     if ( isExtensionSupported( "GL_EXT_secondary_color" ))
     {
-#ifdef WIN32
+#ifndef GL_GLEXT_VERSION
         glSecondaryColor3bEXT = (PFNGLSECONDARYCOLOR3BEXTPROC)wglGetProcAddress( "glSecondaryColor3bEXT" );
         glSecondaryColor3bvEXT = (PFNGLSECONDARYCOLOR3BVEXTPROC)wglGetProcAddress( "glSecondaryColor3bvEXT" );
         glSecondaryColor3dEXT = (PFNGLSECONDARYCOLOR3DEXTPROC)wglGetProcAddress( "glSecondaryColor3dEXT" );

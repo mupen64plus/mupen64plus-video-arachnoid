@@ -22,8 +22,9 @@
 #include "MultiTexturingExt.h"
 #include "ExtensionChecker.h"
 
+
 //Multi Texturing functions
-#ifdef WIN32
+#ifndef GL_GLEXT_VERSION
 PFNGLACTIVETEXTUREARBPROC glActiveTextureARB;
 PFNGLCLIENTACTIVETEXTUREARBPROC glClientActiveTextureARB;
 PFNGLMULTITEXCOORD2FARBPROC glMultiTexCoord2fARB;
@@ -38,7 +39,7 @@ bool initializeMultiTexturingExtensions()
     //Initialize Extentions
     if ( g_MultiTextureARBSupport = isExtensionSupported("GL_ARB_multitexture") )
     {
-#ifdef WIN32
+#ifndef GL_GLEXT_VERSION
         glActiveTextureARB          = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress( "glActiveTextureARB" );
         glClientActiveTextureARB    = (PFNGLCLIENTACTIVETEXTUREARBPROC)wglGetProcAddress( "glClientActiveTextureARB" );
         glMultiTexCoord2fARB        = (PFNGLMULTITEXCOORD2FARBPROC)wglGetProcAddress( "glMultiTexCoord2fARB" );

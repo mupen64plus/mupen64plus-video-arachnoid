@@ -21,14 +21,9 @@
 
 #include "FrameBuffer.h"
 #include "m64p.h"
-#define GL_GLEXT_PROTOTYPES
-#ifndef WIN32
-    #define GL_GLEXT_PROTOTYPES
-#endif
-#include <GL/gl.h>
-#ifndef WIN32
-    #include <GL/glext.h>
-#else
+#include "OpenGL.h"
+
+#ifndef GL_GLEXT_VERSION
     //-----------------------------------------------------------------------------
     //OpenGL Texture Definitions
     //-----------------------------------------------------------------------------
@@ -259,7 +254,7 @@ void FrameBuffer::render2()
 void FrameBuffer::_activate()
 {
     //Activate Texture (so we can copy to it)
-#ifdef WIN32
+#ifndef GL_GLEXT_VERSION
     if ( glActiveTexture == 0 ) {
         glActiveTexture = (PFNGLACTIVETEXTUREPROC) CoreVideo_GL_GetProcAddress("glActiveTexture");
     }

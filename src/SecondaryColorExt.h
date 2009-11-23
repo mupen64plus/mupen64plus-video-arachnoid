@@ -24,13 +24,9 @@
 #define SECONDARY_COLOR_EXTENSION_H_
 
 #include "m64p.h"
-#ifndef WIN32
-    #define GL_GLEXT_PROTOTYPES
-#endif
-#include <GL/gl.h>
-#ifndef WIN32
-    #include <GL/glext.h>
-#else
+#include "OpenGL.h"
+
+#ifndef GL_GLEXT_VERSION
     #ifndef GL_EXT_secondary_color
     #define GL_EXT_secondary_color 1
 

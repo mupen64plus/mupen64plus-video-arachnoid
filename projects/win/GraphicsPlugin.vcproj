@@ -183,6 +183,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\..\src\m64p.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\main.cpp"
 				>
 				<FileConfiguration
@@ -193,10 +197,6 @@
 						AdditionalIncludeDirectories="src/log; src/utils;"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\src\platform.h"
-				>
 			</File>
 			<Filter
 				Name="Utils"
@@ -280,6 +280,10 @@
 				<Filter
 					Name="OpenGL"
 					>
+					<File
+						RelativePath="..\..\src\OpenGL.h"
+						>
+					</File>
 					<Filter
 						Name="OpenGL Manager"
 						>
@@ -749,18 +753,6 @@
 						</File>
 						<File
 							RelativePath="..\..\src\Assembler\assembler.h"
-							>
-						</File>
-					</Filter>
-					<Filter
-						Name="PluginInfo"
-						>
-						<File
-							RelativePath="..\..\src\PluginInfo.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\PluginInfo.h"
 							>
 						</File>
 					</Filter>
