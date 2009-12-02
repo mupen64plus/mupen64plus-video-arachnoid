@@ -147,24 +147,21 @@ TrailingLoop:
 Done:
     }
 #else
-    int *d = (int*)dest;
-    int *s = (int*)src;
-    int i = 0;
-    int mainBytes = numBytes / 4;
-    for (; i < mainBytes ; ++i)
+
+    long beginOffset = (long)src & 3;
+    char *readPtr = (char*)src - beginOffset;
+    char *writePtr = (char*)dest;
+    
+    int swapOffset = beginOffset;
+    for (int i = 0; i < numBytes; ++i)
     {
-        //d[i] = __builtin_bswap32(s[i]);
-        d[i] = bswap_32(s[i]);
-    }
-    //TODO: check trailing loop
-    if (mainBytes * 4 < numBytes)
-    {
-        int last = bswap_32(s[i]);
-        char *lastBytes = (char*)&last;
-        char *cDest = (char*)dest;
-        for (i *= 4; i < numBytes; ++i)
+        *writePtr = readPtr[3 - swapOffset];
+        ++writePtr;
+        ++swapOffset;
+        if (swapOffset > 3)
         {
-            cDest[i] = *(lastBytes++);
+            swapOffset = 0;
+            readPtr += 4;
         }
     }
 

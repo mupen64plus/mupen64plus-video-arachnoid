@@ -156,7 +156,6 @@ SOURCE = \
 	$(SRCDIR)/ExtensionChecker.cpp \
 	$(SRCDIR)/SecondaryColorExt.cpp \
 	$(SRCDIR)/Memory.cpp \
-	$(SRCDIR)/math/MathLib.cpp \
 	$(SRCDIR)/math/Matrix4.cpp \
 	$(SRCDIR)/texture/CachedTexture.cpp \
 	$(SRCDIR)/texture/TextureCache.cpp \
@@ -183,7 +182,6 @@ SOURCE = \
 	$(SRCDIR)/RSP/RSPMatrixManager.cpp \
 	$(SRCDIR)/RSP/RSPVertexManager.cpp \
 	$(SRCDIR)/RSP/RSPLightManager.cpp \
-	$(SRCDIR)/Assembler/assembler.cpp \
 	$(SRCDIR)/Combiner/AdvancedCombinerManager.cpp \
 	$(SRCDIR)/Combiner/CombinerBase.cpp \
 	$(SRCDIR)/Combiner/AdvancedTexEnvCombiner.cpp \
