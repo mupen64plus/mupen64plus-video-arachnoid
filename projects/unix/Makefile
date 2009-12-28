@@ -235,8 +235,7 @@ clean:
 # build rules
 
 mupen64plus-video-arachnoid.$(SO_EXTENSION): $(OBJECTS)
-	echo $(OBJECTS)
-	$(LD) $(SHARED) $^ $(LDFLAGS) -o $@
+	$(CXX) $(SHARED) $^ $(LDFLAGS) -o $@
 	$(STRIP) $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
