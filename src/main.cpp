@@ -36,7 +36,7 @@
 
 //Definitions
 #define PLUGIN_NAME "Arachnoid"
-#define PLUGIN_VERSION 0x020000
+#define PLUGIN_VERSION 0x016300
 
 #define MI_INTR_DP 0x00000020      //!< RDP Interrupt signal
 #define MI_INTR_SP 0x00000001      //!< RSP Interrupt signal

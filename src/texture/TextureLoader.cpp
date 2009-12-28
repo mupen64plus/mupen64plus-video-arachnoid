@@ -188,7 +188,7 @@ void TextureLoader::loadBlock(int tile, int s0, int t0, int s1, int t1)
     m_currentTile = &m_tiles[tile];
 
 
-     unsigned int bytes = (s1 + 1) << m_currentTile->size >> 1;
+    unsigned int bytes = (s1 + 1) << m_currentTile->size >> 1;
     unsigned int address = m_textureImage.address + t0 * m_textureImage.bpl + (s0 << m_textureImage.size >> 1);
 
     if ((bytes == 0) || ((address + bytes) > m_memory->getRDRAMSize()) || (((m_currentTile->tmem << 3) + bytes) > 4096))

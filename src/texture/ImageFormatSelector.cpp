@@ -295,7 +295,7 @@ void ImageFormatSelector::detectImageFormat(CachedTexture* texture, unsigned int
     }
     else
     {
-         texture->m_textureSize = (texture->realWidth * texture->realHeight) << 1;
+        texture->m_textureSize = (texture->realWidth * texture->realHeight) << 1;
         if ((texture->format == G_IM_FMT_CI) && (textureLUT == G_TT_IA16))
         {
             if (texture->size == G_IM_SIZ_4b)

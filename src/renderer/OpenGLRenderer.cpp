@@ -366,9 +366,8 @@ void OpenGLRenderer::renderTexRect( float ulx, float uly,   //Upper left vertex
 
         glColor4f( rect[0].color.r, rect[0].color.g, rect[0].color.b, rect[0].color.a );
 
-        //TODO: uncomment glSecondaryColor3fEXT
         //if (OGL.EXT_secondary_color)
-            //glSecondaryColor3fEXT( rect[0].secondaryColor.r, rect[0].secondaryColor.g, rect[0].secondaryColor.b );
+            glSecondaryColor3fEXT( rect[0].secondaryColor.r, rect[0].secondaryColor.g, rect[0].secondaryColor.b );
 
         //if (OGL.ARB_multitexture)
         //{

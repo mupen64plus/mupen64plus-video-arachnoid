@@ -24,16 +24,24 @@
 UNAME = $(shell uname -s)
 ifeq ("$(UNAME)","Linux")
   OS = LINUX
+  SO_EXTENSION = so
+  SHARED = -shared
 endif
 ifeq ("$(UNAME)","linux")
   OS = LINUX
+  SO_EXTENSION = so
+  SHARED = -shared
 endif
 ifeq ("$(UNAME)","Darwin")
   OS = OSX
   LDFLAGS += -liconv -lpng
+  SO_EXTENSION = dylib
+  SHARED = -bundle
 endif
 ifeq ("$(UNAME)","FreeBSD")
   OS = FREEBSD
+  SO_EXTENSION = so
+  SHARED = -shared
 endif
 
 # detect system architecture
@@ -65,10 +73,27 @@ CFLAGS = -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasi
 		 -I../../src/hash -I../../src/ucodes -I../../src/GBI -I../../src/RDP -I../../src/utils \
 		 -I../../src/log -I../../src/RSP -I../../src/framebuffer -I../../src/math -I../../src/renderer \
 		 -I../../src/Assembler -I../../src/texture -I../../src/config -I../../src/Combiner 
-LDFLAGS = -ldl -lGL -lGLU -lpthread
 ifneq ($(OS), FREEBSD)
   CFLAGS += -pipe -O3
 endif
+
+# On OS X, add a few extra flags to elegantly support cross-compilation and backward
+# compatibility (and also the flags to link against OpenGL)
+ifeq ($(OS), OSX)
+  ifeq ($(CPU), X86)
+    ifeq ($(ARCH_DETECTED), 64BITS)
+      CFLAGS += -arch x86_64 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+      LDFLAGS += -bundle -framework OpenGL -arch x86_64 -mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+    else
+      CFLAGS += -arch i686 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+      LDFLAGS += -bundle -framework OpenGL -arch i686 -mmacosx-version-min=10.4 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+    endif
+  endif
+else
+  # flags for other Unices
+  LDFLAGS += -ldl -lGL -lGLU -lpthread
+endif
+
 
 ifeq ($(ARCH_DETECTED), 64BITS)
   CFLAGS += -fPIC
@@ -118,9 +143,10 @@ ifeq ($(CPU), PPC)
 endif
 
 # set shell function names
-CC      = gcc
-CXX     = g++
-LD      = g++
+# set shell function names
+CC      ?= gcc
+CXX     ?= g++
+LD      ?= g++
 ifeq ($(OS),LINUX)
   STRIP	= strip -s
 endif
@@ -201,16 +227,16 @@ OBJDIRS = $(dir $(OBJECTS))
 $(shell mkdir -p $(OBJDIRS))
 
 # build targets
-all: mupen64plus-video-arachnoid.so
+all: mupen64plus-video-arachnoid.$(SO_EXTENSION)
 
 clean:
-	rm -rf ./_obj mupen64plus-video-arachnoid.so
+	rm -rf ./_obj mupen64plus-video-arachnoid.$(SO_EXTENSION)
 
 # build rules
 
-mupen64plus-video-arachnoid.so: $(OBJECTS)
+mupen64plus-video-arachnoid.$(SO_EXTENSION): $(OBJECTS)
 	echo $(OBJECTS)
-	$(LD) -shared $^ $(LDFLAGS) -o $@
+	$(LD) $(SHARED) $^ $(LDFLAGS) -o $@
 	$(STRIP) $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c

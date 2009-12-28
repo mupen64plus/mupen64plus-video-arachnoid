@@ -401,10 +401,6 @@
 					Name="Math"
 					>
 					<File
-						RelativePath="..\..\src\math\MathLib.cpp"
-						>
-					</File>
-					<File
 						RelativePath="..\..\src\math\MathLib.h"
 						>
 					</File>
@@ -747,10 +743,6 @@
 					<Filter
 						Name="Assembler"
 						>
-						<File
-							RelativePath="..\..\src\Assembler\assembler.cpp"
-							>
-						</File>
 						<File
 							RelativePath="..\..\src\Assembler\assembler.h"
 							>

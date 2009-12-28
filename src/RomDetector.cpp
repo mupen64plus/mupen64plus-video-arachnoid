@@ -121,6 +121,7 @@ N64_ROM_ID ROMDetector::_getRomID(char romName[20])
     else if ( !strncmp(romName, "WAVE RACE 64", 12) )
     {        
         m_clearType = CT_AFTER_ONE_DISPLAY_LIST;
+        m_ignoreFillRects = true;
         return WAVE_RACE_64;
     }        
     else if ( !strncmp(romName, "GOLDENEYE", 9) )

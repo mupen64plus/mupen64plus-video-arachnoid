@@ -25,7 +25,6 @@
 
 #ifndef WIN32
 #include <cstring>
-#include <byteswap.h>
 #endif
 
 // Swap bytes from 80 37 12 40
@@ -62,7 +61,9 @@ top:
     dwLen /= 4;
     for (int i = 0; i < dwLen; ++i)
     {
-        b[i] = bswap_32(b[i]);
+        int tmp = b[i];
+        b[i] = ((tmp & 0xff000000) >> 24) | ((tmp & 0x00ff0000) >>  8) |               \
+               ((tmp & 0x0000ff00) <<  8) | ((tmp & 0x000000ff) << 24);
     }
 #endif
 }
