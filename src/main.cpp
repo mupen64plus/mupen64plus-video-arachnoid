@@ -218,9 +218,13 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 //* Rom Open
 //! This function is called when a rom is open. (from the emulation thread)
 //-----------------------------------------------------------------------------
-EXPORT void CALL RomOpen()
+EXPORT int CALL RomOpen()
 {    
+    //TODO: RomOpen seems to be the proper place to initialize everything
+    //(instead of InitiateGFX), but some light refactoring will be necessary
+    //in order to do this
     Logger::getSingleton().printMsg("RomOpen\n");
+    return 1;
 }
 
 //-----------------------------------------------------------------------------
