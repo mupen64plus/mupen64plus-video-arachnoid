@@ -59,10 +59,8 @@ public:
     //Render
     void processDisplayList();
     void drawScreen();
+    void setDrawScreenSignal();
     
-    //Set callback from the M64P core
-    void setRenderingCallback(void(*callback)());
-
     //Toggle Fullscreen
     void toggleFullscreen();
 
@@ -100,9 +98,6 @@ private:
     bool                  m_updateConfig;        //!< Does configuration need to be updated?
     bool                  m_initialized;         //!< Have graphics plugin been initialized?
     int                   m_numDListProcessed; 
-    
-    void (*m_renderingCallback)();
-
 };
 
 #endif

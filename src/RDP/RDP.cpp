@@ -69,6 +69,7 @@ RDP::RDP()
     m_combinerMgr        = 0;
     m_textureLoader      = 0;
     m_openGL2DRenderer   = 0;
+    m_screenUpdatePending= false;
 }
 
 //-----------------------------------------------------------------------------
@@ -236,7 +237,7 @@ void RDP::updateStates()
             (m_otherMode.cycleType != G_CYC_FILL) &&
             !(m_otherMode.alphaCvgSel))
     {
-         glEnable( GL_BLEND );
+        glEnable( GL_BLEND );
         switch (m_otherMode.l >> 16)
         {
             case 0x0448: // Add
@@ -671,6 +672,12 @@ void RDP::RDP_SetCImg(unsigned int format, unsigned int size, unsigned int width
     m_colorImageInfo.size         = size;
     m_colorImageInfo.width        = width + 1; //Note: add plus one
     m_colorImageInfo.bpl          = m_colorImageInfo.width << m_colorImageInfo.size >> 1;
+    
+    if (m_screenUpdatePending)
+    {
+        OpenGLManager::getSingleton().endRendering();
+        m_screenUpdatePending = false;
+    }
 }
 
 //-----------------------------------------------------------------------------

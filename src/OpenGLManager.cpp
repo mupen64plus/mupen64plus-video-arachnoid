@@ -49,7 +49,7 @@ bool OpenGLManager::initialize(bool fullscreen, int width, int height, int bitDe
     m_bitDepth    = bitDepth;
     m_refreshRate = refreshRate;
     m_fullscreen  = fullscreen;
-
+    m_renderingCallback = NULL;
     //Set OpenGL Settings
     setClearColor(0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -136,6 +136,9 @@ void OpenGLManager::beginRendering()
 //-----------------------------------------------------------------------------
 void OpenGLManager::endRendering()
 {
+    glFinish();
+    if (m_renderingCallback)
+        m_renderingCallback();
     CoreVideo_GL_SwapBuffers();
     //glFlush();
 }

@@ -35,8 +35,8 @@
 #include "osal_dynamiclib.h"
 
 //Definitions
-#define PLUGIN_NAME "Arachnoid"
-#define PLUGIN_VERSION 0x016300
+#define PLUGIN_NAME "Arachnoid Video Plugin"
+#define PLUGIN_VERSION 0x016302
 
 #define MI_INTR_DP 0x00000020      //!< RDP Interrupt signal
 #define MI_INTR_SP 0x00000001      //!< RSP Interrupt signal
@@ -136,7 +136,7 @@ EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Con
         !CoreVideo_SetCaption || !CoreVideo_ToggleFullScreen || !CoreVideo_GL_GetProcAddress ||
         !CoreVideo_GL_SetAttribute || !CoreVideo_GL_SwapBuffers)
     {
-        Logger::getSingleton().printMsg("Couldn't connect to Core configuration functions", M64MSG_ERROR);
+        Logger::getSingleton().printMsg("Couldn't connect to Core video functions", M64MSG_ERROR);
         return M64ERR_INCOMPATIBLE;
     }
 
@@ -211,7 +211,7 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
     memcpy(&g_graphicsInfo, &Gfx_Info, sizeof(GFX_INFO));
 
     //Initialize Graphics Plugin            
-    return g_graphicsPlugin.initialize(&g_graphicsInfo); 
+    return (CoreVideo_Init() == M64ERR_SUCCESS);
 }
 
 //-----------------------------------------------------------------------------
@@ -224,7 +224,7 @@ EXPORT int CALL RomOpen()
     //(instead of InitiateGFX), but some light refactoring will be necessary
     //in order to do this
     Logger::getSingleton().printMsg("RomOpen\n");
-    return 1;
+    return g_graphicsPlugin.initialize(&g_graphicsInfo);
 }
 
 //-----------------------------------------------------------------------------
@@ -241,12 +241,19 @@ EXPORT void CALL RomClosed()
 //-----------------------------------------------------------------------------
 //* Update Screen
 //! This function is called in response to a vsync of the
-//! screen were the VI bit in MI_INTR_REG has already been set
+//! screen where the VI bit in MI_INTR_REG has already been set
 //-----------------------------------------------------------------------------
 EXPORT void CALL UpdateScreen()
 {
-    //logger.printMsg("UpdateScreen");    
-    g_graphicsPlugin.drawScreen();    
+    if (g_config.getConfig()->screenUpdateSetting == SCREEN_UPDATE_VI)
+        g_graphicsPlugin.drawScreen();
+    else if (g_config.getConfig()->screenUpdateSetting == SCREEN_UPDATE_CI)
+        g_graphicsPlugin.setDrawScreenSignal();
+    else
+    {
+        Logger::getSingleton().printMsg("Invalid screen update setting!", M64MSG_WARNING);
+        g_graphicsPlugin.drawScreen();
+    }
 }
 
 
@@ -369,7 +376,7 @@ EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
 //-----------------------------------------------------------------------------
 EXPORT void CALL SetRenderingCallback(void (*callback)())
 {
-    g_graphicsPlugin.setRenderingCallback(callback);
+    OpenGLManager::getSingleton().setRenderingCallback(callback);
 }
 
 //-----------------------------------------------------------------------------

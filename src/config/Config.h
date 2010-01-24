@@ -69,4 +69,10 @@ private:
     m64p_handle m_videoArachnoidSection;
 };
 
+enum
+{
+    SCREEN_UPDATE_VI = 1,
+    SCREEN_UPDATE_CI = 2
+};
+
 #endif

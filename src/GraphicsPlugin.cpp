@@ -72,23 +72,31 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
     m_romDetector = &ROMDetector::getSingleton();        
     m_romDetector->initialize( m_graphicsInfo->HEADER );
 
-    //Start up the video
-    CoreVideo_Init();
-    
-    CoreVideo_GL_SetAttribute(M64P_GL_DOUBLEBUFFER, 1);
-    CoreVideo_GL_SetAttribute(M64P_GL_BUFFER_SIZE, 32);
-    CoreVideo_GL_SetAttribute(M64P_GL_DEPTH_SIZE, 24);
+    if (CoreVideo_GL_SetAttribute(M64P_GL_DOUBLEBUFFER, 1) != M64ERR_SUCCESS ||
+        CoreVideo_GL_SetAttribute(M64P_GL_BUFFER_SIZE, 32) != M64ERR_SUCCESS ||
+        CoreVideo_GL_SetAttribute(M64P_GL_DEPTH_SIZE, 24)  != M64ERR_SUCCESS)
+    {
+        Logger::getSingleton().printMsg("Could not set video attributes.", M64MSG_ERROR);
+        return false;
+    }
 
-    CoreVideo_SetVideoMode(m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth,
-                           m_config->startFullscreen ? M64VIDEO_FULLSCREEN : M64VIDEO_WINDOWED);
+    if (CoreVideo_SetVideoMode(m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth, 
+        m_config->startFullscreen ? M64VIDEO_FULLSCREEN : M64VIDEO_WINDOWED) != M64ERR_SUCCESS)
+    {
+        Logger::getSingleton().printMsg("Could not set video mode.", M64MSG_ERROR);
+        return false;
+    }
+
     CoreVideo_SetCaption("Arachnoid");
+
     //Initialize Video Interface
     m_vi = new VI();
     m_vi->calcSize(m_graphicsInfo);
 
     //Initialize Memory
     m_memory = new Memory();
-    if ( !m_memory->initialize(m_graphicsInfo->RDRAM, m_graphicsInfo->DMEM) ) {
+    if ( !m_memory->initialize(m_graphicsInfo->RDRAM, m_graphicsInfo->DMEM) ) 
+    {
         return false;
     }
     
@@ -96,8 +104,9 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
     m_displayListParser->initialize(&m_rsp, &m_rdp, &m_gbi, m_memory);
 
     //Init OpenGL
-    if ( !m_openGLMgr.initialize(m_config->startFullscreen, m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate, true, false) ) {
-        Logger::getSingleton().printMsg("ERROR: Unable, to initialize OpenGL", M64MSG_ERROR);
+    if ( !m_openGLMgr.initialize(m_config->startFullscreen, m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth, m_config->fullscreenRefreshRate, true, false) ) 
+    {
+        Logger::getSingleton().printMsg("Unable to initialize OpenGL", M64MSG_ERROR);
         return false;
     }
 
@@ -116,8 +125,9 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 
 
     //Initialize OpenGL Renderer
-    if ( !OpenGLRenderer::getSingleton().initialize(&m_rsp, &m_rdp, &m_textureCache, m_vi, m_fogManager) ) {
-        Logger::getSingleton().printMsg("ERROR: Unable to initialize OpenGL Renderer", M64MSG_ERROR);
+    if ( !OpenGLRenderer::getSingleton().initialize(&m_rsp, &m_rdp, &m_textureCache, m_vi, m_fogManager) ) 
+    {
+        Logger::getSingleton().printMsg("Unable to initialize OpenGL Renderer", M64MSG_ERROR);
         return false;
     }
 
@@ -446,29 +456,12 @@ void GraphicsPlugin::processDisplayList()
 //-----------------------------------------------------------------------------
 void GraphicsPlugin::drawScreen()
 {
-
-    glFinish();
-    /*
-    OpenGLManager::getSingleton().beginRendering();        
-    {    
-        FrameBuffer::getSingleton().render();
-    }
     OpenGLManager::getSingleton().endRendering();
-    */
-
-    if (m_renderingCallback)
-        m_renderingCallback();
-
-    OpenGLManager::getSingleton().endRendering();
-    glFinish();
 }
 
-//-----------------------------------------------------------------------------
-// Set Rendering Callback from M64P Core
-//-----------------------------------------------------------------------------
-void GraphicsPlugin::setRenderingCallback(void(*callback)())
+void GraphicsPlugin::setDrawScreenSignal()
 {
-    m_renderingCallback = callback;
+    m_rdp.signalUpdate();
 }
 
 //-----------------------------------------------------------------------------
@@ -501,9 +494,10 @@ void GraphicsPlugin::takeScreenshot(void **dest, int *width, int *height)
 {
     *width = m_config->windowWidth;
     *height = m_config->windowHeight;
-    *dest = malloc(*width * *height * 3);
-    glReadBuffer(GL_FRONT);
-    glReadPixels(0, 0, *width, *height, GL_RGB, GL_UNSIGNED_BYTE, *dest);
+    //TODO: why does this crash?
+    //*dest = malloc(*width * *height * 3);
+    //glReadBuffer(GL_FRONT);
+    //glReadPixels(0, 0, *width, *height, GL_RGB, GL_UNSIGNED_BYTE, *dest);
 }
 
 //-----------------------------------------------------------------------------

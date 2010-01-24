@@ -131,6 +131,7 @@ public:
     void triggerInterrupt();
 
 public:
+    void signalUpdate() { m_screenUpdatePending = true; }
 
     //Get Combiner Manager
     AdvancedCombinerManager* getCombinerMgr() { return m_combinerMgr; }
@@ -279,6 +280,9 @@ protected:
     //Half
     unsigned int m_half1;             //!< First half value
     unsigned int m_half2;             //!< Second half value
+
+    //Update on first CI
+    bool m_screenUpdatePending;
 
 };
  

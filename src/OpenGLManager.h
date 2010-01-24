@@ -96,6 +96,9 @@ public:
     //! Sets the backround color of OpenGL viewport 
     void setClearColor(float r, float g, float b) { glClearColor(r, g, b, 1.0f); }
 
+    //Set callback from the M64P core
+    void setRenderingCallback(void(*callback)()) { m_renderingCallback = callback; }
+
 public:
 
     //N64 Specifics
@@ -128,7 +131,8 @@ private:
     float m_scaleY;              //!< DisplayHeight aka WindowHeight / viHeight (n64 specific)
     bool m_fullscreen;           //!< Fullscreen mode or window mode?
     bool m_forceDisableCulling;  //!< Culling cant be enabled if this is true
-
+    
+    void (*m_renderingCallback)();  //Rendering callback from the core
 };
 
 #endif

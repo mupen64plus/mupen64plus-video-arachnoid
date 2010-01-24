@@ -38,6 +38,7 @@ struct ConfigMap
     int  textureCacheSize;       //!< Size of texture cache used to store textures, default = 15 MB
     bool wireframe;              //!< Render in wireframe?                          defualt = false
     bool fog;                    //!< Render fog?                                   default = true
+    int  screenUpdateSetting;    //!< When to redraw the screen                     default = SCREEN_UPDATE_VI
 };
 
 #endif
