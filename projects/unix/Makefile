@@ -147,6 +147,7 @@ endif
 CC      ?= gcc
 CXX     ?= g++
 LD      ?= g++
+INSTALL ?= install
 ifeq ($(OS),LINUX)
   STRIP	= strip -s
 endif
@@ -155,13 +156,22 @@ ifeq ($(OS),OSX)
 endif
 
 # set special flags for given Makefile parameters
-ifneq ($(PLUGINDIR),)
-  CFLAGS += -DPLUGINDIR="$(PLUGINDIR)"
-endif
 ifeq ($(DEBUG),1)
   CFLAGS += -g  -fno-inline -Werror
   STRIP = true # disable binary strip
 endif
+
+# set installation options
+ifeq ($(PREFIX),)
+  PREFIX := /usr/local
+endif
+ifeq ($(SHAREDIR),)
+  SHAREDIR := $(PREFIX)/share/mupen64plus
+endif
+ifeq ($(LIBDIR),)
+  LIBDIR := $(PREFIX)/lib/mupen64plus
+endif
+
 
 SRCDIR = ../../src
 OBJDIR = _obj
@@ -221,20 +231,49 @@ SOURCE = \
 	$(SRCDIR)/RDP/RDPInstructions.cpp \
 	$(SRCDIR)/osal_dynamiclib_unix.cpp
 
+
 # generate a list of object files build, make a temporary directory for them
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter %.cpp, $(SOURCE)))
 OBJDIRS = $(dir $(OBJECTS))
 $(shell mkdir -p $(OBJDIRS))
 
 # build targets
-all: mupen64plus-video-arachnoid.$(SO_EXTENSION)
+
+TARGET = mupen64plus-video-arachnoid.$(SO_EXTENSION)
+targets:
+	@echo "Mupen64plus-video-arachnoid N64 Graphics plugin makefile. "
+	@echo "  Targets:"
+	@echo "    all           == Build Mupen64plus-video-arachnoid plugin"
+	@echo "    clean         == remove object files"
+	@echo "    rebuild       == clean and re-build all"
+	@echo "    install       == Install Mupen64Plus-video-arachnoid plugin"
+	@echo "    uninstall     == Uninstall Mupen64Plus-video-arachnoid plugin"
+	@echo "  Options:"
+	@echo "    BITS=32       == build 32-bit binaries on 64-bit machine"
+	@echo "    APIDIR=path   == path to find Mupen64Plus Core headers"
+	@echo "  Install Options:"
+	@echo "    PREFIX=path   == install/uninstall prefix (default: /usr/local)"
+	@echo "    LIBDIR=path   == path to install plugin libraries (default: PREFIX/lib/mupen64plus)"
+	@echo "    DESTDIR=path  == path to prepend to all installation paths (only for packagers)"
+	@echo "  Debugging Options:"
+	@echo "    DEBUG=1       == add debugging symbols"
+
+all: $(TARGET)
+
+install: $(TARGET)
+	$(INSTALL) -d -v "$(DESTDIR)$(LIBDIR)"
+	$(INSTALL) -m 0644 $(TARGET) "$(DESTDIR)$(LIBDIR)"
+
+uninstall:
+	rm -f "$(DESTDIR)$(LIBDIR)/$(TARGET)"
+
 
 clean:
 	rm -rf ./_obj mupen64plus-video-arachnoid.$(SO_EXTENSION)
 
 # build rules
 
-mupen64plus-video-arachnoid.$(SO_EXTENSION): $(OBJECTS)
+$(TARGET): $(OBJECTS)
 	$(CXX) $(SHARED) $^ $(LDFLAGS) -o $@
 	$(STRIP) $@
 
