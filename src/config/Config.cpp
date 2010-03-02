@@ -57,7 +57,11 @@ bool Config::initialize()
     ConfigSetDefaultInt(m_videoArachnoidSection, "TextureCacheSize", 15 * (1024 * 1024), "Size of texture cache used to store textures");
     ConfigSetDefaultBool(m_videoArachnoidSection, "Wireframe", false, "Render in wireframe?");
     ConfigSetDefaultBool(m_videoArachnoidSection, "Fog", false, "Render fog?");
+#ifdef WIN32
+    ConfigSetDefaultInt(m_videoArachnoidSection, "ScreenUpdateSetting", SCREEN_UPDATE_CI, "When to update the screen: 1 - on VI, 2 - on first CI");
+#else
     ConfigSetDefaultInt(m_videoArachnoidSection, "ScreenUpdateSetting", SCREEN_UPDATE_VI, "When to update the screen: 1 - on VI, 2 - on first CI");
+#endif
     return true;
 }
 

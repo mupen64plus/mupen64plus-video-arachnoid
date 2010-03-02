@@ -36,7 +36,7 @@
 
 //Definitions
 #define PLUGIN_NAME "Arachnoid Video Plugin"
-#define PLUGIN_VERSION 0x016302
+#define PLUGIN_VERSION 0x016303
 
 #define MI_INTR_DP 0x00000020      //!< RDP Interrupt signal
 #define MI_INTR_SP 0x00000001      //!< RSP Interrupt signal
@@ -220,9 +220,6 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 //-----------------------------------------------------------------------------
 EXPORT int CALL RomOpen()
 {    
-    //TODO: RomOpen seems to be the proper place to initialize everything
-    //(instead of InitiateGFX), but some light refactoring will be necessary
-    //in order to do this
     Logger::getSingleton().printMsg("RomOpen\n");
     return g_graphicsPlugin.initialize(&g_graphicsInfo);
 }
@@ -361,12 +358,12 @@ EXPORT void CALL ChangeWindow()
 }
 
 //-----------------------------------------------------------------------------
-//* ReadScreen
+//* ReadScreen2
 //! This function reads the pixels of the currently displayed screen
 //-----------------------------------------------------------------------------
-EXPORT void CALL ReadScreen(void **dest, int *width, int *height)
+EXPORT void CALL ReadScreen2(void *dest, int *width, int *height, int front)
 {
-    g_graphicsPlugin.takeScreenshot(dest, width, height);
+    g_graphicsPlugin.takeScreenshot(dest, width, height, front);
 }
 
 //-----------------------------------------------------------------------------

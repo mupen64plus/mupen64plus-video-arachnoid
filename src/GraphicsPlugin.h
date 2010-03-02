@@ -65,7 +65,7 @@ public:
     void toggleFullscreen();
 
     //Take Screenshot
-    void takeScreenshot(void **dest, int *width, int *height);
+    void takeScreenshot(void *dest, int *width, int *height, int front);
 
     //Called when the video interface has been changed
     void viStatusChanged();

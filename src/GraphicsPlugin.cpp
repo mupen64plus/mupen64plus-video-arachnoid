@@ -490,14 +490,18 @@ void GraphicsPlugin::toggleFullscreen()
 //-----------------------------------------------------------------------------
 // Take Screenshot
 //-----------------------------------------------------------------------------
-void GraphicsPlugin::takeScreenshot(void **dest, int *width, int *height)
+void GraphicsPlugin::takeScreenshot(void *dest, int *width, int *height, int front)
 {
     *width = m_config->windowWidth;
     *height = m_config->windowHeight;
-    //TODO: why does this crash?
-    //*dest = malloc(*width * *height * 3);
-    //glReadBuffer(GL_FRONT);
-    //glReadPixels(0, 0, *width, *height, GL_RGB, GL_UNSIGNED_BYTE, *dest);
+    if (dest)
+    {
+        if (front)
+            glReadBuffer(GL_FRONT);
+        else
+            glReadBuffer(GL_BACK);
+        glReadPixels(0, 0, *width, *height, GL_RGB, GL_UNSIGNED_BYTE, dest);
+    }
 }
 
 //-----------------------------------------------------------------------------
