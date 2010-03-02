@@ -72,6 +72,19 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
     m_romDetector = &ROMDetector::getSingleton();        
     m_romDetector->initialize( m_graphicsInfo->HEADER );
 
+    if (m_config->multiSampling > 0)
+    {
+        CoreVideo_GL_SetAttribute(M64P_GL_MULTISAMPLEBUFFERS, 1);
+        if (m_config->multiSampling <= 2)
+            CoreVideo_GL_SetAttribute(M64P_GL_MULTISAMPLESAMPLES, 2);
+        else if (m_config->multiSampling <= 4)
+            CoreVideo_GL_SetAttribute(M64P_GL_MULTISAMPLESAMPLES, 4);
+        else if (m_config->multiSampling <= 8)
+            CoreVideo_GL_SetAttribute(M64P_GL_MULTISAMPLESAMPLES, 8);
+        else
+            CoreVideo_GL_SetAttribute(M64P_GL_MULTISAMPLESAMPLES, 16);
+    }
+
     if (CoreVideo_GL_SetAttribute(M64P_GL_DOUBLEBUFFER, 1) != M64ERR_SUCCESS ||
         CoreVideo_GL_SetAttribute(M64P_GL_BUFFER_SIZE, 32) != M64ERR_SUCCESS ||
         CoreVideo_GL_SetAttribute(M64P_GL_DEPTH_SIZE, 24)  != M64ERR_SUCCESS)
