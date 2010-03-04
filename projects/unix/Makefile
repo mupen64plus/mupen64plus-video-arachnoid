@@ -69,7 +69,7 @@ ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
 endif
 
 # base CFLAGS, LIBS, and LDFLAGS
-CFLAGS = -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -I../../src \
+CFLAGS += -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -I../../src \
 		 -I../../src/hash -I../../src/ucodes -I../../src/GBI -I../../src/RDP -I../../src/utils \
 		 -I../../src/log -I../../src/RSP -I../../src/framebuffer -I../../src/math -I../../src/renderer \
 		 -I../../src/Assembler -I../../src/texture -I../../src/config -I../../src/Combiner 
