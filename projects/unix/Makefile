@@ -271,6 +271,10 @@ uninstall:
 clean:
 	rm -rf ./_obj mupen64plus-video-arachnoid.$(SO_EXTENSION)
 
+# build dependency files
+CFLAGS += -MD
+-include $(OBJECTS:.o=.d)
+
 # build rules
 
 $(TARGET): $(OBJECTS)
