@@ -57,6 +57,7 @@ bool Config::initialize()
     ConfigSetDefaultInt(m_videoArachnoidSection, "TextureCacheSize", 15 * (1024 * 1024), "Size of texture cache used to store textures");
     ConfigSetDefaultBool(m_videoArachnoidSection, "Wireframe", false, "Render in wireframe?");
     ConfigSetDefaultBool(m_videoArachnoidSection, "Fog", false, "Render fog?");
+    ConfigSetDefaultInt(m_videoArachnoidSection, "MultiSampling", 0, "Use MultiSampling? 0=no 2,4,8,16=quality");
 #ifdef WIN32
     ConfigSetDefaultInt(m_videoArachnoidSection, "ScreenUpdateSetting", SCREEN_UPDATE_CI, "When to update the screen: 1 - on VI, 2 - on first CI");
 #else
@@ -77,5 +78,6 @@ void Config::load()
     m_cfg.textureCacheSize      = ConfigGetParamInt(m_videoArachnoidSection, "TextureCacheSize");
     m_cfg.wireframe             = ConfigGetParamBool(m_videoArachnoidSection, "Wireframe");
     m_cfg.fog                   = ConfigGetParamBool(m_videoArachnoidSection, "Fog");
+    m_cfg.multiSampling         = ConfigGetParamBool(m_videoArachnoidSection, "MultiSampling");
     m_cfg.screenUpdateSetting   = ConfigGetParamInt(m_videoArachnoidSection, "ScreenUpdateSetting");
 }
