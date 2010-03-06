@@ -205,7 +205,7 @@ int UCodeSelector::_detectUCodeFromString(const char ucodeStr[500])
         //If v2.x
         else if( strstr(ucodeStr,"2.") != 0 )
         {
-            (!strstr(ucodeStr,"S2DEX")) ? 3 : 5;
+            return (!strstr(ucodeStr,"S2DEX")) ? 3 : 5;
         }
     }
 
