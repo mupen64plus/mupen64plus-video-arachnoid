@@ -76,6 +76,7 @@ CFLAGS += -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-alias
 ifneq ($(OS), FREEBSD)
   CFLAGS += -pipe -O3
 endif
+CXXFLAGS += -fvisibility-inlines-hidden
 
 # On OS X, add a few extra flags to elegantly support cross-compilation and backward
 # compatibility (and also the flags to link against OpenGL)
