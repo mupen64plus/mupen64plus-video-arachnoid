@@ -231,6 +231,9 @@ SOURCE = \
 	$(SRCDIR)/RDP/RDPInstructions.cpp \
 	$(SRCDIR)/osal_dynamiclib_unix.cpp
 
+# only export api symbols
+LDFLAGS += -Wl,-version-script,$(SRCDIR)/video_api_export.ver
+
 
 # generate a list of object files build, make a temporary directory for them
 OBJECTS := $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter %.cpp, $(SOURCE)))
