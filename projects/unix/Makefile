@@ -146,7 +146,6 @@ endif
 # set shell function names
 CC      ?= gcc
 CXX     ?= g++
-LD      ?= g++
 INSTALL ?= install
 ifeq ($(OS),LINUX)
   STRIP	= strip -s
@@ -277,14 +276,22 @@ CFLAGS += -MD
 
 CXXFLAGS += $(CFLAGS)
 
-# build rules
+# reduced compile output when running make without V=1
+ifneq ($(findstring $(MAKEFLAGS),s),s)
+ifndef V
+	Q_CC  = @echo '    CC  '$@;
+	Q_CXX = @echo '    CXX '$@;
+	Q_LD  = @echo '    LD  '$@;
+endif
+endif
 
+# build rules
 $(TARGET): $(OBJECTS)
-	$(CXX) $(SHARED) $^ $(LDFLAGS) -o $@
+	$(Q_LD)$(CXX) $(SHARED) $^ $(LDFLAGS) -o $@
 	$(STRIP) $@
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(CC) -o $@ $(CFLAGS) -c $<
+	$(Q_CC)$(CC) -o $@ $(CFLAGS) -c $<
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(CXX) -o $@ $(CXXFLAGS) -c $<
+	$(Q_CXX)$(CXX) -o $@ $(CXXFLAGS) -c $<
