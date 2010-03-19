@@ -43,6 +43,11 @@ ifeq ("$(UNAME)","FreeBSD")
   SO_EXTENSION = so
   SHARED = -shared
 endif
+ifneq ("$(filter GNU/kFreeBSD kfreebsd,$(UNAME))","")
+  OS = LINUX
+  SO_EXTENSION = so
+  SHARED = -shared
+endif
 
 # detect system architecture
 HOST_CPU ?= $(shell uname -m)
