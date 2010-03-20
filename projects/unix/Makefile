@@ -126,6 +126,10 @@ else
 endif
 
 # set special flags per-system
+ifeq ($(OS), LINUX)
+  # only export api symbols
+  LDFLAGS += -Wl,-version-script,$(SRCDIR)/video_api_export.ver
+endif
 ifneq ($(OS), FREEBSD)
   ifeq ($(CPU), X86)
     ifeq ($(ARCH_DETECTED), 64BITS)
@@ -235,9 +239,6 @@ SOURCE = \
 	$(SRCDIR)/RDP/RDP.cpp \
 	$(SRCDIR)/RDP/RDPInstructions.cpp \
 	$(SRCDIR)/osal_dynamiclib_unix.cpp
-
-# only export api symbols
-LDFLAGS += -Wl,-version-script,$(SRCDIR)/video_api_export.ver
 
 
 # generate a list of object files build, make a temporary directory for them
