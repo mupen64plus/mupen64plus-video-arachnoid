@@ -66,11 +66,6 @@ public:
     }
 
 private:
-
-    //Calculate size of Rambus Dynamic Random Access Memory.
-    void _calculateRDRAMSize();
-
-private:
     
     unsigned char*          m_RDRAM;          //!< Rambus Dynamic Random Access Memory
     unsigned char*          m_DMEM;           //!< RSP Data Memory

@@ -67,48 +67,6 @@ bool Memory::initialize(unsigned char* RDRAM, unsigned char* DMEM)
     //    m_TMEM[i] = 0;
     //}    
 
-    _calculateRDRAMSize();
+    m_RDRAMSize = 0x800000;
     return true;
-}
-
-//-----------------------------------------------------------------------------
-//* Calculate RDRAM Size
-//! Detect how much Rambus Dynamic RAM there is
-//-----------------------------------------------------------------------------
-void Memory::_calculateRDRAMSize()
-{
-    unsigned char test;
-        
-    #if 1
-        try
-        {
-            test = m_RDRAM[0x400000];
-            test = m_RDRAM[0x500000];
-            test = m_RDRAM[0x600000];
-            test = m_RDRAM[0x700000];
-            test = m_RDRAM[0x7FFFFC];
-            m_RDRAMSize = 0x800000;
-        }
-        catch(...)
-        {
-            m_RDRAMSize = 0x400000;
-        }
-    
-    #else
-        unsigned int testAddress;
-
-        __try
-        {
-            testAddress = 0;
-            while ( true )
-            {
-                test = m_RDRAM[testAddress];
-                testAddress++;
-            }
-        }
-        __except(EXCEPTION_EXECUTE_HANDLER)
-        {
-            m_RDRAMSize = testAddress;
-        }
-    #endif
 }
