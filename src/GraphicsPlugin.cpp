@@ -390,9 +390,9 @@ void GraphicsPlugin::_motionBlur()
 //-----------------------------------------------------------------------------
 void GraphicsPlugin::processDisplayList()
 {
-    if ( m_numDListProcessed == 1 && m_romDetector->getClearType() == CT_AFTER_ONE_DISPLAY_LIST ||
-         m_numDListProcessed == 2 && m_romDetector->getClearType() == CT_AFTER_TWO_DISPLAY_LIST ||
-         m_numDListProcessed == 3 && m_romDetector->getClearType() == CT_AFTER_THREE_DISPLAY_LIST )
+    if ( (m_numDListProcessed == 1 && m_romDetector->getClearType() == CT_AFTER_ONE_DISPLAY_LIST) ||
+         (m_numDListProcessed == 2 && m_romDetector->getClearType() == CT_AFTER_TWO_DISPLAY_LIST) ||
+         (m_numDListProcessed == 3 && m_romDetector->getClearType() == CT_AFTER_THREE_DISPLAY_LIST) )
     {
         bool scissors = OpenGLManager::getSingleton().getScissorEnabled();
         OpenGLManager::getSingleton().setScissorEnabled(false);

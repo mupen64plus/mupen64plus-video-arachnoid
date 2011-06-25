@@ -92,7 +92,8 @@ void FogManager::initialize()
     static bool fogExtensionInitialized = false;
     if ( !fogExtensionInitialized )
     {
-        if ( m_fogExtensionsSupported = isExtensionSupported("GL_EXT_fog_coord") )
+        m_fogExtensionsSupported = isExtensionSupported("GL_EXT_fog_coord");
+        if ( m_fogExtensionsSupported )
         {
 #ifndef GL_GLEXT_VERSION
             glFogCoordfEXT       = (PFNGLFOGCOORDFEXTPROC)wglGetProcAddress( "glFogCoordfEXT" );

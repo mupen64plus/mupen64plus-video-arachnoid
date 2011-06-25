@@ -37,7 +37,8 @@ bool g_MultiTextureARBSupport = false;
 bool initializeMultiTexturingExtensions()
 {
     //Initialize Extentions
-    if ( g_MultiTextureARBSupport = isExtensionSupported("GL_ARB_multitexture") )
+    g_MultiTextureARBSupport = isExtensionSupported("GL_ARB_multitexture");
+    if ( g_MultiTextureARBSupport )
     {
 #ifndef GL_GLEXT_VERSION
         glActiveTextureARB          = (PFNGLACTIVETEXTUREARBPROC)wglGetProcAddress( "glActiveTextureARB" );
