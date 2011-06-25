@@ -102,8 +102,8 @@ ifeq ($(OS), OSX)
   endif
 else
   # flags for other Unices
-  CFLAGS += -pthread
-  LDFLAGS += -ldl -lGL -lGLU -pthread
+  CFLAGS += -pthread $(shell pkg-config --cflags gl glu)
+  LDFLAGS += -ldl -pthread $(shell pkg-config --libs gl glu)
 endif
 
 
