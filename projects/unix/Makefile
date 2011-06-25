@@ -138,7 +138,7 @@ ifneq ($(OS), FREEBSD)
     # tweak flags for 32-bit build on 64-bit system
     ifeq ($(ARCH_DETECTED), 64BITS_32)
       CFLAGS += -m32
-      LDFLAGS += -m32 -m elf_i386
+      LDFLAGS += -Wl,-m32 -Wl,-m,elf_i386
     endif
   endif
 else
