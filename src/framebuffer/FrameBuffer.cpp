@@ -271,5 +271,5 @@ void FrameBuffer::_deactivate()
 {
     glActiveTexture((GLuint)GL_TEXTURE0);
     glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, NULL);
+    glBindTexture(GL_TEXTURE_2D, 0);
 }
