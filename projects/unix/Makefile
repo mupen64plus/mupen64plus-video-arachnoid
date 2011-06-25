@@ -102,7 +102,8 @@ ifeq ($(OS), OSX)
   endif
 else
   # flags for other Unices
-  LDFLAGS += -ldl -lGL -lGLU -lpthread
+  CFLAGS += -pthread
+  LDFLAGS += -ldl -lGL -lGLU -pthread
 endif
 
 
