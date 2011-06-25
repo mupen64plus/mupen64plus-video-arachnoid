@@ -79,13 +79,10 @@ ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
 endif
 
 # base CFLAGS, LIBS, and LDFLAGS
-CFLAGS += -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -fvisibility=hidden -I../../src \
+CFLAGS += -ffast-math -fno-strict-aliasing -fvisibility=hidden -I../../src \
 		 -I../../src/hash -I../../src/ucodes -I../../src/GBI -I../../src/RDP -I../../src/utils \
 		 -I../../src/log -I../../src/RSP -I../../src/framebuffer -I../../src/math -I../../src/renderer \
 		 -I../../src/Assembler -I../../src/texture -I../../src/config -I../../src/Combiner 
-ifneq ($(OS), FREEBSD)
-  CFLAGS += -pipe -O3
-endif
 CXXFLAGS += -fvisibility-inlines-hidden
 
 # On OS X, add a few extra flags to elegantly support cross-compilation and backward
@@ -138,11 +135,6 @@ ifeq ($(OS), LINUX)
 endif
 ifneq ($(OS), FREEBSD)
   ifeq ($(CPU), X86)
-    ifeq ($(ARCH_DETECTED), 64BITS)
-      CFLAGS += -march=athlon64
-    else
-      CFLAGS += -mmmx -msse -march=i686 -mtune=pentium-m -fomit-frame-pointer
-    endif
     # tweak flags for 32-bit build on 64-bit system
     ifeq ($(ARCH_DETECTED), 64BITS_32)
       CFLAGS += -m32
@@ -153,9 +145,6 @@ else
   ifeq ($(ARCH_DETECTED), 64BITS_32)
     $(error Do not use the BITS=32 option with FreeBSD, use -m32 and -m elf_i386)
   endif
-endif
-ifeq ($(CPU), PPC)
-  CFLAGS += -mcpu=powerpc
 endif
 
 # set shell function names
