@@ -279,24 +279,25 @@ enum G_CYCLE_TYPE {
     GBI::G_CULL_BOTH            = ucode##_CULL_BOTH; \
     GBI::G_CLIPPING             = ucode##_CLIPPING; \
 \
-    GBI::G_MV_VIEWPORT          = ucode##_MV_VIEWPORT; //\
-//\
-    //GBI::G_MWO_aLIGHT_1        = ucode##_MWO_aLIGHT_1; \
-    //GBI::G_MWO_bLIGHT_1        = ucode##_MWO_bLIGHT_1; \
-    //GBI::G_MWO_aLIGHT_2        = ucode##_MWO_aLIGHT_2; \
-    //GBI::G_MWO_bLIGHT_2        = ucode##_MWO_bLIGHT_2; \
-    //GBI::G_MWO_aLIGHT_3        = ucode##_MWO_aLIGHT_3; \
-    //GBI::G_MWO_bLIGHT_3        = ucode##_MWO_bLIGHT_3; \
-    //GBI::G_MWO_aLIGHT_4        = ucode##_MWO_aLIGHT_4; \
-    //GBI::G_MWO_bLIGHT_4        = ucode##_MWO_bLIGHT_4; \
-    //GBI::G_MWO_aLIGHT_5        = ucode##_MWO_aLIGHT_5; \
-    //GBI::G_MWO_bLIGHT_5        = ucode##_MWO_bLIGHT_5; \
-    //GBI::G_MWO_aLIGHT_6        = ucode##_MWO_aLIGHT_6; \
-    //GBI::G_MWO_bLIGHT_6        = ucode##_MWO_bLIGHT_6; \
-    //GBI::G_MWO_aLIGHT_7        = ucode##_MWO_aLIGHT_7; \
-    //GBI::G_MWO_bLIGHT_7        = ucode##_MWO_bLIGHT_7; \
-    //GBI::G_MWO_aLIGHT_8        = ucode##_MWO_aLIGHT_8; \
-    //GBI::G_MWO_bLIGHT_8        = ucode##_MWO_bLIGHT_8;
+    GBI::G_MV_VIEWPORT          = ucode##_MV_VIEWPORT; \
+    /* \
+    GBI::G_MWO_aLIGHT_1        = ucode##_MWO_aLIGHT_1; \
+    GBI::G_MWO_bLIGHT_1        = ucode##_MWO_bLIGHT_1; \
+    GBI::G_MWO_aLIGHT_2        = ucode##_MWO_aLIGHT_2; \
+    GBI::G_MWO_bLIGHT_2        = ucode##_MWO_bLIGHT_2; \
+    GBI::G_MWO_aLIGHT_3        = ucode##_MWO_aLIGHT_3; \
+    GBI::G_MWO_bLIGHT_3        = ucode##_MWO_bLIGHT_3; \
+    GBI::G_MWO_aLIGHT_4        = ucode##_MWO_aLIGHT_4; \
+    GBI::G_MWO_bLIGHT_4        = ucode##_MWO_bLIGHT_4; \
+    GBI::G_MWO_aLIGHT_5        = ucode##_MWO_aLIGHT_5; \
+    GBI::G_MWO_bLIGHT_5        = ucode##_MWO_bLIGHT_5; \
+    GBI::G_MWO_aLIGHT_6        = ucode##_MWO_aLIGHT_6; \
+    GBI::G_MWO_bLIGHT_6        = ucode##_MWO_bLIGHT_6; \
+    GBI::G_MWO_aLIGHT_7        = ucode##_MWO_aLIGHT_7; \
+    GBI::G_MWO_bLIGHT_7        = ucode##_MWO_bLIGHT_7; \
+    GBI::G_MWO_aLIGHT_8        = ucode##_MWO_aLIGHT_8; \
+    GBI::G_MWO_bLIGHT_8        = ucode##_MWO_bLIGHT_8; \
+    */
 
 
 // Fixed point conversion factors
