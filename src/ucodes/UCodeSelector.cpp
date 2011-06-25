@@ -215,7 +215,7 @@ unsigned int UCodeSelector::checkUCode( unsigned int ucStart,
     bool foundString = _extractUCodeString(ucDataStart, ucodeString);
 
     //Try to identify ucode
-    unsigned int ucode = _detectUCode(crc_ucDataSize, crc_800, ucodeString );
+    int ucode = _detectUCode(crc_ucDataSize, crc_800, ucodeString );
 
     //Is ucode valid?
     if ( ucode == -1 && foundString )
@@ -294,7 +294,7 @@ bool UCodeSelector::_extractUCodeString(unsigned int ucDataStart, char out[500])
 int UCodeSelector::_detectUCode(unsigned int crcUCodeDataSize, unsigned int crc800, const char ucodeStr[500])
 {
     //For each ucode
-    for (int i=0; i<sizeof(g_UcodeData)/sizeof(UcodeData); ++i)
+    for (unsigned int i=0; i<sizeof(g_UcodeData)/sizeof(UcodeData); ++i)
     {
         if ( crc800 == g_UcodeData[i].crc_800 )
         {

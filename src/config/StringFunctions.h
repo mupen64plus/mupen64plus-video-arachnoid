@@ -72,7 +72,7 @@ in binary (= untranslated) mode and check for the different newlines yourself.
 namespace StringFunctions 
 {
     //Split
-    std::vector<std::string> split(const std::string& str, const std::string& delims="\n\t ", size_t maxSplits=-1);
+    std::vector<std::string> split(const std::string& str, const std::string& delims="\n\t ", size_t maxSplits=std::string::npos);
     std::vector<std::string> split(const char* str, const std::string& delims="\n\t ");
 
     //Trim

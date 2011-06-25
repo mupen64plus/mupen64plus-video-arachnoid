@@ -64,7 +64,7 @@ CRCCalculator::CRCCalculator()
 
         /* make exclusive-or pattern from polynomial (0xedb88320L) */
         poly = 0L;
-        for (int n = 0; n < sizeof(p)/sizeof(unsigned char); n++)
+        for (unsigned int n = 0; n < sizeof(p)/sizeof(unsigned char); n++)
         {
             poly |= 1L << (31 - p[n]);
         }

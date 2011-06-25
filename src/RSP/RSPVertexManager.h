@@ -108,7 +108,7 @@ private:
     RSPLightManager* m_lightMgr;
     
     //Vertex Buffer
-    static const int MAX_VERTICES = 300;
+    static const unsigned int MAX_VERTICES = 300;
     SPVertex m_vertices[MAX_VERTICES];
 
     unsigned int m_colorBaseRDRAMAddress;  //!< Address in RDRAM where colors for vertices are located (used by Perfect Dark)

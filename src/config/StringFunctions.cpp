@@ -37,7 +37,7 @@ vector<string> split(const string& str, const string& delims, size_t maxSplits)
     size_t pos;
     size_t start = 0;
     vector<string> strings;
-    int numSplits = 0;
+    size_t numSplits = 0;
        
     do 
     {
@@ -52,7 +52,7 @@ vector<string> split(const string& str, const string& delims, size_t maxSplits)
             //Do nothing
             start = pos + 1;  
         }
-        else if (pos == string::npos || (maxSplits!=-1 && numSplits == maxSplits)  )
+        else if (pos == string::npos || (maxSplits!=string::npos && numSplits == maxSplits)  )
         {
             //No more spliting, copy the rest of the string
             strings.push_back( str.substr(start) );

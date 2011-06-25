@@ -41,13 +41,13 @@ public:
     void calcSize(GFX_INFO*  graphicsInfo);
 
     //Get Height and Width
-    int getWidth() { return m_width; }
-    int getHeight() { return m_height; }
+    unsigned int getWidth() { return m_width; }
+    unsigned int getHeight() { return m_height; }
 
 private:
 
-    int m_width;   //!< Width of video interface viewport
-    int m_height;  //!< Height of video interface viewport
+    unsigned int m_width;   //!< Width of video interface viewport
+    unsigned int m_height;  //!< Height of video interface viewport
 
 };
 

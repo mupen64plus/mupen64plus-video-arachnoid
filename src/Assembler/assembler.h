@@ -33,7 +33,7 @@ inline void swapRomHeaderBytes(void *v, unsigned int dwLen)
 {
     int *b = (int*)v;
     dwLen /= 4;
-    for (int i = 0; i < dwLen; ++i)
+    for (unsigned int i = 0; i < dwLen; ++i)
     {
         int tmp = b[i];
         b[i] = ((tmp & 0xff000000) >> 24) | ((tmp & 0x00ff0000) >>  8) |               \
@@ -119,7 +119,7 @@ Done:
     char *writePtr = (char*)dest;
     
     int swapOffset = beginOffset;
-    for (int i = 0; i < numBytes; ++i)
+    for (unsigned int i = 0; i < numBytes; ++i)
     {
         *writePtr = readPtr[3 - swapOffset];
         ++writePtr;
