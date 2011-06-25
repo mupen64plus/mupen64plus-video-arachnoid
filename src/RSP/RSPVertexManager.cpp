@@ -546,9 +546,6 @@ void RSPVertexManager::addConkerVertices(unsigned int segmentAddress, unsigned i
     //Get vertex from rdram
     Vertex *vertex = (Vertex*) m_memory->getRDRAM(address);
 
-    //Colors
-    short *vertexColoraddr = (short*)(m_memory->getRDRAM(m_conkerRDRAMAddress));
-
 
     //For each vertex
     for (unsigned int i=firstVertexIndex; i <numVertices+firstVertexIndex; ++i)

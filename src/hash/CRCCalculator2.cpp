@@ -27,9 +27,7 @@ typedef unsigned char byte;
 //-----------------------------------------------------------------------------
 // Static Variabels
 //-----------------------------------------------------------------------------
-unsigned int CRCCalculator2::m_crcTable[256] = {0};   
-
-static unsigned int crc_table[256];
+unsigned int CRCCalculator2::m_crcTable[256] = {0};
 
 //-----------------------------------------------------------------------------
 //! Constructor

@@ -204,11 +204,6 @@ void UCode1::F3DEX_Quad( MicrocodeArgument* ucode )
     Logger::getSingleton().printMsg("F3DEX_Quad", M64MSG_VERBOSE);
     RSPUCodeAddOneQuadF3DEX* temp = (RSPUCodeAddOneQuadF3DEX*)ucode;
 
-    unsigned int v0 = _SHIFTR( ucode->w1, 25, 7 );
-    unsigned int v1 = _SHIFTR( ucode->w1, 17, 7 );
-    unsigned int v2 = _SHIFTR( ucode->w1, 9, 7 );
-    unsigned int v3 = _SHIFTR( ucode->w1, 1, 7 );
-
     //Add one Quad
     m_rsp->RSP_1Quadrangle(temp->index0, temp->index1, temp->index2, temp->index3);
 }
@@ -225,9 +220,6 @@ void UCode1::F3DEX_CullDL(MicrocodeArgument* ucode)
         warned = true;
     }
     RSPUCodeCullDisplayList* temp = (RSPUCodeCullDisplayList*)ucode;
-
-    unsigned int v0 = _SHIFTR( ucode->w0, 1, 15 );
-    unsigned int n  = _SHIFTR( ucode->w1, 1, 15 );
 
     //Cull display list?
     m_rsp->RSP_CullDisplayList( temp->vertexIndex, temp->numVerticies  );

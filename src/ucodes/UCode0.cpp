@@ -410,7 +410,6 @@ void UCode0::F3D_MoveMem(MicrocodeArgument* ucode)
     Logger::getSingleton().printMsg("F3D_MoveMem", M64MSG_VERBOSE);
 
     unsigned int type    = ((ucode->w0)>>16)&0xFF;
-    unsigned int length  = ((ucode->w0))&0xFFFF;
     unsigned int segmentAddress = ucode->w1;
 
     switch (type) 

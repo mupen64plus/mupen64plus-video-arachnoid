@@ -47,8 +47,8 @@ VI::~VI()
 void VI::calcSize(GFX_INFO*  graphicsInfo)
 {
     //Get video interface values
-    unsigned int viScaleX          = *graphicsInfo->VI_X_SCALE_REG;
-    unsigned int viScaleY          = *graphicsInfo->VI_X_SCALE_REG;
+    //unsigned int viScaleX          = *graphicsInfo->VI_X_SCALE_REG;
+    //unsigned int viScaleY          = *graphicsInfo->VI_X_SCALE_REG;
     unsigned int viStartHorizontal = *graphicsInfo->VI_H_START_REG;
     unsigned int viStartVertical   = *graphicsInfo->VI_V_START_REG;
 

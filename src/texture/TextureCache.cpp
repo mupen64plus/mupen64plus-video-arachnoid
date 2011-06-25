@@ -532,13 +532,12 @@ unsigned int TextureCache::_calculateCRC(unsigned int t, unsigned int width, uns
     RDPTile* tile = m_rsp->getTile(t);
 
     unsigned int crc;
-    unsigned int y, bpl, lineBytes, line;
+    unsigned int y, bpl, line;
     unsigned long long *src;
 
     //TODO: remove if new works
     //src = m_memory->getTextureMemory(tile->tmem);
     bpl = width << tile->size >> 1;
-    lineBytes = tile->line << 3;
 
     line = tile->line;
      if (tile->size == G_IM_SIZ_32b)

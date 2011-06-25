@@ -232,7 +232,6 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
     TexEnvCombiner* envCombiner = new TexEnvCombiner();
 
     int curUnit;
-    int combinedUnit;
 
     const int openGLMaxTextureUnits = 8;
 
@@ -407,7 +406,6 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
                 }
             }
         }
-        combinedUnit = max( curUnit - 1, 0 );
     }
 
     envCombiner->usedUnits = max( curUnit, 1 );
@@ -580,7 +578,6 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
                 }
             }
         }
-        combinedUnit = max( curUnit - 1, 0 );
     }
 
     envCombiner->usedUnits = max( (unsigned short)curUnit, envCombiner->usedUnits );

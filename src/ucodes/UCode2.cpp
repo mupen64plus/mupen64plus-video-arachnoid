@@ -91,35 +91,20 @@ void UCode2::renderSky(MicrocodeArgument* ucode)
     }
 
     unsigned int w2  = m_displayListParser->getNextWord();
-    unsigned int w3  = m_displayListParser->getNextWord();
-    unsigned int w4  = m_displayListParser->getNextWord();
-    unsigned int w5  = m_displayListParser->getNextWord();
-    unsigned int w6  = m_displayListParser->getNextWord();
-    unsigned int w7  = m_displayListParser->getNextWord();
-    unsigned int w8  = m_displayListParser->getNextWord();
-    unsigned int w9  = m_displayListParser->getNextWord();
-    unsigned int w10 = m_displayListParser->getNextWord();
-
-    int width  = m_rsp->getTile(0)->getWidth();
-    int height = m_rsp->getTile(0)->getHeight();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
+    m_displayListParser->getNextWord();
     
     //Extract Vertex Coordinats
     unsigned int x0 = 0;     //TODO Use VI pos or Viewport pos or Scissor pos ?
     unsigned int y0 = (unsigned int)int(w2&0xFFFF)/4;
     unsigned int x1 = 320;   //TODO Use VI Height or Viewport Height or Scissor Height ?
     unsigned int y1 = (unsigned int)int(w2>>16)/4;
-
-    //Extract Texture Coordinats
-    float uS = (short)(w4&0xFFFF)/32768.0f*width;
-    float uT = (short)(w4>>16)/32768.0f*256;    
-    float uDSDX = (width / (float)(x1-x0));
-    float uDTDY = (height / (float)(y1-y0));
-
-    //Extract Color
-    float r = ((w9>>16)&0xFF) / 255.0f;
-    float g = ((w9    )&0xFF) / 255.0f;
-    float b = ((w10>>16)&0xFF) / 255.0f;
-    float a = ((w10    )&0xFF) / 255.0f;
 
     m_rdp->RDP_TexRect(x0, y0, x1, y1, 0, 0, 0, 1024, 1024);  
 }

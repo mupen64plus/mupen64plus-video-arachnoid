@@ -119,14 +119,10 @@ void RSP::updateGeometryStates()
 {
     bool cullFront           = (m_geometryMode & GBI::G_CULL_FRONT    ) != 0;
     bool cullBack            = (m_geometryMode & GBI::G_CULL_BACK     ) != 0;
-    bool shade               = (m_geometryMode & G_SHADE              ) != 0;
-    bool shadeSmooth         = (m_geometryMode & GBI::G_SHADING_SMOOTH) != 0;
     bool fog                 = (m_geometryMode & G_FOG                ) != 0;
     bool textureGen          = (m_geometryMode & G_TEXTURE_GEN        ) != 0;
-    bool linearTextureGen    = (m_geometryMode & G_TEXTURE_GEN_LINEAR ) != 0;
     bool lighting            = (m_geometryMode & G_LIGHTING           ) != 0;
     bool zBuffer             = (m_geometryMode & G_ZBUFFER            ) != 0;
-    bool clipping            = (m_geometryMode & GBI::G_CLIPPING      ) != 0;
 
     //Update states
     m_lightMgr->setLightEnabled(lighting);
