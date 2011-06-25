@@ -28,6 +28,7 @@
 #include "MemoryLeakDetector.h"    //For detecting memory leaks
 
 #include "m64p_types.h"
+#include "m64p_common.h"
 #include "m64p_plugin.h"
 #include "m64p_config.h"
 #include "m64p_vidext.h"
@@ -36,7 +37,12 @@
 
 //Definitions
 #define PLUGIN_NAME "Arachnoid Video Plugin"
-#define PLUGIN_VERSION 0x016304
+#define PLUGIN_VERSION           0x016304
+#define VIDEO_PLUGIN_API_VERSION 0x020000
+#define CONFIG_API_VERSION       0x020000
+#define VIDEXT_API_VERSION       0x020000
+
+#define VERSION_PRINTF_SPLIT(x) (((x) >> 16) & 0xffff), (((x) >> 8) & 0xff), ((x) & 0xff)
 
 #define MI_INTR_DP 0x00000020      //!< RDP Interrupt signal
 #define MI_INTR_SP 0x00000001      //!< RSP Interrupt signal
@@ -92,8 +98,36 @@ extern "C" {
 EXPORT m64p_error CALL PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context,
                                    void (*DebugCallback)(void *, int, const char *))
 {
+    char logMsg[530];
     Logger::getSingleton().initialize(DebugCallback, Context);
     Logger::getSingleton().printMsg("PluginStartup");
+
+    /* attach and call the CoreGetAPIVersions function, check Config and Video Extension API versions for compatibility */
+    ptr_CoreGetAPIVersions CoreAPIVersionFunc;
+    CoreAPIVersionFunc = (ptr_CoreGetAPIVersions) osal_dynlib_getproc(CoreLibHandle, "CoreGetAPIVersions");
+    if (CoreAPIVersionFunc == NULL)
+    {
+        sprintf(logMsg, "Core emulator broken; no CoreAPIVersionFunc() function found.");
+        Logger::getSingleton().printMsg(logMsg, M64MSG_ERROR);
+        return M64ERR_INCOMPATIBLE;
+    }
+    int ConfigAPIVersion, DebugAPIVersion, VidextAPIVersion;
+    (*CoreAPIVersionFunc)(&ConfigAPIVersion, &DebugAPIVersion, &VidextAPIVersion, NULL);
+    if ((ConfigAPIVersion & 0xffff0000) != (CONFIG_API_VERSION & 0xffff0000))
+    {
+        sprintf(logMsg, "Emulator core Config API (v%i.%i.%i) incompatible with plugin (v%i.%i.%i)",
+                VERSION_PRINTF_SPLIT(ConfigAPIVersion), VERSION_PRINTF_SPLIT(CONFIG_API_VERSION));
+        Logger::getSingleton().printMsg(logMsg, M64MSG_ERROR);
+        return M64ERR_INCOMPATIBLE;
+    }
+    if ((VidextAPIVersion & 0xffff0000) != (VIDEXT_API_VERSION & 0xffff0000))
+    {
+        sprintf(logMsg, "Emulator core Video Extension API (v%i.%i.%i) incompatible with plugin (v%i.%i.%i)",
+                VERSION_PRINTF_SPLIT(VidextAPIVersion), VERSION_PRINTF_SPLIT(VIDEXT_API_VERSION));
+        Logger::getSingleton().printMsg(logMsg, M64MSG_ERROR);
+        return M64ERR_INCOMPATIBLE;
+    }
+
     /* Get the core config function pointers from the library handle */
     ConfigOpenSection = (ptr_ConfigOpenSection) osal_dynlib_getproc(CoreLibHandle, "ConfigOpenSection");
     ConfigSetParameter = (ptr_ConfigSetParameter) osal_dynlib_getproc(CoreLibHandle, "ConfigSetParameter");
@@ -170,7 +204,7 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
         *PluginVersion = PLUGIN_VERSION;
 
     if (APIVersion != NULL)
-        *APIVersion = PLUGIN_API_VERSION;
+        *APIVersion = VIDEO_PLUGIN_API_VERSION;
     
     if (PluginNamePtr != NULL)
         *PluginNamePtr = PLUGIN_NAME;
