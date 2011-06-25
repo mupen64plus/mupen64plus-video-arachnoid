@@ -22,6 +22,7 @@
 #ifndef REALITY_SIGNAL_PROCESSOR_H_
 #define REALITY_SIGNAL_PROCESSOR_H_
 
+#define M64P_PLUGIN_PROTOTYPES 1
 #include "m64p_plugin.h"
 #include "UCodeDefs.h"
 #include "RSPMatrixManager.h"

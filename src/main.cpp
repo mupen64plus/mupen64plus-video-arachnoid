@@ -21,6 +21,7 @@
  *****************************************************************************/
 
 //Includes
+#define M64P_PLUGIN_PROTOTYPES 1
 #include "m64p.h"
 #include "GraphicsPlugin.h"        //Main class
 #include "config/Config.h"         //Configuration   

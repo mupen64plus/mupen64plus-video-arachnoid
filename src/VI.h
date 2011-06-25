@@ -23,6 +23,7 @@
 #define VIDEO_INTERFACE_H_
 
 //Forward declarations
+#define M64P_PLUGIN_PROTOTYPES 1
 #include "UCodeDefs.h"
 #include "m64p_plugin.h"
 
