@@ -32,6 +32,64 @@
 #include "m64p.h"
 #include "OpenGL.h"
 
+static int saRGBExpanded[] = 
+{
+    COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
+    SHADE,               ENVIRONMENT,         ONE,                 NOISE,
+    ZERO,                ZERO,                ZERO,                ZERO,
+    ZERO,                ZERO,                ZERO,                ZERO
+};
+
+static int sbRGBExpanded[] = 
+{
+    COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
+    SHADE,               ENVIRONMENT,         CENTER,              K4,
+    ZERO,                ZERO,                ZERO,                ZERO,
+    ZERO,                ZERO,                ZERO,                ZERO
+};
+
+static int mRGBExpanded[] = 
+{
+    COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
+    SHADE,               ENVIRONMENT,         SCALE,               COMBINED_ALPHA,
+    TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,     SHADE_ALPHA,
+    ENV_ALPHA,           LOD_FRACTION,        PRIM_LOD_FRAC,       K5,
+    ZERO,                ZERO,                ZERO,                ZERO,
+    ZERO,                ZERO,                ZERO,                ZERO,
+    ZERO,                ZERO,                ZERO,                ZERO,
+    ZERO,                ZERO,                ZERO,                ZERO
+};
+
+static int aRGBExpanded[] = 
+{
+    COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
+    SHADE,               ENVIRONMENT,         ONE,                 ZERO
+};
+
+static int saAExpanded[] = 
+{
+    COMBINED,            TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
+    SHADE_ALPHA,         ENV_ALPHA,           ONE,                 ZERO
+};
+
+static int sbAExpanded[] = 
+{
+    COMBINED,            TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
+    SHADE_ALPHA,         ENV_ALPHA,           ONE,                 ZERO
+};
+
+static int mAExpanded[] = 
+{
+    LOD_FRACTION,        TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
+    SHADE_ALPHA,         ENV_ALPHA,           PRIM_LOD_FRAC,       ZERO,
+};
+
+static int aAExpanded[] = 
+{
+    COMBINED,            TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
+    SHADE_ALPHA,         ENV_ALPHA,           ONE,                 ZERO
+};
+
 //-----------------------------------------------------------------------------
 //! Constructor
 //-----------------------------------------------------------------------------
