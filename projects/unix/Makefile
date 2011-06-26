@@ -164,11 +164,10 @@ endif
 CC      ?= gcc
 CXX     ?= g++
 INSTALL ?= install
-ifeq ($(OS),LINUX)
-  STRIP	= strip -s
-endif
 ifeq ($(OS),OSX)
-  STRIP	= strip -x 
+  STRIP	?= strip -x 
+else
+  STRIP	?= strip -s
 endif
 
 # set special flags for given Makefile parameters
