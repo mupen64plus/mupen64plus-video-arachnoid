@@ -106,7 +106,13 @@ ifeq ($(OS), OSX)
 else
   # flags for other Unices
   CFLAGS += -pthread $(shell pkg-config --cflags gl glu)
-  LDFLAGS += -ldl -pthread $(shell pkg-config --libs gl glu)
+  LDFLAGS += -pthread $(shell pkg-config --libs gl glu)
+endif
+ifeq ($(OS), LINUX)
+  LDFLAGS += -ldl 
+endif
+ifeq ($(OS), FREEBSD)
+  LDFLAGS += -lc
 endif
 
 
