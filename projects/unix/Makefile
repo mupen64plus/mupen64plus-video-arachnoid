@@ -104,7 +104,17 @@ ifeq ($(OS), OSX)
     endif
   endif
 else
-  # flags for other Unices
+  # test for essential build dependencies
+  ifeq ($(shell which pkg-config 2>/dev/null),)
+    $(error pkg-config not found)
+  endif
+  ifeq ($(shell pkg-config --modversion gl 2>/dev/null),)
+    $(error No OpenGL development libraries found!)
+  endif
+  ifeq ($(shell pkg-config --modversion glu 2>/dev/null),)
+    $(error No OpenGL utility development libraries found!)
+  endif
+
   CFLAGS += -pthread $(shell pkg-config --cflags gl glu)
   LDFLAGS += -pthread $(shell pkg-config --libs gl glu)
 endif
