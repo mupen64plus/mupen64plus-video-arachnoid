@@ -85,7 +85,8 @@ ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
 endif
 
 # base CFLAGS, LDLIBS, and LDFLAGS
-CFLAGS += -ffast-math -fno-strict-aliasing -fvisibility=hidden -I../../src \
+OPTFLAGS ?= -O3
+CFLAGS += $(OPTFLAGS) -ffast-math -fno-strict-aliasing -fvisibility=hidden -I../../src \
 		 -I../../src/hash -I../../src/ucodes -I../../src/GBI -I../../src/RDP -I../../src/utils \
 		 -I../../src/log -I../../src/RSP -I../../src/framebuffer -I../../src/math -I../../src/renderer \
 		 -I../../src/Assembler -I../../src/texture -I../../src/config -I../../src/Combiner 
@@ -294,6 +295,7 @@ targets:
 	@echo "  Options:"
 	@echo "    BITS=32       == build 32-bit binaries on 64-bit machine"
 	@echo "    APIDIR=path   == path to find Mupen64Plus Core headers"
+	@echo "    OPTFLAGS=flag == compiler optimization (default: -O3)"
 	@echo "  Install Options:"
 	@echo "    PREFIX=path   == install/uninstall prefix (default: /usr/local)"
 	@echo "    LIBDIR=path   == library prefix (default: PREFIX/lib)"
