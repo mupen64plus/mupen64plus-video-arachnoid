@@ -31,8 +31,6 @@ CombinerBase::CombinerBase()
     m_fillColor[1] = m_blendColor[1] = m_primColor[1] = m_envColor[1] = 0;
     m_fillColor[2] = m_blendColor[2] = m_primColor[2] = m_envColor[2] = 0;
     m_fillColor[3] = m_blendColor[3] = m_primColor[3] = m_envColor[3] = 1;
-    m_fillColor[4] = 0;
-    m_fillColor[5] = 0;
 }
 
 //-----------------------------------------------------------------------------
