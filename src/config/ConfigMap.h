@@ -39,6 +39,7 @@ struct ConfigMap
     bool wireframe;              //!< Render in wireframe?                          defualt = false
     bool fog;                    //!< Render fog?                                   default = true
     int  multiSampling;          //!< Use MultiSampling? 0=no 2,4,8,16=quality      default = 0
+    int  mipmapping;              //!< Use Mipmapping? 0=no, 1=nearest, 2=bilinear, 3=trilinear default = 0
     int  screenUpdateSetting;    //!< When to redraw the screen                     default = SCREEN_UPDATE_VI
 };
 

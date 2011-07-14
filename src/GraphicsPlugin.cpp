@@ -135,7 +135,7 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
     //Initialize Texture Cache
     //! @todo Not "hardcode" TextureBitDepth.
     m_textureCache.initialize(&m_rsp, &m_rdp, m_memory, 16);
-
+    m_textureCache.setMipmap( m_config->mipmapping );
 
     //Initialize OpenGL Renderer
     if ( !OpenGLRenderer::getSingleton().initialize(&m_rsp, &m_rdp, &m_textureCache, m_vi, m_fogManager) ) 

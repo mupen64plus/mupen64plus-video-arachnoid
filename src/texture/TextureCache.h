@@ -50,6 +50,8 @@ public:
     void update(unsigned int tile);
     void dispose();
 
+    void setMipmap( int value ) { m_mipmap = value; } 
+
     //Add and Remove
     CachedTexture* addTop();
     void removeBottom();
@@ -81,6 +83,7 @@ private:
     unsigned int m_maxBytes;              //!< Maximum number of bytes this cache have
     unsigned int m_cachedBytes;           //!< Current number of bytes in cache
     unsigned int m_bitDepth;              //!<
+    int m_mipmap;
 
     //Cached textures
     typedef std::list<CachedTexture*> TextureList;

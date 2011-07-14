@@ -35,6 +35,7 @@
     //gSPBgRect1Cyc
 //gSPBgRectCopy
 #define GL_CLAMP_TO_EDGE                  0x812F
+#define GL_GENERATE_MIPMAP                0x8191
 
 #include "Logger.h"
 #include <iostream>
@@ -575,14 +576,40 @@ void TextureCache::_activateTexture( unsigned int t, CachedTexture *texture )
     unsigned int textureFiltering = m_rdp->getTextureFiltering();
     if ( textureFiltering == G_TF_BILERP || textureFiltering == G_TF_AVERAGE )
     {
-        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+        if( m_mipmap > 0 )
+        {
+            // Set Mipmap
+            if(m_mipmap == 1)    // nearest
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_NEAREST);
+            }
+            else if(m_mipmap == 2)    // bilinear
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+            }
+            else if(m_mipmap == 3)    // trilinear
+            {
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+            }
+            
+            // Tell to hardware to generate mipmap (himself) when glTexImage2D is called
+            glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
+        }
+        else    // no mipmapping
+        {
+            glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+            glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_FALSE );
+        }
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        
     }
     else
     {
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
     }
+
+    
 
     // Set clamping modes
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, texture->clampS ? GL_CLAMP_TO_EDGE : GL_REPEAT );
