@@ -204,7 +204,7 @@ endif
 
 # set special flags for given Makefile parameters
 ifeq ($(DEBUG),1)
-  CFLAGS += -g  -fno-inline -Werror
+  CFLAGS += -g
   STRIP = true # disable binary strip
 endif
 
