@@ -80,12 +80,14 @@ ifneq ("$(filter ppc powerpc,$(HOST_CPU))","")
   ARCH_DETECTED := 32BITS
   BIG_ENDIAN := 1
   PIC ?= 1
+  $(warning Architecture "$(HOST_CPU)" not officially supported.')
 endif
 ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 64BITS
   BIG_ENDIAN := 1
   PIC ?= 1
+  $(warning Architecture "$(HOST_CPU)" not officially supported.')
 endif
 
 # base CFLAGS, LDLIBS, and LDFLAGS
