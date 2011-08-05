@@ -79,11 +79,13 @@ ifneq ("$(filter ppc powerpc,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 32BITS
   BIG_ENDIAN := 1
+  PIC ?= 1
 endif
 ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 64BITS
   BIG_ENDIAN := 1
+  PIC ?= 1
 endif
 
 # base CFLAGS, LDLIBS, and LDFLAGS
@@ -130,11 +132,8 @@ ifeq ($(OS), FREEBSD)
 endif
 
 
-# Since we are building a shared library, we must compile with -fPIC for x86_64 CPUs.
-# On 32-bit systems we do not want to use -fPIC because we don't have to and it has a big performance penalty on this arch
-ifeq ($(ARCH_DETECTED), 64BITS)
-  PIC ?= 1
-endif
+# Since we are building a shared library, we must compile with -fPIC on some architectures
+# On 32-bit x86 systems we do not want to use -fPIC because we don't have to and it has a big performance penalty on this arch
 ifeq ($(PIC), 1)
   CFLAGS += -fPIC
   LDFLAGS += -fPIC
