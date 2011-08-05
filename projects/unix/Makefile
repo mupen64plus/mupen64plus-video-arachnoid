@@ -78,10 +78,12 @@ endif
 ifneq ("$(filter ppc powerpc,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 32BITS
+  BIG_ENDIAN := 1
 endif
 ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 64BITS
+  BIG_ENDIAN := 1
 endif
 
 # base CFLAGS, LDLIBS, and LDFLAGS
@@ -136,6 +138,10 @@ endif
 ifeq ($(PIC), 1)
   CFLAGS += -fPIC
   LDFLAGS += -fPIC
+endif
+
+ifeq ($(BIG_ENDIAN), 1)
+  CFLAGS += -DM64P_BIG_ENDIAN
 endif
 
 # set mupen64plus core API header path
