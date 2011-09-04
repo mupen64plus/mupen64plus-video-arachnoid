@@ -69,6 +69,7 @@ ifneq ("$(filter x86_64 amd64,$(HOST_CPU))","")
     ARCH_DETECTED := 64BITS_32
   else
     ARCH_DETECTED := 64BITS
+    PIC ?= 1
   endif
 endif
 ifneq ("$(filter pentium i%86,$(HOST_CPU))","")
