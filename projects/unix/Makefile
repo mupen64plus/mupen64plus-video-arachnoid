@@ -69,6 +69,7 @@ ifneq ("$(filter x86_64 amd64,$(HOST_CPU))","")
     ARCH_DETECTED := 64BITS_32
   else
     ARCH_DETECTED := 64BITS
+    PIC ?= 1
   endif
 endif
 ifneq ("$(filter pentium i%86,$(HOST_CPU))","")
@@ -78,10 +79,16 @@ endif
 ifneq ("$(filter ppc powerpc,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 32BITS
+  BIG_ENDIAN := 1
+  PIC ?= 1
+  $(warning Architecture "$(HOST_CPU)" not officially supported.')
 endif
 ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
   CPU := PPC
   ARCH_DETECTED := 64BITS
+  BIG_ENDIAN := 1
+  PIC ?= 1
+  $(warning Architecture "$(HOST_CPU)" not officially supported.')
 endif
 
 # base CFLAGS, LDLIBS, and LDFLAGS
@@ -128,14 +135,15 @@ ifeq ($(OS), FREEBSD)
 endif
 
 
-# Since we are building a shared library, we must compile with -fPIC for x86_64 CPUs.
-# On 32-bit systems we do not want to use -fPIC because we don't have to and it has a big performance penalty on this arch
-ifeq ($(ARCH_DETECTED), 64BITS)
-  PIC ?= 1
-endif
+# Since we are building a shared library, we must compile with -fPIC on some architectures
+# On 32-bit x86 systems we do not want to use -fPIC because we don't have to and it has a big performance penalty on this arch
 ifeq ($(PIC), 1)
   CFLAGS += -fPIC
   LDFLAGS += -fPIC
+endif
+
+ifeq ($(BIG_ENDIAN), 1)
+  CFLAGS += -DM64P_BIG_ENDIAN
 endif
 
 # set mupen64plus core API header path
@@ -196,16 +204,12 @@ COMPILE.c = $(Q_CC)$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
 COMPILE.cc = $(Q_CXX)$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
 LINK.o = $(Q_LD)$(CXX) $(LDFLAGS) $(TARGET_ARCH)
 
-ifeq ($(OS),OSX)
-  STRIP	?= strip -x 
-else
-  STRIP	?= strip -s
-endif
-
 # set special flags for given Makefile parameters
 ifeq ($(DEBUG),1)
-  CFLAGS += -g  -fno-inline -Werror
-  STRIP = true # disable binary strip
+  CFLAGS += -g
+  INSTALL_STRIP_FLAG ?= 
+else
+  INSTALL_STRIP_FLAG ?= -s
 endif
 
 # set installation options
@@ -316,7 +320,7 @@ all: $(TARGET)
 
 install: $(TARGET)
 	$(INSTALL) -d "$(DESTDIR)$(PLUGINDIR)"
-	$(INSTALL) -m 0644 $(TARGET) "$(DESTDIR)$(PLUGINDIR)"
+	$(INSTALL) -m 0644 $(INSTALL_STRIP_FLAG) $(TARGET) "$(DESTDIR)$(PLUGINDIR)"
 
 uninstall:
 	$(RM) "$(DESTDIR)$(PLUGINDIR)/$(TARGET)"
@@ -340,6 +344,5 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
 
 $(TARGET): $(OBJECTS)
 	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
-	$(STRIP) $@
 
 .PHONY: all clean install uninstall targets
