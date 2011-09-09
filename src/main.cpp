@@ -244,9 +244,7 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 
     //Save Graphics Info
     memcpy(&g_graphicsInfo, &Gfx_Info, sizeof(GFX_INFO));
-
-    //Initialize Graphics Plugin            
-    return (CoreVideo_Init() == M64ERR_SUCCESS);
+    return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -254,7 +252,7 @@ EXPORT BOOL CALL InitiateGFX(GFX_INFO Gfx_Info)
 //! This function is called when a rom is open. (from the emulation thread)
 //-----------------------------------------------------------------------------
 EXPORT int CALL RomOpen()
-{    
+{
     Logger::getSingleton().printMsg("RomOpen\n");
     return g_graphicsPlugin.initialize(&g_graphicsInfo);
 }

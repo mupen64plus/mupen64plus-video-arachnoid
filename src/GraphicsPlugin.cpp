@@ -63,6 +63,13 @@ GraphicsPlugin::~GraphicsPlugin()
 //-----------------------------------------------------------------------------
 bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
 {
+    //Initialize video output
+    if (CoreVideo_Init() != M64ERR_SUCCESS)
+    {
+        Logger::getSingleton().printMsg("Could not initialize video.", M64MSG_ERROR);
+        return false;
+    }
+
     //Save pointer to graphics info
     m_graphicsInfo = graphicsInfo;
 
