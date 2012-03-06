@@ -93,7 +93,10 @@ public:
     void setClearColor(float r, float g, float b) { glClearColor(r, g, b, 1.0f); }
 
     //Set callback from the M64P core
-    void setRenderingCallback(void(*callback)()) { m_renderingCallback = callback; }
+    void setRenderingCallback(void(*callback)(int)) { m_renderingCallback = callback; }
+	
+	//Set draw flag for rendering callback
+	void setDrawFlag() { m_drawFlag = 1; }
 
 public:
 
@@ -128,7 +131,8 @@ private:
     bool m_fullscreen;           //!< Fullscreen mode or window mode?
     bool m_forceDisableCulling;  //!< Culling cant be enabled if this is true
     
-    void (*m_renderingCallback)();  //Rendering callback from the core
+    void (*m_renderingCallback)(int);  //Rendering callback from the core
+	int m_drawFlag;
 };
 
 #endif

@@ -39,7 +39,7 @@
 //Definitions
 #define PLUGIN_NAME "Arachnoid Video Plugin"
 #define PLUGIN_VERSION           0x016304
-#define VIDEO_PLUGIN_API_VERSION 0x020000
+#define VIDEO_PLUGIN_API_VERSION 0x020100
 #define CONFIG_API_VERSION       0x020000
 #define VIDEXT_API_VERSION       0x020000
 
@@ -57,7 +57,7 @@ GFX_INFO          g_graphicsInfo;                                //!< Informatio
 GraphicsPlugin    g_graphicsPlugin;                              //!< Main class for application
 Config            g_config(&g_graphicsPlugin);                   //!< Handles configuration
 
-void (*renderCallback)() = NULL;
+void (*renderCallback)(int) = NULL;
 
 
 /* definitions of pointers to Core config functions */
@@ -404,7 +404,7 @@ EXPORT void CALL ReadScreen2(void *dest, int *width, int *height, int front)
 //! Allows the core to register a callback function that will be called by the 
 //! graphics plugin just before the the frame buffers are swapped.
 //-----------------------------------------------------------------------------
-EXPORT void CALL SetRenderingCallback(void (*callback)())
+EXPORT void CALL SetRenderingCallback(void (*callback)(int))
 {
     OpenGLManager::getSingleton().setRenderingCallback(callback);
 }

@@ -467,7 +467,7 @@ void GraphicsPlugin::processDisplayList()
 
     //glFlush();    
     //OpenGLManager::getSingleton().endRendering();
-
+	OpenGLManager::getSingleton().setDrawFlag();
     //Take screenshot?
 }
 

@@ -138,7 +138,8 @@ void OpenGLManager::endRendering()
 {
     glFinish();
     if (m_renderingCallback)
-        m_renderingCallback();
+        m_renderingCallback(m_drawFlag);
+	m_drawFlag = 0;
     CoreVideo_GL_SwapBuffers();
     //glFlush();
 }
