@@ -32,7 +32,6 @@
 #include "GBIDefs.h"
 #include "m64p.h"
 #include "OpenGL.h"
-#include <GL/glu.h>
 #include "Memory.h"
 
 #ifndef GL_EXT_packed_pixels

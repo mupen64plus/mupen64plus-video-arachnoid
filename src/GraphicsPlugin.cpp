@@ -309,89 +309,6 @@ void renderRedBox(float x, float y, float z, float width, float height,  float l
     glEnd();
 }
 
-void GraphicsPlugin::_motionBlur()
-{
-        glMatrixMode(GL_PROJECTION);                    
-        glLoadIdentity();                                    
-        gluPerspective(45.0f,(GLfloat)800.0f/(GLfloat)600.0f, .5f ,150.0f);
-
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        gluLookAt(0, 0, 10,     0, 0, 0,     0, 1, 0);        
-
-        ////Render new stuff to the motion blur texture
-        if ( animate(50) )
-        {
-            //Render to frame buffer
-//            framebuffer01.beginRendering();
-            {
-                renderMotionBlur();
-                
-                glMatrixMode(GL_PROJECTION);                    
-                glLoadIdentity();                                    
-                gluPerspective(45.0f,(GLfloat)800.0f/(GLfloat)600.0f, .5f ,150.0f);
-
-                glMatrixMode(GL_MODELVIEW);
-                glLoadIdentity();
-                gluLookAt(0, 0, 10,     0, 0, 0,     0, 1, 0);    
-
-                renderRedBox(0, 0, 0,    1, 5, 1);
-                //m_displayListParser->processDisplayList();
-
-        
-            }
-            glFlush();
-           // framebuffer01.endRendering();
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
-        }
-
-        //glDisable(GL_BLEND);
-        //glEnable(GL_DEPTH_TEST);
-
-        //renderMotionBlur();
-        //renderTriangle();
-
-        renderMotionBlur();
-
-     //   glMatrixMode(GL_PROJECTION);                        
-        //glLoadIdentity();                                    
-        //gluPerspective(45.0f,(GLfloat)800.0f/(GLfloat)600.0f, .5f ,150.0f);
-
-     //   glMatrixMode(GL_MODELVIEW);
-     //   glLoadIdentity();
-        //gluLookAt(0, 0, 10,     0, 0, 0,     0, 1, 0);        
-
-        //renderRedBox(0, 0, 0,    1, 5, 1);
-
-        m_rdp.triggerInterrupt();
-        m_rsp.triggerInterrupt();
-        
-
-        //Render new stuff to frame buffer
-        //framebuffer02.beginRendering();
-        {
-      //      m_displayListParser->processDisplayList();  
-      //      RSP::getSingleton().reset();
-      //      RDP::getSingleton().reset();
-
-      //      glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
-      //      glDisable(GL_BLEND);
-      //      glEnable(GL_DEPTH_TEST);
-      //      glDisable(GL_ALPHA_TEST);
-            //m_displayListParser->processDisplayList();
-        }
-        //glFlush();
-        //framebuffer02.endRendering();
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);    
-
-        //Blend old stuff and new stuff      
-
-        //framebuffer02.render2();
-        
-        //FrameBuffer::getSingleton().render();
-
-}
-
 //-----------------------------------------------------------------------------
 // ProcessDisplayList
 //-----------------------------------------------------------------------------
@@ -448,18 +365,7 @@ void GraphicsPlugin::processDisplayList()
         m_rsp.reset();
         m_rdp.reset();
         m_openGLMgr.setCullMode(false, true);
-
-
-        if ( false )
-        {
-            _motionBlur();
-        }
-        else 
-        {
-            m_displayListParser->processDisplayList();
-            
-        }
-        
+        m_displayListParser->processDisplayList();
     }
 
         //Clear Screen?

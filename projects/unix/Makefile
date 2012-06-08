@@ -120,12 +120,9 @@ else
   ifeq ($(shell pkg-config --modversion gl 2>/dev/null),)
     $(error No OpenGL development libraries found!)
   endif
-  ifeq ($(shell pkg-config --modversion glu 2>/dev/null),)
-    $(error No OpenGL utility development libraries found!)
-  endif
 
-  CFLAGS += -pthread $(shell pkg-config --cflags gl glu)
-  LDLIBS += -pthread $(shell pkg-config --libs gl glu)
+  CFLAGS += -pthread $(shell pkg-config --cflags gl)
+  LDLIBS += -pthread $(shell pkg-config --libs gl)
 endif
 ifeq ($(OS), LINUX)
   LDLIBS += -ldl 
