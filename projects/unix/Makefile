@@ -109,7 +109,7 @@ CXXFLAGS += -fvisibility-inlines-hidden
 LDFLAGS += $(SHARED)
 
 # default configuration programs
-PKG_CONFIG ?= pkg-config
+PKG_CONFIG = $(CROSS_COMPILE)pkg-config
 
 # On OS X, add a few extra flags to elegantly support cross-compilation and backward
 # compatibility (and also the flags to link against OpenGL)
@@ -206,8 +206,8 @@ endif
 endif
 
 # set base program pointers and flags
-CC       ?= gcc
-CXX      ?= g++
+CC        = $(CROSS_COMPILE)gcc
+CXX       = $(CROSS_COMPILE)g++
 RM       ?= rm -f
 INSTALL  ?= install
 MKDIR ?= mkdir -p
