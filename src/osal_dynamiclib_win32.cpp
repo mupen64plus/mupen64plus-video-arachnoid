@@ -52,7 +52,7 @@ void * osal_dynlib_getproc(m64p_dynlib_handle LibHandle, const char *pccProcedur
     if (pccProcedureName == NULL)
         return NULL;
 
-    return GetProcAddress(LibHandle, pccProcedureName);
+    return (void *)GetProcAddress(LibHandle, pccProcedureName);
 }
 
 m64p_error osal_dynlib_close(m64p_dynlib_handle LibHandle)

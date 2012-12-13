@@ -59,6 +59,14 @@ ifneq ("$(filter GNU/kFreeBSD kfreebsd,$(UNAME))","")
   SO_EXTENSION = so
   SHARED = -shared
 endif
+ifeq ("$(patsubst MINGW%,MINGW,$(UNAME))","MINGW")
+  OS = MINGW
+  SO_EXTENSION = dll
+  SHARED = -shared
+endif
+ifeq ("$(OS)","NONE")
+  $(error OS type "$(UNAME)" not supported.  Please file bug report at 'http://code.google.com/p/mupen64plus/issues')
+endif
 
 # detect system architecture
 HOST_CPU ?= $(shell uname -m)
@@ -293,8 +301,13 @@ SOURCE = \
 	$(SRCDIR)/Combiner/CombinerCache.cpp \
 	$(SRCDIR)/RomDetector.cpp \
 	$(SRCDIR)/RDP/RDP.cpp \
-	$(SRCDIR)/RDP/RDPInstructions.cpp \
-	$(SRCDIR)/osal_dynamiclib_unix.cpp
+	$(SRCDIR)/RDP/RDPInstructions.cpp
+
+ifeq ($(OS),MINGW)
+SOURCE += $(SRCDIR)/osal_dynamiclib_win32.cpp
+else
+SOURCE += $(SRCDIR)/osal_dynamiclib_unix.cpp
+endif
 
 
 # generate a list of object files build, make a temporary directory for them

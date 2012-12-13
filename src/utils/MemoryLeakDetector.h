@@ -24,7 +24,7 @@
 
 #include "m64p.h"
 #include <cstdio>
-#ifdef WIN32
+#if defined(WIN32) && !defined(__MINGW32__)
 #include <crtdbg.h>
 #endif
 
@@ -39,7 +39,7 @@ public:
     //Constructor
     CMemoryLeakDetector() 
     { 
-#ifdef WIN32
+#if defined(WIN32) && !defined(__MINGW32__)
         ::OutputDebugString(">>> Memory leak detection enabled <<<\n"); 
 #endif
     }
@@ -47,7 +47,7 @@ public:
     //Destructor
     ~CMemoryLeakDetector()
     { 
-#ifdef WIN32
+#if defined(WIN32) && !defined(__MINGW32__)
         if ( !_CrtDumpMemoryLeaks() )
         {
             ::OutputDebugString(">>> No memory leak detected <<<\n"); 
