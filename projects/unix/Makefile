@@ -21,7 +21,7 @@
 # Makefile for mupen64plus-video-arachnoid
 
 # detect operation system
-UNAME = $(shell uname -s)
+UNAME ?= $(shell uname -s)
 ifeq ("$(UNAME)","Linux")
   OS = LINUX
   SO_EXTENSION = so
