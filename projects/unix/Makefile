@@ -108,6 +108,9 @@ CFLAGS += $(OPTFLAGS) -ffast-math -fno-strict-aliasing -fvisibility=hidden -I../
 CXXFLAGS += -fvisibility-inlines-hidden
 LDFLAGS += $(SHARED)
 
+# default configuration programs
+PKG_CONFIG ?= pkg-config
+
 # On OS X, add a few extra flags to elegantly support cross-compilation and backward
 # compatibility (and also the flags to link against OpenGL)
 ifeq ($(OS), OSX)
@@ -122,15 +125,15 @@ ifeq ($(OS), OSX)
   endif
 else
   # test for essential build dependencies
-  ifeq ($(shell which pkg-config 2>/dev/null),)
-    $(error pkg-config not found)
+  ifeq ($(shell which $(PKG_CONFIG) 2>/dev/null),)
+    $(error $(PKG_CONFIG) not found)
   endif
-  ifeq ($(shell pkg-config --modversion gl 2>/dev/null),)
+  ifeq ($(shell $(PKG_CONFIG) --modversion gl 2>/dev/null),)
     $(error No OpenGL development libraries found!)
   endif
 
-  CFLAGS += -pthread $(shell pkg-config --cflags gl)
-  LDLIBS += -pthread $(shell pkg-config --libs gl)
+  CFLAGS += -pthread $(shell $(PKG_CONFIG) --cflags gl)
+  LDLIBS += -pthread $(shell $(PKG_CONFIG) --libs gl)
 endif
 ifeq ($(OS), LINUX)
   LDLIBS += -ldl 
