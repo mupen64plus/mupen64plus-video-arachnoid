@@ -132,16 +132,24 @@ ifeq ($(OS), OSX)
     endif
   endif
 else
-  # test for essential build dependencies
-  ifeq ($(shell which $(PKG_CONFIG) 2>/dev/null),)
-    $(error $(PKG_CONFIG) not found)
+  # search for OpenGL libraries
+  GL_LIBS=
+  ifeq ($(OS), MINGW)
+    GL_LIBS = -lopengl32
   endif
-  ifeq ($(shell $(PKG_CONFIG) --modversion gl 2>/dev/null),)
-    $(error No OpenGL development libraries found!)
+  ifeq ("$(GL_LIBS)", "")
+    ifeq ($(shell which $(PKG_CONFIG) 2>/dev/null),)
+      $(error $(PKG_CONFIG) not found)
+    endif
+    ifeq ($(shell $(PKG_CONFIG) --modversion gl 2>/dev/null),)
+      $(error No OpenGL development libraries found!)
+    endif
+    CFLAGS += $(shell $(PKG_CONFIG) --cflags gl)
+    GL_LIBS = $(shell $(PKG_CONFIG) --libs gl)
   endif
 
-  CFLAGS += -pthread $(shell $(PKG_CONFIG) --cflags gl)
-  LDLIBS += -pthread $(shell $(PKG_CONFIG) --libs gl)
+  CFLAGS += -pthread
+  LDLIBS += -pthread $(GL_LIBS)
 endif
 ifeq ($(OS), LINUX)
   LDLIBS += -ldl 
