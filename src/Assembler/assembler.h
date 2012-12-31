@@ -114,7 +114,7 @@ Done:
     }
 #else
 
-    long beginOffset = (long)src & 3;
+    long long beginOffset = (long long)src & 3;
     char *readPtr = (char*)src - beginOffset;
     char *writePtr = (char*)dest;
     
