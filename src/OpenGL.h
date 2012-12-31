@@ -24,7 +24,13 @@
 #ifndef WIN32
     #define GL_GLEXT_PROTOTYPES
 #endif
+#if defined(__MACOSX__)
+#include <OpenGL/gl.h>
+#elif defined(__MACOS__)
+#include <gl.h>
+#else
 #include <GL/gl.h>
+#endif
 #ifndef WIN32
     #include <GL/glext.h>
 #endif
