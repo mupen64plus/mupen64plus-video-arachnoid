@@ -118,9 +118,6 @@ CFLAGS += $(OPTFLAGS) $(WARNFLAGS) -ffast-math -fno-strict-aliasing -fvisibility
 CXXFLAGS += -fvisibility-inlines-hidden
 LDFLAGS += $(SHARED)
 
-# default configuration programs
-PKG_CONFIG = $(CROSS_COMPILE)pkg-config
-
 # On OS X, add a few extra flags to elegantly support cross-compilation and backward
 # compatibility (and also the flags to link against OpenGL)
 ifeq ($(OS), OSX)
@@ -139,31 +136,39 @@ ifeq ($(OS), OSX)
   ifeq ($(CPU), X86)
     ifeq ($(ARCH_DETECTED), 64BITS)
       CFLAGS += -arch x86_64 -mmacosx-version-min=$(OSX_SDK) -isysroot $(OSX_SYSROOT)/MacOSX$(OSX_SDK).sdk
-      LDFLAGS += -bundle -framework OpenGL
+      LDFLAGS += -bundle
     else
       CFLAGS += -arch i686 -mmacosx-version-min=$(OSX_SDK) -isysroot $(OSX_SYSROOT)/MacOSX$(OSX_SDK).sdk
-      LDFLAGS += -bundle -framework OpenGL
+      LDFLAGS += -bundle
     endif
   endif
 else
   # search for OpenGL libraries
-  GL_LIBS=
-  ifeq ($(OS), MINGW)
-    GL_LIBS = -lopengl32
+  ifeq ($(OS), OSX)
+    GL_LDLIBS = -framework OpenGL
   endif
-  ifeq ("$(GL_LIBS)", "")
-    ifeq ($(shell which $(PKG_CONFIG) 2>/dev/null),)
-      $(error $(PKG_CONFIG) not found)
+  ifeq ($(OS), MINGW)
+    GL_LDLIBS = -lopengl32
+  endif
+
+  ifeq ($(origin GL_CFLAGS) $(origin GL_LDLIBS), undefined undefined)
+    ifeq ($(origin PKG_CONFIG), undefined)
+      PKG_CONFIG = $(CROSS_COMPILE)pkg-config
+      ifeq ($(shell which $(PKG_CONFIG) 2>/dev/null),)
+        $(error $(PKG_CONFIG) not found)
+      endif
     endif
+
     ifeq ($(shell $(PKG_CONFIG) --modversion gl 2>/dev/null),)
       $(error No OpenGL development libraries found!)
     endif
-    CFLAGS += $(shell $(PKG_CONFIG) --cflags gl)
-    GL_LIBS = $(shell $(PKG_CONFIG) --libs gl)
+    GL_CFLAGS += $(shell $(PKG_CONFIG) --cflags gl)
+    GL_LDLIBS +=  $(shell $(PKG_CONFIG) --libs gl)
   endif
+  CFLAGS += $(GL_CFLAGS)
+  LDLIBS += $(GL_LDLIBS)
 
   CFLAGS += -pthread
-  LDLIBS += -pthread $(GL_LIBS)
 endif
 ifeq ($(OS), LINUX)
   LDLIBS += -ldl 
