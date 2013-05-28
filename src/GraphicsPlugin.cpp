@@ -101,7 +101,7 @@ bool GraphicsPlugin::initialize(GFX_INFO* graphicsInfo)
     }
 
     if (CoreVideo_SetVideoMode(m_config->fullscreenWidth, m_config->fullscreenHeight, m_config->fullscreenBitDepth, 
-        m_config->startFullscreen ? M64VIDEO_FULLSCREEN : M64VIDEO_WINDOWED) != M64ERR_SUCCESS)
+        m_config->startFullscreen ? M64VIDEO_FULLSCREEN : M64VIDEO_WINDOWED, (m64p_video_flags) 0) != M64ERR_SUCCESS)
     {
         Logger::getSingleton().printMsg("Could not set video mode.", M64MSG_ERROR);
         return false;
