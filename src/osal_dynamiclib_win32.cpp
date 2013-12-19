@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * Arachnoid Graphics Plugin for Mupen64Plus                               *
- * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/              *
+ * https://github.com/mupen64plus/mupen64plus-video-arachnoid/             *
  *   Copyright (C) 2009 Richard Goedeken                                   *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
