@@ -1,6 +1,6 @@
 /******************************************************************************
  * Arachnoid Graphics Plugin for Mupen64Plus
- * http://bitbucket.org/wahrhaft/mupen64plus-video-arachnoid/
+ * https://github.com/mupen64plus/mupen64plus-video-arachnoid/
  *
  * Copyright (C) 2009 Jon Ring
  * Copyright (C) 2007 Kristofer Karlsson, Rickard Niklasson
