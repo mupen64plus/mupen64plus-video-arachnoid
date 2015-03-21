@@ -53,8 +53,8 @@
 #define NOISE           16
 #define K4              17
 #define K5              18
-#define ONE             19
-#define ZERO            20
+#define CB_ONE          19
+#define CB_ZERO         20
 
 //* Combiner data
 //! Defines how mux-values are coded.

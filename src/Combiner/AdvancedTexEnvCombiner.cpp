@@ -81,9 +81,9 @@ static TexEnvCombinerArg TexEnvArgs[] =
     { GL_CONSTANT_ARB,       GL_SRC_COLOR },
     // K5
     { GL_CONSTANT_ARB,       GL_SRC_COLOR },
-    // ONE
+    // CB_ONE
     { GL_CONSTANT_ARB,       GL_SRC_COLOR },
-    // ZERO
+    // CB_ZERO
     { GL_CONSTANT_ARB,       GL_SRC_COLOR }
 };
 
@@ -123,8 +123,8 @@ void AdvancedTexEnvCombiner::initialize()
 
     if ( ATI_texture_env_combine3 )
     {
-        TexEnvArgs[ONE].source  = GL_ONE;
-        TexEnvArgs[ZERO].source = GL_ZERO;
+        TexEnvArgs[CB_ONE].source  = GL_ONE;
+        TexEnvArgs[CB_ZERO].source = GL_ZERO;
     }
 }
 
@@ -273,7 +273,7 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
                 sb = m_primColor[3];
             else if (alphaCombiner->stage[i].op[j].param1 == ENV_ALPHA)
                 sb = m_envColor[3];
-            else if (alphaCombiner->stage[i].op[j].param1 == ONE)
+            else if (alphaCombiner->stage[i].op[j].param1 == CB_ONE)
                 sb = 1.0f;
 
             if (((alphaCombiner->stage[i].numOps - j) >= 3) &&
@@ -286,7 +286,7 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
                 envCombiner->usesT0 |= alphaCombiner->stage[i].op[j].param1 == TEXEL0_ALPHA;
                 envCombiner->usesT1 |= alphaCombiner->stage[i].op[j].param1 == TEXEL1_ALPHA;
 
-                if (alphaCombiner->stage[i].op[j].param1 == ONE)
+                if (alphaCombiner->stage[i].op[j].param1 == CB_ONE)
                 {
                     SetAlphaCombinerValues( curUnit, arg0, envCombiner->alpha[curUnit].arg0.source, GL_ONE_MINUS_SRC_ALPHA );
                 }
@@ -342,7 +342,7 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
                             (alphaCombiner->stage[i].op[j].param1 == TEXEL1_ALPHA) && (curUnit == 0))
                             curUnit++;
 
-                        if ((j > 0) && (alphaCombiner->stage[i].op[j-1].op == LOAD) && (alphaCombiner->stage[i].op[j-1].param1 == ONE))
+                        if ((j > 0) && (alphaCombiner->stage[i].op[j-1].op == LOAD) && (alphaCombiner->stage[i].op[j-1].param1 == CB_ONE))
                         {
                             SetAlphaCombinerArg( curUnit, arg0, alphaCombiner->stage[i].op[j].param1 );
                             envCombiner->alpha[curUnit].arg0.operand = GL_ONE_MINUS_SRC_ALPHA;
@@ -481,7 +481,7 @@ TexEnvCombiner* AdvancedTexEnvCombiner::createNewTextureEnviroment(Combiner* col
                             ((colorCombiner->stage[i].op[j].param1 == TEXEL1) || (colorCombiner->stage[i].op[j].param1 == TEXEL1_ALPHA)) && (curUnit == 0))
                             curUnit++;
 
-                        if ((j > 0) && (colorCombiner->stage[i].op[j-1].op == LOAD) && (colorCombiner->stage[i].op[j-1].param1 == ONE))
+                        if ((j > 0) && (colorCombiner->stage[i].op[j-1].op == LOAD) && (colorCombiner->stage[i].op[j-1].param1 == CB_ONE))
                         {
                             SetColorCombinerArg( curUnit, arg0, colorCombiner->stage[i].op[j].param1 );
                             envCombiner->color[curUnit].arg0.operand = GL_ONE_MINUS_SRC_COLOR;

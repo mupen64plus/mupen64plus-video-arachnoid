@@ -172,7 +172,7 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
                     if (op->param1 == TEXEL0 || op->param1 == TEXEL0_ALPHA)
                     {
                         if ( mode == GL_MODULATE )
-                            m_color = ONE;
+                            m_color = CB_ONE;
 
                         m_usesTexture0 = true;
                         m_usesTexture1 = false;
@@ -180,7 +180,7 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
                     else if ( op->param1 == TEXEL1 || op->param1 == TEXEL1_ALPHA )
                     {
                         if ( mode == GL_MODULATE )
-                            m_color = ONE;
+                            m_color = CB_ONE;
 
                         m_usesTexture0 = false;
                         m_usesTexture1 = true;
