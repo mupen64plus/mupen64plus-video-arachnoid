@@ -23,6 +23,7 @@
 #define MATH_LIBRARY_H_
 
 #include <cmath>     //sqrtf
+
 #include "m64p.h"  
 
 // Formula: a.b = a0*b0 + a1*b1 + a2*b2

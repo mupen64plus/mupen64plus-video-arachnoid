@@ -19,26 +19,28 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RDP.h"
-#include "GBIDefs.h"
-#include "GBI.h"
-#include "RSP.h"
-#include "DisplayListParser.h"
-#include "assembler.h"
-#include "OpenGLRenderer.h"
-#include "TextureCache.h"
-#include "VI.h"
-#include "Memory.h"
-#include "OpenGLManager.h"
-#include "OpenGL2DRenderer.h"
+#include <algorithm>
+
 #include "AdvancedCombinerManager.h"
+#include "DisplayListParser.h"
 #include "FogManager.h"
+#include "GBI.h"
+#include "GBIDefs.h"
 #include "Logger.h"
 #include "MathLib.h"
-#include "RomDetector.h"
-#include "m64p.h"
+#include "Memory.h"
 #include "OpenGL.h"
-#include <algorithm>
+#include "OpenGL2DRenderer.h"
+#include "OpenGLManager.h"
+#include "OpenGLRenderer.h"
+#include "RDP.h"
+#include "RSP.h"
+#include "RomDetector.h"
+#include "TextureCache.h"
+#include "VI.h"
+#include "assembler.h"
+#include "m64p.h"
+
 using std::max;
 
 //-----------------------------------------------------------------------------

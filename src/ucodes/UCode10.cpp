@@ -19,18 +19,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "UCode10.h"
-#include "UCode5.h"
-
+#include "DisplayListParser.h"
 //Forward declaration
 #include "GBI.h"
-#include "RSP.h"
-#include "RDP.h"
-#include "Memory.h"
-#include "DisplayListParser.h"
-#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
+#include "Memory.h"
+#include "RDP.h"
+#include "RSP.h"
+#include "UCode10.h"
+#include "UCode5.h"
+#include "UCodeDefs.h"
 
 
 #define CONKER_BFD_ADD_VERTICES 1   /*F3DEX2_VTX ?*/ 

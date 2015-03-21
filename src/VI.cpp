@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "VI.h"
 #include "GBIDefs.h" //_FIXED2FLOAT, _SHIFTR
+#include "VI.h"
 #include "m64p.h"
 
 //-----------------------------------------------------------------------------

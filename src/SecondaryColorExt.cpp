@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "SecondaryColorExt.h"
 #include "ExtensionChecker.h"
+#include "SecondaryColorExt.h"
 
 // EXT_secondary_color functions
 #ifndef GL_GLEXT_VERSION

@@ -22,10 +22,11 @@
 #ifndef TEXTURE_CACHE_H_
 #define TEXTURE_CACHE_H_
 
-#include "CachedTexture.h"
-#include "CRCCalculator2.h"
-#include "ImageFormatSelector.h"
 #include <list>
+
+#include "CRCCalculator2.h"
+#include "CachedTexture.h"
+#include "ImageFormatSelector.h"
 
 //Forward declarations
 class Memory;

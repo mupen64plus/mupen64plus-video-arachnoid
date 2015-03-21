@@ -20,12 +20,12 @@
  *****************************************************************************/
 
 #include "DisplayListParser.h"
-#include "Memory.h"
 #include "GBI.h"
-#include "RSP.h"
-#include "RDP.h"
-#include "OpenGLRenderer.h"
 #include "GBIDefs.h"
+#include "Memory.h"
+#include "OpenGLRenderer.h"
+#include "RDP.h"
+#include "RSP.h"
 
 //-----------------------------------------------------------------------------
 //* Task

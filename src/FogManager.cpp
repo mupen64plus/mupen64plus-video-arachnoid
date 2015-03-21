@@ -20,10 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "FogManager.h"
 #include "ExtensionChecker.h"
-#include "m64p.h"
+#include "FogManager.h"
 #include "OpenGL.h"
+#include "m64p.h"
 
 #ifndef GL_GLEXT_VERSION
     //-----------------------------------------------------------------------------

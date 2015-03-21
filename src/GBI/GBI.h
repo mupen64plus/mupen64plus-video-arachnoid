@@ -23,17 +23,17 @@
 #define GRAPHIC_BINARY_INTERFACE_H_
 
 
-#include "UCodeDefs.h"
+#include "RDPInstructions.h"
 #include "UCode0.h"     //Super Mario 64
 #include "UCode1.h"     //Games like Mario Kart 64, Starfox 64
+#include "UCode10.h"    //Conker Bad Fur Day
 #include "UCode2.h"     //Golden Eye
 #include "UCode4.h"     //Wave Race 64
 #include "UCode5.h"     //Newer Games
 #include "UCode6.h"     //Diddy Kong Racing
 #include "UCode7.h"     //Yoshi's Story
 #include "UCode9.h"     //Perfect Dark
-#include "UCode10.h"    //Conker Bad Fur Day
-#include "RDPInstructions.h"
+#include "UCodeDefs.h"
 
 class RSP;
 class RDP;

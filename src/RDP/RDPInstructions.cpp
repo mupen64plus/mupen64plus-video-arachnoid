@@ -19,11 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RDPInstructions.h"
-#include "RDPUCodeStructs.h"
-#include "RDP.h"
 #include "DisplayListParser.h"
 #include "Logger.h"
+#include "RDP.h"
+#include "RDPInstructions.h"
+#include "RDPUCodeStructs.h"
 
 //-----------------------------------------------------------------------------
 // Static Variables

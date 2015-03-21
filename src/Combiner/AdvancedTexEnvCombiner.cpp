@@ -20,11 +20,12 @@
  *****************************************************************************/
 
 #include <algorithm>
+
 using std::max;
 #include "AdvancedTexEnvCombiner.h"
 #include "CombinerStructs.h"
-#include "MultiTexturingExt.h"    //glActiveTextureARB
 #include "ExtensionChecker.h"
+#include "MultiTexturingExt.h"    //glActiveTextureARB
 
 #ifndef GL_ATI_texture_env_combine3
 #define GL_ATI_texture_env_combine3

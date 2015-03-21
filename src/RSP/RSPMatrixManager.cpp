@@ -19,11 +19,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RSPMatrixManager.h"
-#include "Memory.h"
 #include <cmath>      //modff
+
 #include "GBI.h"      //SHIFT
 #include "GBIDefs.h"  //_FIXED2FLOAT
+#include "Memory.h"
+#include "RSPMatrixManager.h"
+
 //-----------------------------------------------------------------------------
 //! Constructor
 //-----------------------------------------------------------------------------

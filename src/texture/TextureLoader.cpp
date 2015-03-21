@@ -19,14 +19,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "TextureLoader.h"
-#include "Memory.h"
-#include "TextureCache.h"
-#include "GBIDefs.h"
-#include "assembler.h"
-#include "Logger.h"
-#include "RDP.h"
 #include "CRCCalculator2.h"
+#include "GBIDefs.h"
+#include "Logger.h"
+#include "Memory.h"
+#include "RDP.h"
+#include "TextureCache.h"
+#include "TextureLoader.h"
+#include "assembler.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

@@ -22,9 +22,9 @@
 #ifndef ADVANCED_COMBINER_MANAGER_H_
 #define ADVANCED_COMBINER_MANAGER_H_
 
-#include "GBIDefs.h"
-#include "CombinerStructs.h"
 #include "CombinerCache.h"
+#include "CombinerStructs.h"
+#include "GBIDefs.h"
 
 //Forward declarations
 struct TexEnvCombiner;

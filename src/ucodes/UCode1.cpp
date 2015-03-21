@@ -19,18 +19,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "UCode1.h"
-#include "UCode0.h"
-
 //Forward declaration
 #include "GBI.h"
-#include "RSP.h"
-#include "RDP.h"
-#include "Memory.h"
-
-#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
+#include "Memory.h"
+#include "RDP.h"
+#include "RSP.h"
+#include "UCode0.h"
+#include "UCode1.h"
+#include "UCodeDefs.h"
 
 //-----------------------------------------------------------------------------
 // Static Variables

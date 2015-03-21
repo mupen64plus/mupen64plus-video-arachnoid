@@ -19,26 +19,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "TextureCache.h"
+#include <algorithm>
 
-#include "RDP.h"
-#include "RSP.h"
 #include "CachedTexture.h"
 #include "MathLib.h"
-#include <algorithm>
+#include "RDP.h"
+#include "RSP.h"
+#include "TextureCache.h"
+
     using std::min;
-#include "m64p.h"
-#include "OpenGL.h"
 #include "Memory.h"
-#include "OpenGLRenderer.h"
 #include "MultiTexturingExt.h"    
+#include "OpenGL.h"
+#include "OpenGLRenderer.h"
+#include "m64p.h"
+
     //gSPBgRect1Cyc
 //gSPBgRectCopy
 #define GL_CLAMP_TO_EDGE                  0x812F
 #define GL_GENERATE_MIPMAP                0x8191
 
-#include "Logger.h"
 #include <iostream>
+
+#include "Logger.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

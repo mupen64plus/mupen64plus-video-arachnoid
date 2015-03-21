@@ -22,8 +22,9 @@
 #ifndef COMBINER_CACHE_H_
 #define COMBINER_CACHE_H_
 
-#include "CombinerStructs.h"
 #include <list>
+
+#include "CombinerStructs.h"
 
 //*****************************************************************************
 //* Cached Combiner

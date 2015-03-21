@@ -19,12 +19,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "SimpleTexEnvCombiner.h"
 #include "CombinerStructs.h"
-#include "MultiTexturingExt.h"
 #include "ExtensionChecker.h"
-#include "m64p.h"
+#include "MultiTexturingExt.h"
 #include "OpenGL.h"
+#include "SimpleTexEnvCombiner.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

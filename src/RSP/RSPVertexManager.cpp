@@ -19,16 +19,17 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RSPVertexManager.h"
-#include "OpenGLManager.h"
-#include "Memory.h"
-#include "RSPMatrixManager.h"
-#include "RSPLightManager.h"
-#include "OpenGLRenderer.h"
-#include "GBIDefs.h"   //hmm
-#include "MathLib.h"   //Transform, Vec3Normalize
 #include <cmath> //sqrt
+
+#include "GBIDefs.h"   //hmm
 #include "Logger.h"
+#include "MathLib.h"   //Transform, Vec3Normalize
+#include "Memory.h"
+#include "OpenGLManager.h"
+#include "OpenGLRenderer.h"
+#include "RSPLightManager.h"
+#include "RSPMatrixManager.h"
+#include "RSPVertexManager.h"
 
 //Vertex
 struct Vertex

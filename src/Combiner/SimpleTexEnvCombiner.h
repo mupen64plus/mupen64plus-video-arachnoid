@@ -22,9 +22,9 @@
 #ifndef SIMPLE_TEX_ENV_COMBINER_H_
 #define SIMPLE_TEX_ENV_COMBINER_H_
 
-#include "GBIDefs.h"
-#include "CombinerStructs.h"
 #include "CombinerBase.h"
+#include "CombinerStructs.h"
+#include "GBIDefs.h"
 
 //Forward declarations
 struct CombineCycle;

@@ -23,9 +23,9 @@
 #ifndef OPEN_GL_Manager_H_
 #define OPEN_GL_Manager_H_
 
+#include "OpenGL.h"
 //OpenGL includes
 #include "m64p.h"
-#include "OpenGL.h"
 
 //*****************************************************************************
 //* OpenGL Manager Class                                                        
