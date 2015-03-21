@@ -24,6 +24,7 @@
 #include "RDP.h"
 #include "RDPInstructions.h"
 #include "RDPUCodeStructs.h"
+#include "m64p_types.h"
 
 //-----------------------------------------------------------------------------
 // Static Variables

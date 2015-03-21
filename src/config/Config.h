@@ -25,6 +25,7 @@
 
 #include "ConfigMap.h"
 #include "m64p.h"
+#include "m64p_types.h"
 
 //Forward declaration
 class GraphicsPlugin;

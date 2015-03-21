@@ -28,6 +28,7 @@
 #include "RSP.h"
 #include "UCode0.h"
 #include "UCodeDefs.h"
+#include "m64p_types.h"
 
 //-----------------------------------------------------------------------------
 // Static Variables

@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include "GBI.h"
+
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "OpenGLManager.h"
@@ -28,6 +29,9 @@
 #include "UCodeIdentificationData.h"
 #include "UCodeSelector.h"
 #include "m64p.h"
+#include "m64p_types.h"
+
+class DisplayListParser;
 
 //-----------------------------------------------------------------------------
 //! Static Variables

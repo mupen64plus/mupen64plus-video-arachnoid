@@ -21,15 +21,18 @@
 
 #include <cmath> //sqrt
 
+#include "GBI.h"
 #include "GBIDefs.h"   //hmm
 #include "Logger.h"
 #include "MathLib.h"   //Transform, Vec3Normalize
 #include "Memory.h"
+#include "OpenGL.h"
 #include "OpenGLManager.h"
 #include "OpenGLRenderer.h"
 #include "RSPLightManager.h"
 #include "RSPMatrixManager.h"
 #include "RSPVertexManager.h"
+#include "m64p_types.h"
 
 //Vertex
 struct Vertex

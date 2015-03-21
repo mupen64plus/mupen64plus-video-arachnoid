@@ -25,6 +25,7 @@
 #include "Config.h"
 #include "GraphicsPlugin.h"
 #include "Logger.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

@@ -28,6 +28,7 @@
 #include "Memory.h"
 #include "UCodeIdentificationData.h"
 #include "UCodeSelector.h"
+#include "m64p_types.h"
 
 #ifndef WIN32
 #define strnicmp strncasecmp

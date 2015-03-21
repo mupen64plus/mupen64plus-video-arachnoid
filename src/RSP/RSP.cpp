@@ -25,6 +25,7 @@
 #include "../UCodeDefs.h"
 #include "DisplayListParser.h"
 #include "FogManager.h"
+#include "GBI.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "MathLib.h"
@@ -33,7 +34,9 @@
 #include "OpenGLRenderer.h"
 #include "RSP.h"
 #include "RSPLightManager.h"
+#include "RSPMatrixManager.h"
 #include "VI.h"
+#include "m64p_types.h"
 
 #define MI_INTR_SP                 0x00000001  //!< RSP Interrupt signal
 

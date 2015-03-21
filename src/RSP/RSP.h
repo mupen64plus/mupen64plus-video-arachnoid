@@ -30,13 +30,14 @@
 #include "m64p_plugin.h"
 
 //Forward declarations
+class DisplayListParser;
+class FogManager;
+class Memory;
+class RDP;
+class RSPLightManager;
+class RSPMatrixManager;
 class VI;
 struct RDPTile;
-class RDP;
-class Memory;
-class DisplayListParser;
-class RSPLightManager;
-class FogManager;
 
 //-----------------------------------------------------------------------------
 // Defines

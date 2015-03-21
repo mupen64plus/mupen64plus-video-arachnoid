@@ -35,9 +35,10 @@
 #include "UCode9.h"     //Perfect Dark
 #include "UCodeDefs.h"
 
-class RSP;
-class RDP;
+class DisplayListParser;
 class Memory;
+class RDP;
+class RSP;
 class UCodeSelector;
 
 // Allows easier setting of GBI commands

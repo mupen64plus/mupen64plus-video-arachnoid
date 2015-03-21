@@ -29,6 +29,7 @@
 #include "UCode1.h"
 #include "UCode7.h"
 #include "UCodeDefs.h"
+#include "m64p_types.h"
 
 #define    S2DEX_BG_1CYC            0x01
 #define    S2DEX_BG_COPY            0x02

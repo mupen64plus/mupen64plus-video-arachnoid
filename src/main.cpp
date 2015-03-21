@@ -22,9 +22,14 @@
 
 //Includes
 #define M64P_PLUGIN_PROTOTYPES 1
+#include <stdio.h>
+#include <string.h>
+
+#include "ConfigMap.h"
 #include "GraphicsPlugin.h"        //Main class
 #include "Logger.h"                //Debug logger
 #include "MemoryLeakDetector.h"    //For detecting memory leaks
+#include "OpenGLManager.h"
 #include "config/Config.h"         //Configuration   
 #include "m64p.h"
 #include "m64p_common.h"

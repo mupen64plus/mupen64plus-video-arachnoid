@@ -22,18 +22,17 @@
 #ifndef OPEN_GL_RENDERER_H_
 #define OPEN_GL_RENDERER_H_
 
+#include "MultiTexturingExt.h"
 #include "OpenGL.h"
 #include "m64p.h"
 
 //Forward Declarations
-struct SPVertex;
-class RSP;
+class FogManager;
 class RDP;
+class RSP;
 class TextureCache;
 class VI;
-class FogManager;
-
-#include "MultiTexturingExt.h"
+struct SPVertex;
 
 
 //*****************************************************************************

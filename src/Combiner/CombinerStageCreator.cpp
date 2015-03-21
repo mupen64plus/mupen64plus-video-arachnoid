@@ -28,6 +28,8 @@
 
 #include "CombinerStageCreator.h"
 
+#include "CombinerStructs.h"
+
 //-----------------------------------------------------------------------------
 //* Set Stage
 //! Function used to set combiner stage, tries to simplify and optimize as 

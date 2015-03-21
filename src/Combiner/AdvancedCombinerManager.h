@@ -27,13 +27,13 @@
 #include "GBIDefs.h"
 
 //Forward declarations
-struct TexEnvCombiner;
-struct CombineCycle;
-struct CombinerStage;
-struct Combiner;
 class AdvancedTexEnvCombiner;
-class CombinerCache;
 class CombinerBase;
+class CombinerCache;
+struct CombineCycle;
+struct Combiner;
+struct CombinerStage;
+struct TexEnvCombiner;
 
 //*****************************************************************************
 //! Advanced Texture Environment Combiner

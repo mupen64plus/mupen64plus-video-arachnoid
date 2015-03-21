@@ -29,9 +29,10 @@
 #include "ImageFormatSelector.h"
 
 //Forward declarations
+class CachedTexture;
 class Memory;
-class RSP;
 class RDP;
+class RSP;
 
 //*****************************************************************************
 //* Texture Cache

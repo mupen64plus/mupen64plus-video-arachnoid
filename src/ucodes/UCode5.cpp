@@ -26,9 +26,12 @@
 #include "Memory.h"
 #include "RDP.h"
 #include "RSP.h"
+#include "RSPVertexManager.h"
 #include "UCode0.h"
+#include "UCode1.h"
 #include "UCode5.h"
 #include "UCodeDefs.h"
+#include "m64p_types.h"
 
 
 #define F3DEX2_MTX_STACKSIZE       18

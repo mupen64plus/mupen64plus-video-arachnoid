@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include "CRCCalculator2.h"
+#include "GBI.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "Memory.h"

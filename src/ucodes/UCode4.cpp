@@ -26,6 +26,7 @@
 #include "UCode0.h"
 #include "UCode4.h"
 #include "UCodeDefs.h"
+#include "m64p_types.h"
 
 #define F3DWRUS_TRI2        0xB1
 

@@ -22,15 +22,17 @@
 #include <algorithm>
 
 #include "CachedTexture.h"
+#include "GBIDefs.h"
 #include "MathLib.h"
+#include "OpenGL.h"
 #include "RDP.h"
 #include "RSP.h"
 #include "TextureCache.h"
+#include "TextureLoader.h"
 
     using std::min;
 #include "Memory.h"
 #include "MultiTexturingExt.h"    
-#include "OpenGL.h"
 #include "OpenGLRenderer.h"
 #include "m64p.h"
 

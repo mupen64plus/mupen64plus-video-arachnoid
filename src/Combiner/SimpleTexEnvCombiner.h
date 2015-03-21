@@ -28,8 +28,9 @@
 
 //Forward declarations
 struct CombineCycle;
-struct CombinerStage;
 struct Combiner;
+struct CombinerStage;
+struct TexEnvCombiner;
 
 //*****************************************************************************
 //! Simple Texture Environment Combiner

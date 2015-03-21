@@ -26,6 +26,8 @@
 
 #include "CombinerStructs.h"
 
+struct TexEnvCombiner;
+
 //*****************************************************************************
 //* Cached Combiner
 //! Struct used to store decoded mux values and the result of them

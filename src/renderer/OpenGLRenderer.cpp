@@ -25,18 +25,24 @@
 
 //#include "CombinerManager.h"
 #include "AdvancedCombinerManager.h"
+#include "CachedTexture.h"
 #include "ExtensionChecker.h"
 #include "FogManager.h"
+#include "GBIDefs.h"
 #include "Logger.h"
 #include "MultiTexturingExt.h"
+#include "OpenGL.h"
 #include "OpenGLManager.h"
 #include "OpenGLRenderer.h"
 #include "RDP.h"
 #include "RSP.h"
+#include "RSPVertexManager.h"
 #include "SecondaryColorExt.h"
 #include "TextureCache.h"
+#include "TextureLoader.h"
 #include "VI.h"
 #include "m64p.h"
+#include "m64p_types.h"
 
 
 using std::max;

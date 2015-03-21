@@ -26,6 +26,7 @@
 #include "UCode0.h"
 #include "UCode9.h"
 #include "UCodeDefs.h"
+#include "m64p_types.h"
 
 #define F3DPD_VTXCOLORBASE        0x07
                              

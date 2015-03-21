@@ -20,12 +20,15 @@
  *****************************************************************************/
 
 #include "AdvancedCombinerManager.h"
+
 #include "AdvancedTexEnvCombiner.h"
+#include "CombinerBase.h"
 #include "CombinerStageCreator.h"
 #include "CombinerStageMerger.h"
 #include "CombinerStructs.h"
 #include "DummyCombiner.h"
 #include "ExtensionChecker.h"
+#include "GBIDefs.h"
 #include "MultiTexturingExt.h"
 #include "OpenGL.h"
 #include "RomDetector.h"

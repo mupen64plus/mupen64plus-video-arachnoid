@@ -22,6 +22,7 @@
 #include <algorithm>
 
 #include "AdvancedCombinerManager.h"
+#include "CachedTexture.h"
 #include "DisplayListParser.h"
 #include "FogManager.h"
 #include "GBI.h"
@@ -29,6 +30,7 @@
 #include "Logger.h"
 #include "MathLib.h"
 #include "Memory.h"
+#include "N64Games.h"
 #include "OpenGL.h"
 #include "OpenGL2DRenderer.h"
 #include "OpenGLManager.h"
@@ -40,6 +42,7 @@
 #include "VI.h"
 #include "assembler.h"
 #include "m64p.h"
+#include "m64p_types.h"
 
 using std::max;
 

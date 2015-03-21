@@ -20,13 +20,13 @@
  *****************************************************************************/
 
 #include "DisplayListParser.h"
-//Forward declaration
 #include "GBI.h"
 #include "GBIDefs.h"
 #include "Logger.h"
 #include "Memory.h"
 #include "RDP.h"
 #include "RSP.h"
+#include "RSPVertexManager.h"
 #include "UCode10.h"
 #include "UCode5.h"
 #include "UCodeDefs.h"

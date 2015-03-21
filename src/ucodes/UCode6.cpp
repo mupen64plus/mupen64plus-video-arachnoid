@@ -27,9 +27,11 @@
 #include "RDP.h"
 #include "RSP.h"
 #include "RSPMatrixManager.h"
+#include "RSPVertexManager.h"
 #include "UCode0.h"
 #include "UCode6.h"
 #include "UCodeDefs.h"
+#include "m64p_types.h"
 
 //-----------------------------------------------------------------------------
 // Static Variables

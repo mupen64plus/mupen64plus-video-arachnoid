@@ -25,6 +25,7 @@
 #include "CombinerBase.h"
 #include "CombinerStructs.h"
 
+class AdvancedTexEnvCombiner;
 struct TexEnvCombiner;
 
 #ifndef GL_ARB_texture_env_combine
