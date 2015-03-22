@@ -22,18 +22,18 @@
 #ifndef ADVANCED_COMBINER_MANAGER_H_
 #define ADVANCED_COMBINER_MANAGER_H_
 
-#include "GBIDefs.h"
-#include "CombinerStructs.h"
 #include "CombinerCache.h"
+#include "CombinerStructs.h"
+#include "GBIDefs.h"
 
 //Forward declarations
-struct TexEnvCombiner;
-struct CombineCycle;
-struct CombinerStage;
-struct Combiner;
 class AdvancedTexEnvCombiner;
-class CombinerCache;
 class CombinerBase;
+class CombinerCache;
+struct CombineCycle;
+struct Combiner;
+struct CombinerStage;
+struct TexEnvCombiner;
 
 //*****************************************************************************
 //! Advanced Texture Environment Combiner

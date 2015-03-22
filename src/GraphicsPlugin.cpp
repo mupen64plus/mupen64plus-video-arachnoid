@@ -20,20 +20,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "GraphicsPlugin.h"
-#include "VI.h"                  //Video interface
-#include "Memory.h"              //Access to memory (RDRAM, Texture Memory)
-#include "OpenGLRenderer.h"      //Renderer
-#include "FrameBuffer.h"         //Framebuffer
+#include <sys/time.h>
+#include <ctime>
+
+#include "ConfigMap.h"           //Configuration
 #include "DisplayListParser.h"   //Displaylist parser
 #include "FogManager.h"          //Fog 
-#include "RSP.h"                 //Reality Signal Processor
-#include "RDP.h"                 //Reality Drawing Processor
+#include "FrameBuffer.h"         //Framebuffer
 #include "GBI.h"                 //Graphics Binary Interface 
-#include "ConfigMap.h"           //Configuration
+#include "GraphicsPlugin.h"
 #include "Logger.h"              //Debug logger
+#include "Memory.h"              //Access to memory (RDRAM, Texture Memory)
+#include "OpenGL.h"
+#include "OpenGLManager.h"
+#include "OpenGLRenderer.h"      //Renderer
+#include "RDP.h"                 //Reality Drawing Processor
+#include "RSP.h"                 //Reality Signal Processor
 #include "RomDetector.h"
-#include <ctime>
+#include "VI.h"                  //Video interface
+#include "m64p.h"
+#include "m64p_types.h"
 
 //FrameBuffer framebuffer01;
 //FrameBuffer framebuffer02;

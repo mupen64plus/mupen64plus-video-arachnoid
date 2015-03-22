@@ -23,8 +23,8 @@
 #ifndef SECONDARY_COLOR_EXTENSION_H_
 #define SECONDARY_COLOR_EXTENSION_H_
 
-#include "m64p.h"
 #include "OpenGL.h"
+#include "m64p.h"
 
 #ifndef GL_GLEXT_VERSION
     #ifndef GL_EXT_secondary_color

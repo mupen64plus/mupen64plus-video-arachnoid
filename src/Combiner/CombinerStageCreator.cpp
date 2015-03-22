@@ -28,6 +28,8 @@
 
 #include "CombinerStageCreator.h"
 
+#include "CombinerStructs.h"
+
 //-----------------------------------------------------------------------------
 //* Set Stage
 //! Function used to set combiner stage, tries to simplify and optimize as 
@@ -44,10 +46,10 @@ void setStage(CombineCycle* combineCycle, CombinerStage* stageOut)
     stageOut->numOps = 1;
 
     // If we're just subtracting zero, skip it
-    if (combineCycle->subValue != ZERO)
+    if (combineCycle->subValue != CB_ZERO)
     {
         if (combineCycle->subValue == stageOut->op[0].param1)
-            stageOut->op[0].param1 = ZERO;
+            stageOut->op[0].param1 = CB_ZERO;
         else
         {
             //Subract operation
@@ -58,17 +60,17 @@ void setStage(CombineCycle* combineCycle, CombinerStage* stageOut)
     }
 
     //Multiply operation
-    if ((stageOut->numOps > 1) || (stageOut->op[0].param1 != ZERO))
+    if ((stageOut->numOps > 1) || (stageOut->op[0].param1 != CB_ZERO))
     {
-        if (combineCycle->multValue == ZERO)
+        if (combineCycle->multValue == CB_ZERO)
         {
             stageOut->numOps = 1;
             stageOut->op[0].op = LOAD;
-            stageOut->op[0].param1 = ZERO;
+            stageOut->op[0].param1 = CB_ZERO;
         }
         else
         {
-            if ( stageOut->numOps == 1 && stageOut->op[0].param1 == ONE )
+            if ( stageOut->numOps == 1 && stageOut->op[0].param1 == CB_ONE )
             {
                 //LOAD
                 stageOut->op[0].param1 = combineCycle->multValue;
@@ -84,10 +86,10 @@ void setStage(CombineCycle* combineCycle, CombinerStage* stageOut)
     }
 
     //Don't bother adding zero
-    if (combineCycle->addValue != ZERO)
+    if (combineCycle->addValue != CB_ZERO)
     {
             // If all we have so far is zero, then load this instead
-        if ((stageOut->numOps == 1) && (stageOut->op[0].param1 == ZERO))
+        if ((stageOut->numOps == 1) && (stageOut->op[0].param1 == CB_ZERO))
         {
             stageOut->op[0].param1 = combineCycle->addValue;
         }

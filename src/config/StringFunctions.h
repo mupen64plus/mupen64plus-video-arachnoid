@@ -64,10 +64,11 @@ in binary (= untranslated) mode and check for the different newlines yourself.
 #ifndef STRING_FUNCTIONS_H_
 #define STRING_FUNCTIONS_H_
 
+#include <ctype.h>
+#include <stddef.h>
+#include <algorithm>  //std::transform
 #include <string>
 #include <vector>
-#include <ctype.h>
-#include <algorithm>  //std::transform
     
 namespace StringFunctions 
 {

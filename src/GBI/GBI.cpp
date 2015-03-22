@@ -20,14 +20,18 @@
  *****************************************************************************/
 
 #include "GBI.h"
+
 #include "GBIDefs.h"
-#include "RSP.h"
-#include "RDP.h"
-#include "UCodeSelector.h"
-#include "UCodeIdentificationData.h"
-#include "OpenGLManager.h"
 #include "Logger.h"
+#include "OpenGLManager.h"
+#include "RDP.h"
+#include "RSP.h"
+#include "UCodeIdentificationData.h"
+#include "UCodeSelector.h"
 #include "m64p.h"
+#include "m64p_types.h"
+
+class DisplayListParser;
 
 //-----------------------------------------------------------------------------
 //! Static Variables

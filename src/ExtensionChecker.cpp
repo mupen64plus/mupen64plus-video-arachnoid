@@ -19,9 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "m64p.h"
-#include "OpenGL.h"
+#include <string.h>
+
 #include "ExtensionChecker.h"
+#include "OpenGL.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Is Extension Supported

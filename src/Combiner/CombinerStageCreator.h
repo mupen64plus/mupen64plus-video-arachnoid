@@ -24,6 +24,9 @@
 
 #include "CombinerStructs.h"
 
+struct CombineCycle;
+struct CombinerStage;
+
 //Function used to set combiner stage
 void setStage(CombineCycle* combineCycle, CombinerStage* stageOut);
 

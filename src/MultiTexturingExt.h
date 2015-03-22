@@ -23,8 +23,8 @@
 #ifndef MULTI_TEXTURING_EXTENSION_H_
 #define MULTI_TEXTURING_EXTENSION_H_
 
-#include "m64p.h"
 #include "OpenGL.h"
+#include "m64p.h"
 
 #ifndef GL_GLEXT_VERSION
     //Multi Texturing Definitions

@@ -19,21 +19,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RSP.h"
-#include "../UCodeDefs.h"
-#include "../RDP/RDP.h"
 #include <cmath>
-#include "GBIDefs.h"
-#include "VI.h"
-#include "Memory.h"
-#include "Logger.h"
-#include "OpenGLRenderer.h"
-#include "OpenGLManager.h"
-#include "RSPLightManager.h"
-#include "FogManager.h"
+
+#include "../RDP/RDP.h"
+#include "../UCodeDefs.h"
 #include "DisplayListParser.h"
+#include "FogManager.h"
+#include "GBI.h"
+#include "GBIDefs.h"
+#include "Logger.h"
 #include "MathLib.h"
-#include "MathLib.h"
+#include "Memory.h"
+#include "OpenGLManager.h"
+#include "OpenGLRenderer.h"
+#include "RSP.h"
+#include "RSPLightManager.h"
+#include "RSPMatrixManager.h"
+#include "VI.h"
+#include "m64p_types.h"
 
 #define MI_INTR_SP                 0x00000001  //!< RSP Interrupt signal
 

@@ -19,8 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "StringFunctions.h"
+#include <ctype.h>
 #include <cstring>
+
+#include "StringFunctions.h"
+
 using std::string;
 using std::vector;
 

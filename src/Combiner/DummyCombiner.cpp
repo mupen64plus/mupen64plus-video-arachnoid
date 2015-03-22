@@ -19,8 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "DummyCombiner.h"
 #include "CombinerStructs.h"
+#include "DummyCombiner.h"
 #include "ExtensionChecker.h"
 #include "MultiTexturingExt.h"
 

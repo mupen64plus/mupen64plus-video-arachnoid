@@ -26,13 +26,13 @@
 //
 //*****************************************************************************
 
-#include "ImageFormatSelector.h"
 #include "CachedTexture.h"
-#include "assembler.h"
 #include "GBIDefs.h"
-#include "m64p.h"
-#include "OpenGL.h"
+#include "ImageFormatSelector.h"
 #include "Memory.h"
+#include "OpenGL.h"
+#include "assembler.h"
+#include "m64p.h"
 
 #ifndef GL_EXT_packed_pixels
 #define GL_EXT_packed_pixels                 1

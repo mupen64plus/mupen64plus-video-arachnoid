@@ -22,8 +22,8 @@
 #ifndef STRING_VALUE_H_
 #define STRING_VALUE_H_
 #include <cstdlib>
-#include <string>
 #include <sstream>
+#include <string>
 
 //! Represents numeric value(s) with a string using conversion operators 
 struct StringValue

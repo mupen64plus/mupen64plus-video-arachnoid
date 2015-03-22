@@ -19,10 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RomDetector.h"
-#include "assembler.h"   //swapRomHeaderBytes
 #include <string.h>      //memcpy
+
+#include "RomDetector.h"
 #include "StringFunctions.h"
+#include "assembler.h"   //swapRomHeaderBytes
 
 //-----------------------------------------------------------------------------
 //! Constructor

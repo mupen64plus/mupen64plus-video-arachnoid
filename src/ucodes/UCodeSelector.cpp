@@ -19,14 +19,16 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "UCodeSelector.h"
-#include "Memory.h"
-#include "CRCCalculator.h"
-#include "UCodeIdentificationData.h"
 #include <cstdio>
 #include <cstring>
 #include <string>
+
+#include "CRCCalculator.h"
 #include "Logger.h"
+#include "Memory.h"
+#include "UCodeIdentificationData.h"
+#include "UCodeSelector.h"
+#include "m64p_types.h"
 
 #ifndef WIN32
 #define strnicmp strncasecmp

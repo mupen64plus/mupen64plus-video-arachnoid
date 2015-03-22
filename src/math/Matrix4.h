@@ -22,6 +22,7 @@
 #ifndef MATRIX_4_H_
 #define MATRIX_4_H_
 
+#include <stddef.h>
 #include <iostream>
 #include <ostream>
 

@@ -20,32 +20,35 @@
  *****************************************************************************/
 
 #include "AdvancedCombinerManager.h"
-#include "CombinerStructs.h"
-#include "ExtensionChecker.h"
-#include "MultiTexturingExt.h"
+
 #include "AdvancedTexEnvCombiner.h"
-#include "SimpleTexEnvCombiner.h"
-#include "DummyCombiner.h"
-#include "CombinerStageMerger.h"
+#include "CombinerBase.h"
 #include "CombinerStageCreator.h"
-#include "RomDetector.h"
-#include "m64p.h"
+#include "CombinerStageMerger.h"
+#include "CombinerStructs.h"
+#include "DummyCombiner.h"
+#include "ExtensionChecker.h"
+#include "GBIDefs.h"
+#include "MultiTexturingExt.h"
 #include "OpenGL.h"
+#include "RomDetector.h"
+#include "SimpleTexEnvCombiner.h"
+#include "m64p.h"
 
 static int saRGBExpanded[] = 
 {
     COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
-    SHADE,               ENVIRONMENT,         ONE,                 NOISE,
-    ZERO,                ZERO,                ZERO,                ZERO,
-    ZERO,                ZERO,                ZERO,                ZERO
+    SHADE,               ENVIRONMENT,         CB_ONE,                 NOISE,
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO,
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO
 };
 
 static int sbRGBExpanded[] = 
 {
     COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
     SHADE,               ENVIRONMENT,         CENTER,              K4,
-    ZERO,                ZERO,                ZERO,                ZERO,
-    ZERO,                ZERO,                ZERO,                ZERO
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO,
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO
 };
 
 static int mRGBExpanded[] = 
@@ -54,40 +57,40 @@ static int mRGBExpanded[] =
     SHADE,               ENVIRONMENT,         SCALE,               COMBINED_ALPHA,
     TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,     SHADE_ALPHA,
     ENV_ALPHA,           LOD_FRACTION,        PRIM_LOD_FRAC,       K5,
-    ZERO,                ZERO,                ZERO,                ZERO,
-    ZERO,                ZERO,                ZERO,                ZERO,
-    ZERO,                ZERO,                ZERO,                ZERO,
-    ZERO,                ZERO,                ZERO,                ZERO
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO,
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO,
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO,
+    CB_ZERO,                CB_ZERO,                CB_ZERO,                CB_ZERO
 };
 
 static int aRGBExpanded[] = 
 {
     COMBINED,            TEXEL0,              TEXEL1,              PRIMITIVE,        
-    SHADE,               ENVIRONMENT,         ONE,                 ZERO
+    SHADE,               ENVIRONMENT,         CB_ONE,                 CB_ZERO
 };
 
 static int saAExpanded[] = 
 {
     COMBINED,            TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
-    SHADE_ALPHA,         ENV_ALPHA,           ONE,                 ZERO
+    SHADE_ALPHA,         ENV_ALPHA,           CB_ONE,                 CB_ZERO
 };
 
 static int sbAExpanded[] = 
 {
     COMBINED,            TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
-    SHADE_ALPHA,         ENV_ALPHA,           ONE,                 ZERO
+    SHADE_ALPHA,         ENV_ALPHA,           CB_ONE,                 CB_ZERO
 };
 
 static int mAExpanded[] = 
 {
     LOD_FRACTION,        TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
-    SHADE_ALPHA,         ENV_ALPHA,           PRIM_LOD_FRAC,       ZERO,
+    SHADE_ALPHA,         ENV_ALPHA,           PRIM_LOD_FRAC,       CB_ZERO,
 };
 
 static int aAExpanded[] = 
 {
     COMBINED,            TEXEL0_ALPHA,        TEXEL1_ALPHA,        PRIMITIVE_ALPHA,        
-    SHADE_ALPHA,         ENV_ALPHA,           ONE,                 ZERO
+    SHADE_ALPHA,         ENV_ALPHA,           CB_ONE,                 CB_ZERO
 };
 
 //-----------------------------------------------------------------------------
@@ -314,7 +317,7 @@ void AdvancedCombinerManager::getSecondaryCombinerColor(float out[4])
     }
 
     //Get color
-    m_combiner->getCombinerColor(out, currentTexEnv->vertex.secondaryColor, ONE);
+    m_combiner->getCombinerColor(out, currentTexEnv->vertex.secondaryColor, CB_ONE);
 }
 
 //-----------------------------------------------------------------------------

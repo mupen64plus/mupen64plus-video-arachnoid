@@ -19,10 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
+#include "OpenGL.h"
 #include "OpenGL2DRenderer.h"
 #include "VI.h"
 #include "m64p.h"
-#include "OpenGL.h"
 
 //-----------------------------------------------------------------------------
 //* Initialize

@@ -21,6 +21,8 @@
 
 #include "CombinerCache.h"
 
+#include "CombinerStructs.h"
+
 //-----------------------------------------------------------------------------
 //* New Compiled Combiner
 //! Function used to add decoded mux values and the result of them to the list.

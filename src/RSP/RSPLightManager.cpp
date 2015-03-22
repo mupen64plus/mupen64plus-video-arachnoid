@@ -19,11 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "RSPLightManager.h"
-#include "Memory.h"
-#include "MathLib.h"
 #include "GBI.h"
 #include "Logger.h"
+#include "MathLib.h"
+#include "Memory.h"
+#include "RSPLightManager.h"
 
 #define RGBA_GETALPHA(rgb)      ((rgb) >> 24)
 #define RGBA_GETRED(rgb)        (((rgb) >> 16) & 0xff)

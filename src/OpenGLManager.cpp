@@ -20,7 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
+#include <stddef.h>
+
 #include "OpenGLManager.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

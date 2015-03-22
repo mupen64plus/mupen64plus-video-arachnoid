@@ -20,23 +20,29 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "m64p.h"
-
-#include <cmath>
 #include <algorithm>
-#include "OpenGLRenderer.h"
-#include "OpenGLManager.h"
-#include "RSP.h"
-#include "RDP.h"
-#include "TextureCache.h"
-#include "VI.h"
-#include "Logger.h"
+#include <cmath>
+
 //#include "CombinerManager.h"
 #include "AdvancedCombinerManager.h"
-#include "FogManager.h"
+#include "CachedTexture.h"
 #include "ExtensionChecker.h"
+#include "FogManager.h"
+#include "GBIDefs.h"
+#include "Logger.h"
 #include "MultiTexturingExt.h"
+#include "OpenGL.h"
+#include "OpenGLManager.h"
+#include "OpenGLRenderer.h"
+#include "RDP.h"
+#include "RSP.h"
+#include "RSPVertexManager.h"
 #include "SecondaryColorExt.h"
+#include "TextureCache.h"
+#include "TextureLoader.h"
+#include "VI.h"
+#include "m64p.h"
+#include "m64p_types.h"
 
 
 using std::max;

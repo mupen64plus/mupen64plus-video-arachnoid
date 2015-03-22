@@ -24,22 +24,23 @@
 
 //Includes
 #define M64P_PLUGIN_PROTOTYPES 1
-#include "m64p_plugin.h"
-#include "UCodeDefs.h"
 #include "GBI.h"
 #include "GBIDefs.h"
 #include "TextureLoader.h"
+#include "UCodeDefs.h"
+#include "m64p_plugin.h"
 
 //Forward declaration
-class RSP;
-class VI;
-class Memory;
-class DisplayListParser;
-class TextureCache;
 class AdvancedCombinerManager;
+class DisplayListParser;
 class FogManager;
-class TextureLoader;
+class GBI;
+class Memory;
 class OpenGL2DRenderer;
+class RSP;
+class TextureCache;
+class TextureLoader;
+class VI;
 
 //*****************************************************************************
 //! RDPSetImgInfo

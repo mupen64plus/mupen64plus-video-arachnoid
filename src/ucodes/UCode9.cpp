@@ -19,13 +19,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "UCode9.h"
-#include "UCode0.h"
 #include "GBI.h"
-#include "RSP.h"
-#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
+#include "RSP.h"
+#include "UCode0.h"
+#include "UCode9.h"
+#include "UCodeDefs.h"
+#include "m64p_types.h"
 
 #define F3DPD_VTXCOLORBASE        0x07
                              

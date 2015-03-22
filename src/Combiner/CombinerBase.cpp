@@ -20,6 +20,7 @@
  *****************************************************************************/
 
 #include "CombinerBase.h"
+
 #include "CombinerStructs.h"
 
 //-----------------------------------------------------------------------------
@@ -109,14 +110,14 @@ void CombinerBase::setEnvColor(float r, float g, float b, float a)
 //!    \arg \c PRIMITIVE_ALPHA Get color from primatives alpha value
 //!    \arg \c ENV_ALPHA Get color from environment colors alpha value
 //!    \arg \c PRIM_LOD_FRAC Get color from primative-LOD-frac value
-//!    \arg \c ONE Get white color
-//!    \arg \c ZERO Get black color
+//!    \arg \c CB_ONE Get white color
+//!    \arg \c CB_ZERO Get black color
 //! @param[in] alphaSource From which alphasource to retrive alpha value
 //!    \arg \c PRIMITIVE_ALPHA Get alpha value from primitive colors alpha value
 //!    \arg \c ENV_ALPHA Get alpha value from environment colors alpha value
 //!    \arg \c PRIM_LOD_FRAC Get alpha value from primative-LOD-frac value
-//!    \arg \c ONE Set alpha value to 1.0
-//!    \arg \c ZERO Set alpha value to 0.0
+//!    \arg \c CB_ONE Set alpha value to 1.0
+//!    \arg \c CB_ZERO Set alpha value to 0.0
 //! @param[out] out The combiner color with color and alpha value
 //-----------------------------------------------------------------------------
 void CombinerBase::getCombinerColor(float out[4], short colorSrc, short alphaSrc)
@@ -149,12 +150,12 @@ void CombinerBase::getCombinerColor(float out[4], short colorSrc, short alphaSrc
             out[1] = m_primLodFrac; 
             out[2] = m_primLodFrac; 
             break; 
-        case ONE: 
+        case CB_ONE: 
             out[0] = 1.0f; 
             out[1] = 1.0f; 
             out[2] = 1.0f; 
             break; 
-        case ZERO: 
+        case CB_ZERO: 
             out[0] = 0.0f; 
             out[1] = 0.0f; 
             out[2] = 0.0f; 
@@ -173,10 +174,10 @@ void CombinerBase::getCombinerColor(float out[4], short colorSrc, short alphaSrc
         case PRIM_LOD_FRAC: 
             out[3] = m_primLodFrac; 
             break; 
-        case ONE: 
+        case CB_ONE: 
             out[3] = 1.0f; 
             break; 
-        case ZERO: 
+        case CB_ZERO: 
             out[3] = 0.0f; 
             break; 
     } 

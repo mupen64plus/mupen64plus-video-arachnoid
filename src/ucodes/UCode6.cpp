@@ -19,17 +19,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "UCode6.h"
-#include "UCode0.h"
+#include "DisplayListParser.h"
 #include "GBI.h"
-#include "RSP.h"
-#include "RDP.h"
-#include "Memory.h"
-#include "UCodeDefs.h"
 #include "GBIDefs.h"
 #include "Logger.h"
-#include "DisplayListParser.h"
+#include "Memory.h"
+#include "RDP.h"
+#include "RSP.h"
 #include "RSPMatrixManager.h"
+#include "RSPVertexManager.h"
+#include "UCode0.h"
+#include "UCode6.h"
+#include "UCodeDefs.h"
+#include "m64p_types.h"
 
 //-----------------------------------------------------------------------------
 // Static Variables

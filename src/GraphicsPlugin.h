@@ -23,18 +23,21 @@
 #ifndef GRAPHICS_PLUGIN_H_
 #define GRAPHICS_PLUGIN_H_
 
-#include "TextureCache.h"
+#include "GBI.h"
 #include "OpenGLManager.h"         //Initializes OpenGL and handles OpenGL states
-#include "RSP.h"
 #include "RDP.h"
+#include "RSP.h"
+#include "TextureCache.h"
+#include "m64p_plugin.h"
 
 //Forward declarations
-//struct GFX_INFO;
-class VI;
-class Memory;
 class DisplayListParser;
 class FogManager;
+class Memory;
+class OpenGLManager;
 class ROMDetector;
+//struct GFX_INFO;
+class VI;
 struct ConfigMap;
 
 //*****************************************************************************

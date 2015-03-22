@@ -19,12 +19,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#include "SimpleTexEnvCombiner.h"
 #include "CombinerStructs.h"
-#include "MultiTexturingExt.h"
 #include "ExtensionChecker.h"
-#include "m64p.h"
+#include "MultiTexturingExt.h"
 #include "OpenGL.h"
+#include "SimpleTexEnvCombiner.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor
@@ -172,7 +172,7 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
                     if (op->param1 == TEXEL0 || op->param1 == TEXEL0_ALPHA)
                     {
                         if ( mode == GL_MODULATE )
-                            m_color = ONE;
+                            m_color = CB_ONE;
 
                         m_usesTexture0 = true;
                         m_usesTexture1 = false;
@@ -180,7 +180,7 @@ TexEnvCombiner* SimpleTexEnvCombiner::createNewTextureEnviroment(Combiner* color
                     else if ( op->param1 == TEXEL1 || op->param1 == TEXEL1_ALPHA )
                     {
                         if ( mode == GL_MODULATE )
-                            m_color = ONE;
+                            m_color = CB_ONE;
 
                         m_usesTexture0 = false;
                         m_usesTexture1 = true;

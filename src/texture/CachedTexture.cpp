@@ -21,8 +21,8 @@
 
 #include "CachedTexture.h"
 
-#include "m64p.h"
 #include "OpenGL.h"
+#include "m64p.h"
 
 //-----------------------------------------------------------------------------
 //! Constructor

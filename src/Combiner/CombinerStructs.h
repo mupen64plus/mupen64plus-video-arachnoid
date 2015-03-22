@@ -22,8 +22,8 @@
 #ifndef COMBINER_STRUCTS_H_
 #define COMBINER_STRUCTS_H_
 
-#include "m64p.h"
 #include "OpenGL.h"
+#include "m64p.h"
 
 // Internal combiner commands
 #define LOAD        0
@@ -53,8 +53,8 @@
 #define NOISE           16
 #define K4              17
 #define K5              18
-#define ONE             19
-#define ZERO            20
+#define CB_ONE          19
+#define CB_ZERO         20
 
 //* Combiner data
 //! Defines how mux-values are coded.

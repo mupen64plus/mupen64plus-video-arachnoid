@@ -23,8 +23,9 @@
 #ifndef CONFIG_H_
 #define CONFIG_H_
 
-#include "m64p.h"
 #include "ConfigMap.h"
+#include "m64p.h"
+#include "m64p_types.h"
 
 //Forward declaration
 class GraphicsPlugin;
