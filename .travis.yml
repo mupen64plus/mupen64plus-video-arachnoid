@@ -1,3 +1,5 @@
+sudo: required
+dist: trusty
 language: cpp
 compiler:
   - gcc
@@ -7,4 +9,4 @@ before_install:
   - sudo apt-get install -y git libgl1-mesa-dev pkg-config
   - git clone --depth=1 --branch=master git://github.com/mupen64plus/mupen64plus-core.git deps/mupen64plus-core
 script:
- - make -C projects/unix APIDIR="$(pwd)/deps/mupen64plus-core/src/api/" V=1 clean && CPPFLAGS="-D__extern_always_inline=inline" LDFLAGS="-Wl,--no-add-needed -Wl,--no-undefined" OPTFLAGS="-O2" make CC="${CC}" CXX="${CXX}" -j$(nproc) -C projects/unix APIDIR="$(pwd)/deps/mupen64plus-core/src/api/" V=1 all
+ - make -C projects/unix APIDIR="$(pwd)/deps/mupen64plus-core/src/api/" V=1 clean && LDFLAGS="-Wl,--no-add-needed -Wl,--no-undefined" OPTFLAGS="-O2" make CC="${CC}" CXX="${CXX}" -j$(nproc) -C projects/unix APIDIR="$(pwd)/deps/mupen64plus-core/src/api/" V=1 all
