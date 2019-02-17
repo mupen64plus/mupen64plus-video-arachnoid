@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *****************************************************************************/
 
-#ifndef EXTENSION_CHECKER_H
+#ifndef EXTENSION_CHECKER_H_
 #define EXTENSION_CHECKER_H_
 
 bool isExtensionSupported( const char *extension );
