@@ -209,23 +209,33 @@ else
   endif
 endif
 
-# set special flags per-system
-ifeq ($(OS), LINUX)
-  # only export api symbols
-  LDFLAGS += -Wl,-version-script,$(SRCDIR)/video_api_export.ver
-endif
-ifneq ($(OS), FREEBSD)
-  ifeq ($(CPU), X86)
-    # tweak flags for 32-bit build on 64-bit system
-    ifeq ($(ARCH_DETECTED), 64BITS_32)
+# tweak flags for 32-bit build on 64-bit system
+ifeq ($(ARCH_DETECTED), 64BITS_32)
+  ifeq ($(OS), FREEBSD)
+    $(error Do not use the BITS=32 option with FreeBSD, use -m32 and -m elf_i386)
+  endif
+  ifneq ($(OS), OSX)
+    ifeq ($(OS), MINGW)
+      CFLAGS += -march=i686
+      LDFLAGS += -Wl,-m,i386pe
+    else
       CFLAGS += -m32
       LDFLAGS += -Wl,-m,elf_i386
     endif
   endif
-else
-  ifeq ($(ARCH_DETECTED), 64BITS_32)
-    $(error Do not use the BITS=32 option with FreeBSD, use -m32 and -m elf_i386)
+endif
+
+ifeq ($(ARCH_DETECTED), 64BITS)
+  ifeq ($(OS), MINGW)
+    CFLAGS += -march=x86-64
+    LDFLAGS += -Wl,-m,i386pep
   endif
+endif
+
+# set special flags per-system
+ifeq ($(OS), LINUX)
+  # only export api symbols
+  LDFLAGS += -Wl,-version-script,$(SRCDIR)/video_api_export.ver
 endif
 
 # reduced compile output when running make without V=1
