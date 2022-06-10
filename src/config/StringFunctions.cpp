@@ -98,6 +98,12 @@ void trim(string& str, bool left, bool right, const string delims)
 //-----------------------------------------------------------------------------
 char* trim(char* str, bool left, bool right)
 {
+    // Empty string check
+    if (*str == '\0')
+    {
+        return str;
+    }
+
     //Trim from the left
     if(left)
     {
