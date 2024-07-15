@@ -41,7 +41,7 @@
 
 //Definitions
 #define PLUGIN_NAME "Arachnoid Video Plugin"
-#define PLUGIN_VERSION           0x020000
+#define PLUGIN_VERSION           0x020600
 #define VIDEO_PLUGIN_API_VERSION 0x020200
 #define CONFIG_API_VERSION       0x020000
 #define VIDEXT_API_VERSION       0x030000
